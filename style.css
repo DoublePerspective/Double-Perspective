@@ -131,3 +131,17 @@ header{background:#071421eb;border-bottom:1px solid #b8844b55;box-shadow:0 6px 3
 .game-hero-actions{justify-content:center}
 .game-hero h1{overflow-wrap:normal;word-break:normal}
 @media(max-width:650px){.game-hero{padding-inline:20px}.game-hero-content{width:100%}.game-hero h1{font-size:clamp(3.1rem,13vw,5.5rem)}}
+
+
+/* v1.30.2 game screenshot showcase */
+.game-banner-section{background:#0b1014;padding:20px max(7vw,24px) 0}
+.game-banner-section img{display:block;width:100%;max-width:1380px;margin:auto;border:1px solid #805c3c;box-shadow:0 20px 60px #0008;border-radius:8px}
+.worlds-overview{display:block;width:100%;max-width:1400px;height:auto;margin:35px auto 28px;border:1px solid #ffb6484a;border-radius:6px}
+.game-screenshots .screenshot-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.screenshot-tile{display:block;position:relative;text-decoration:none;background:#111c1b;border:1px solid #a67c4d66;border-radius:9px;overflow:hidden;transition:transform .2s,border-color .2s;min-height:280px}
+.screenshot-tile:hover{transform:translateY(-5px);border-color:#ffb648}
+.screenshot-tile img{display:block;width:100%;height:360px;object-fit:contain;background:#070d10}
+.screenshot-tile .screenshot-placeholder{min-height:360px;aspect-ratio:auto}
+.screenshot-label{display:block;padding:12px 14px;color:#ffcf89;font-size:.87rem;font-weight:800;text-align:center;background:#17241e}
+@media(max-width:850px){.game-screenshots .screenshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:500px){.game-screenshots .screenshot-grid{grid-template-columns:1fr}.screenshot-tile img{height:430px}}
