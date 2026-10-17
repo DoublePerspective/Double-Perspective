@@ -18,7 +18,7 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 | `index.html` | Studio homepage | Done. Teasers for both games. |
 | `umbral-purge.html` | Umbral Purge game page | Done. Worlds, 6 classes, features, v1.30.2 screenshot gallery. |
 | `amber-sage.html` (+ `amber-sage.css`) | Amber & Sage Sudoku page | New today. Linked from homepage, game page and footers. |
-| `privacy.html` | Privacy policy | **Draft.** See open items below. |
+| `privacy.html` | Privacy policy | Updated 2026-10-17 for both games (EN + FR). |
 | `support.html` | Support/contact | Done. |
 
 Shared styles are in `style.css`. Fonts: `lexend.woff` (Amber & Sage page).
@@ -32,12 +32,10 @@ Shared styles are in `style.css`. Fonts: `lexend.woff` (Amber & Sage page).
 
 ## Open items / next steps
 
-1. **Privacy policy is out of date.**
-   - It only covers Umbral Purge. Amber & Sage Sudoku needs to be added.
-   - It says the inspected build (v1.22.0) had no ads or analytics, but the site now advertises a **free, ad-supported** edition. Once ads (e.g. AdMob) are in the Android build, the policy must name the ad SDK and describe the data it collects.
-   - Check it against the final Android builds and the Google Play Data safety form before publishing either game.
+1. **Privacy policy (updated 2026-10-17).** Now covers Amber & Sage Sudoku (free + Pro), Umbral Purge (free + premium) and the website, in English and French. It names Google AdMob for the free editions, with the data types from Google's AdMob Play disclosure guide, and matches the Amber & Sage Data safety answers. **Still to confirm:** that the final Umbral Purge Android build uses AdMob the same way (if it uses another ad or analytics SDK, add it here). This page's URL is the privacy link for both Play listings: https://kindredcompassgames.github.io/kindred-compass-games/privacy.html
 2. **Store links.** No Google Play links yet. Both pages say release date TBA / coming soon. Add the links and release dates when the listings go live.
-3. **Children's privacy / target audience** section still needs a decision for each game before Play submission.
+3. **Children's privacy / target audience:** the policy now says the games are for a general audience, not directed to children under 13. Amber & Sage uses Play target audience 13+. Confirm the same for Umbral Purge.
+5. **app-ads.txt:** AdMob looks for it at the root of the developer website domain. This site lives under `/kindred-compass-games/`, so it will need a user-site repo named `kindredcompassgames.github.io` (or a custom domain) after launch.
 4. Optional: the screenshot gallery on `umbral-purge.html` still contains the "Image awaiting upload" placeholder blocks. They are hidden automatically once the image loads, so they only appear if an image file goes missing.
 
 ## Conventions
