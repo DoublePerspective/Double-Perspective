@@ -123,3 +123,11 @@ header{background:#071421eb;border-bottom:1px solid #b8844b55;box-shadow:0 6px 3
 .game-ending{background:radial-gradient(ellipse at center,#482d2b,#0b1014 80%)}
 @media(max-width:950px){.world-detail{grid-template-columns:repeat(2,minmax(0,1fr))}.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-intro-grid{grid-template-columns:1fr}.game-hero-art{opacity:.4}}
 @media(max-width:650px){.game-hero{min-height:610px}.game-hero h1{font-size:clamp(3.8rem,15vw,6rem)}.game-hero-art{inset:0 0 0 15%;opacity:.22}.world-detail,.character-grid,.screenshot-grid{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr}.game-facts{grid-template-columns:repeat(3,minmax(0,1fr))}.game-facts b{font-size:2rem}.world-detail article{min-height:190px!important}}
+
+/* Center the Umbral Purge masthead independently of the artwork */
+.game-hero{justify-content:center;text-align:center}
+.game-hero-content{width:min(100%,920px);max-width:920px;margin-inline:auto}
+.game-hero-content>p:not(.eyebrow){margin-left:auto;margin-right:auto}
+.game-hero-actions{justify-content:center}
+.game-hero h1{overflow-wrap:normal;word-break:normal}
+@media(max-width:650px){.game-hero{padding-inline:20px}.game-hero-content{width:100%}.game-hero h1{font-size:clamp(3.1rem,13vw,5.5rem)}}
