@@ -145,3 +145,22 @@ header{background:#071421eb;border-bottom:1px solid #b8844b55;box-shadow:0 6px 3
 .screenshot-label{display:block;padding:12px 14px;color:#ffcf89;font-size:.87rem;font-weight:800;text-align:center;background:#17241e}
 @media(max-width:850px){.game-screenshots .screenshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:500px){.game-screenshots .screenshot-grid{grid-template-columns:1fr}.screenshot-tile img{height:430px}}
+
+/* ---- 2026-10 art update: real studio and game art ---- */
+.kc-art-hero{display:block;min-height:0!important;padding:0!important;background:#071421!important}
+.kc-art-hero:before{display:none}
+.kc-art-hero:after{display:none}
+.kc-art-hero .hero-art{display:block;position:relative}
+.kc-art-hero .hero-art img{display:block;width:100%;height:auto;max-height:88vh;object-fit:cover;object-position:50% 40%;
+  -webkit-mask-image:linear-gradient(180deg,#000 82%,transparent);mask-image:linear-gradient(180deg,#000 82%,transparent)}
+.kc-art-hero .hero-copy{max-width:none;margin-top:-2.5rem;padding:0 max(7vw,24px) 5.5rem;text-shadow:none}
+.kc-art-hero .hero-copy h1{font-size:clamp(2.4rem,5vw,4.6rem)}
+.umbral-poster{background:#0b1014!important}
+.umbral-poster .poster-art{position:absolute;left:0;bottom:0;width:100%;height:auto;max-width:none}
+.umbral-poster .poster-caption{top:24px;bottom:auto}
+.game-hero{flex-direction:column;padding-bottom:0!important}
+.game-hero:after{display:none}
+.game-hero-heroes{position:relative;z-index:1;display:block;width:min(1400px,100%);margin:2.5rem auto 0}
+.game-hero-heroes img{display:block;width:100%;height:auto;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent),linear-gradient(180deg,transparent,#000 32%,#000 90%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent),linear-gradient(180deg,transparent,#000 32%,#000 90%,transparent);mask-composite:intersect}
+@media(max-width:650px){.game-hero-heroes{width:calc(100% + 40px);max-width:none;margin-inline:-20px;margin-top:1.5rem}}
