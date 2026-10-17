@@ -65,3 +65,61 @@ header{background:#071421eb;border-bottom:1px solid #b8844b55;box-shadow:0 6px 3
 .umbral-stats span{border:1px solid #ffb64855;background:#17241e;padding:12px 20px;color:#9fae9f;font-size:.78rem;letter-spacing:.1em;font-weight:800}
 .umbral-stats b{display:block;font:2rem "Lilita One",Impact,sans-serif;color:#ffb648;line-height:1.3}
 @media(max-width:850px){.umbral-theme h2{font-size:clamp(3rem,10vw,5rem)}}
+
+
+/* Studio homepage + dedicated Umbral Purge game page */
+.studio-game-preview{background:radial-gradient(ellipse at 78% 20%,#352029,transparent 50%),#0b1014!important}
+.studio-game-preview .lead{color:#ffcb87!important}
+.studio-game-preview .columns>div:first-child>p:not(.eyebrow){max-width:600px}
+.game-page{background:#0b1014;color:#efe6d2}
+.game-page header{background:#0b1014ed;border-bottom-color:#684d36}
+.game-page .brand strong{color:#ffb648}
+.game-page .eyebrow{color:#ff874b}
+.game-hero{min-height:650px;position:relative;overflow:hidden;display:flex;align-items:center;padding:90px max(7vw,24px);background:radial-gradient(circle at 76% 48%,#552733 0%,#201923 32%,#0b1014 72%)!important}
+.game-hero:after{content:"";position:absolute;inset:auto 0 0;height:130px;background:linear-gradient(transparent,#0b1014)}
+.game-hero-content{position:relative;z-index:2;max-width:680px}
+.game-hero h1{font:900 clamp(4rem,10vw,9rem)/.9 "Lilita One",Impact,sans-serif;letter-spacing:.03em;text-shadow:0 6px 0 #0008,0 0 60px #e2476b33;margin:20px 0}
+.game-hero h1 em{color:#ffb648}
+.game-hero-tagline{font-size:clamp(1.25rem,2.5vw,1.8rem);font-weight:800;color:#ffe0a7}
+.game-hero-content>p:not(.eyebrow){max-width:540px}
+.game-hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.ghost-button{margin-top:1.6rem;display:inline-block;padding:12px 22px;text-decoration:none;border:1px solid #ffb64890;color:#ffe0a7;font-weight:700}
+.release-note{font-size:.85rem;color:#aeb5aa!important;margin-top:25px}
+.game-hero-art{position:absolute;inset:0 0 0 45%;opacity:.75;pointer-events:none}
+.game-hero-art .eclipse{position:absolute;left:52%;top:20%;width:330px;height:330px;background:#e65b50;box-shadow:0 0 110px #e2476b66,0 0 210px #ff7a3d33}
+.game-hero-art .eclipse:after{background:#1c1620;inset:20px}
+.game-hero-art .fighter{left:54%;bottom:15%;width:55px;height:210px}
+.game-hero-art .lantern-light{position:absolute;left:calc(54% + 45px);bottom:33%;width:16px;height:24px;border:2px solid #ffde9c;background:#ffb648;box-shadow:0 0 25px 13px #ffb6488a,0 0 85px 45px #ff7a3d44}
+.game-intro{background:linear-gradient(145deg,#15251f,#0b1014)}
+.game-intro h2,.game-features h2,.game-screenshots h2{font:900 clamp(2.4rem,5vw,4.6rem)/1 "Lilita One",Impact,sans-serif}
+.game-intro h2 span,.game-features h2 span,.game-screenshots h2 span{color:#ffb648}
+.game-intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.game-intro-grid>p{max-width:640px;color:#bdc5b9}
+.game-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.game-facts span{background:#1b2d27;border:1px solid #ffb64844;padding:16px 12px;font-size:.73rem;letter-spacing:.07em;text-align:center;font-weight:800}
+.game-facts b{display:block;color:#ffb648;font:2.8rem "Lilita One",Impact,sans-serif}
+.world-detail{grid-template-columns:repeat(5,minmax(0,1fr))}
+.world-detail article{min-height:300px!important}
+.world-detail article p{line-height:1.55}
+.character-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:35px}
+.character-grid article{padding:30px 25px;background:linear-gradient(150deg,#1d3028,#111b1d);border:1px solid #ffb64838;border-bottom:3px solid #ffb648;box-shadow:0 12px 25px #0004}
+.character-grid article:nth-child(even){background:linear-gradient(150deg,#29202a,#11191d);border-bottom-color:#e2476b}
+.character-grid h3{font:1.6rem "Lilita One",Impact,sans-serif;margin:10px 0}
+.character-grid p{color:#b9c4bb;min-height:65px;font-size:.94rem}
+.character-grid small{color:#ffbd6c;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.class-mark{font-size:2.3rem;color:#ffb648}
+.game-features{background:#101b1d}
+.feature-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:35px}
+.feature-grid article{border:1px solid #6f5944;background:#1b2927;padding:24px}
+.feature-grid h3{font:1.4rem "Lilita One",Impact,sans-serif;color:#ffb648}
+.feature-grid p{color:#b9c4bb;font-size:.94rem}
+.game-screenshots{background:#0b1014}
+.screenshot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:35px}
+.screenshot-placeholder{aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:1px dashed #826648;background:repeating-linear-gradient(135deg,#16211f 0 14px,#1b2625 14px 28px);text-align:center;padding:20px}
+.screenshot-placeholder span{color:#ffb648;font:2rem "Lilita One",Impact,sans-serif}
+.screenshot-placeholder strong{font:1.3rem "Lilita One",Impact,sans-serif}
+.screenshot-placeholder small{color:#a7b4aa}
+.game-screenshots>p:not(.eyebrow){color:#aeb9ae}
+.game-ending{background:radial-gradient(ellipse at center,#482d2b,#0b1014 80%)}
+@media(max-width:950px){.world-detail{grid-template-columns:repeat(2,minmax(0,1fr))}.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-intro-grid{grid-template-columns:1fr}.game-hero-art{opacity:.4}}
+@media(max-width:650px){.game-hero{min-height:610px}.game-hero h1{font-size:clamp(3.8rem,15vw,6rem)}.game-hero-art{inset:0 0 0 15%;opacity:.22}.world-detail,.character-grid,.screenshot-grid{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr}.game-facts{grid-template-columns:repeat(3,minmax(0,1fr))}.game-facts b{font-size:2rem}.world-detail article{min-height:190px!important}}
