@@ -164,3 +164,18 @@ header{background:#071421eb;border-bottom:1px solid #b8844b55;box-shadow:0 6px 3
 .game-hero-heroes img{display:block;width:100%;height:auto;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent),linear-gradient(180deg,transparent,#000 32%,#000 90%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent),linear-gradient(180deg,transparent,#000 32%,#000 90%,transparent);mask-composite:intersect}
 @media(max-width:650px){.game-hero-heroes{width:calc(100% + 40px);max-width:none;margin-inline:-20px;margin-top:1.5rem}}
+
+/* ---- Amber & Sage card on the studio page (the game's spa palette) ---- */
+.spa-preview{background:radial-gradient(ellipse 55% 80% at 78% 50%,#F2E8D6 0%,transparent 70%),#E8E0D0!important;color:#463D33;border-top-color:#DDD4C3}
+.spa-preview p{color:#6E6253!important}
+.spa-preview .spa-eyebrow{color:#9B6E37!important}
+.spa-preview .spa-title{font-family:"Lexend",system-ui,sans-serif;font-weight:500;letter-spacing:-.02em;color:#463D33;font-size:clamp(2.2rem,4.5vw,3.6rem)}
+.spa-preview .spa-title span{color:#9B6E37;font-weight:300}
+.spa-preview .lead{color:#463D33!important;font-size:1.3rem;font-family:"Lexend",system-ui,sans-serif}
+.spa-preview .coming{color:#587463!important}
+.spa-button{display:inline-block;margin-top:1.2rem;padding:13px 24px;border-radius:12px;background:#587463;color:#fff;text-decoration:none;font-weight:600}
+.spa-button:hover{background:#4c6656}
+.spa-phones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:440px;justify-self:center}
+.spa-phones img{display:block;width:100%;height:auto;border-radius:24px;border:6px solid #FBF7EF;box-shadow:0 10px 30px rgba(70,61,51,.14)}
+.spa-phones img:last-child{margin-top:40px}
+@font-face{font-family:"Lexend";src:url("lexend.woff") format("woff");font-weight:100 900;font-display:swap}
