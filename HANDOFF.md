@@ -46,6 +46,6 @@ Shared styles are in `style.css`. Fonts: `lexend.woff` (Amber & Sage page).
 
 ## Languages (added 2026-10-26)
 
-The site is bilingual. English pages are at the root, French copies at `fr/` (same file names). `lang.js` opens each page in the visitor's language: an explicit choice from the FR/EN switch is remembered, otherwise the browser's preferred language decides (default English). The privacy policy stays one bilingual page; its FR switch jumps to `#fr`.
+The site is bilingual. English pages are at the root, French copies at `fr/` (same file names). `lang.js` opens each page in the visitor's language: an explicit choice from the language menu (globe button) is remembered, otherwise the browser's preferred language decides (default English). The privacy policy is built from `tools/i18n/privacy.en.html` and `privacy.fr.html` (edit those, not the page). The contact address used on every page comes from `tools/i18n/email.txt`.
 
 To update French after editing an English page: run `python3 tools/i18n/extract.py /tmp/pages.json /tmp/en.tsv`, compare with `tools/i18n/en.tsv`, add new lines to `tools/i18n/fr.tsv` with the same numbers, then run `python3 tools/i18n/build.py .` from the repo root.

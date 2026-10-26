@@ -3,7 +3,9 @@ import html, json, os, re, sys
 ROOT = sys.argv[1]
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://doubleperspective.github.io/Double-Perspective/"
-PAGES = ["index.html", "umbral-purge.html", "amber-sage.html", "support.html"]
+PAGES = ["index.html", "umbral-purge.html", "amber-sage.html", "support.html", "privacy.html"]
+EMAIL = open(os.path.join(HERE, "email.txt")).read().strip()
+LEGAL_EN = "Registered in Québec · NEQ 2282699877"
 
 en = {}
 for line in open(os.path.join(HERE, "en.tsv")):
@@ -39,8 +41,6 @@ def relink(src):
         if re.match(r"^(https?:|#|mailto:|data:|\.\./|/)", val): return m.group(0)
         base = val.split("#")[0].split("?")[0]
         if base in PAGES: return m.group(0)
-        if base == "privacy.html":
-            return f'{attr}="../privacy.html#fr"'
         return f'{attr}="../{val}"'
     src = re.sub(r'\b(src|href)="([^"]*)"', fix, src)
     src = re.sub(r'\bsrcset="([^"]*)"', lambda m: 'srcset="' + ", ".join(
@@ -55,31 +55,44 @@ def head_bits(page, lang):
 
 def switch(page, lang):
     if lang == "en":
-        return f'<a class="lang-switch" href="fr/{page}?lang=fr" hreflang="fr" lang="fr" data-lang-switch="fr" aria-label="Français">FR</a>'
-    return f'<a class="lang-switch" href="../{page}?lang=en" hreflang="en" lang="en" data-lang-switch="en" aria-label="English">EN</a>'
+        en_href, fr_href = f"{page}?lang=en", f"fr/{page}?lang=fr"
+    else:
+        en_href, fr_href = f"../{page}?lang=en", f"{page}?lang=fr"
+    cur = "EN" if lang == "en" else "FR"
+    label = "Language" if lang == "en" else "Langue"
+    return (f'<details class="lang-menu"><summary aria-label="{label}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>{cur}</summary>'
+            f'<div class="lang-list">'
+            f'<a href="{en_href}" hreflang="en" lang="en" data-lang-switch="en"' + (' aria-current="true"' if lang == "en" else "") + '>English</a>'
+            f'<a href="{fr_href}" hreflang="fr" lang="fr" data-lang-switch="fr"' + (' aria-current="true"' if lang == "fr" else "") + '>Français</a>'
+            '</div></details>')
 
 def add_chrome(src, page, lang):
     src = re.sub(r"<link rel=\"alternate\" hreflang=.*?<script src=\"(?:\.\./)?lang\.js\"></script>", "", src)
     src = re.sub(r'<a class="lang-switch".*?</a>', "", src)
+    src = re.sub(r'<details class="lang-menu">.*?</details>', "", src)
+    src = re.sub(r'<small class="legal">.*?</small>', "", src)
+    src = src.replace("</footer>", f'<small class="legal">{LEGAL_EN}</small></footer>', 1)
     src = src.replace("</head>", head_bits(page, lang) + "</head>", 1)
     src = src.replace("</nav>", switch(page, lang) + "</nav>", 1)
     return src
 
 os.makedirs(os.path.join(ROOT, "fr"), exist_ok=True)
+ART = re.compile(r'<article class="content-card">.*?</article>', re.S)
 for p in PAGES:
     src = open(os.path.join(ROOT, p)).read()
+    if p == "privacy.html":
+        src = ART.sub(lambda m: open(os.path.join(HERE, "privacy.en.html")).read().replace("{EMAIL}", EMAIL), src, 1)
+    src = re.sub(r"[\w.+-]+@[\w-]+\.[\w.]+", lambda m: EMAIL if m.group(0).endswith(("gmail.com", ".ca", ".com")) and "noreply" not in m.group(0) else m.group(0), src)
     src = add_chrome(src, p, "en")
     open(os.path.join(ROOT, p), "w").write(src)
-    f = translate(src)
+    f = src
+    if p == "privacy.html":
+        f = ART.sub(lambda m: open(os.path.join(HERE, "privacy.fr.html")).read().replace("{EMAIL}", EMAIL), f, 1)
+    f = translate(f)
     f = f.replace('<html lang="en">', '<html lang="fr">', 1)
-    f = f.replace('lang="fr">Two perspectives. One solution.', 'lang="en">Two perspectives. One solution.')
     f = relink(f)
     f = add_chrome(f, p, "fr")
+    f = f.replace(LEGAL_EN, "Entreprise immatriculée au Québec · NEQ 2282699877")
     f = f.replace(f'content="{SITE}{p}"', f'content="{SITE}fr/{p}"')
     open(os.path.join(ROOT, "fr", p), "w").write(f)
-# privacy: switch jumps to the French section on the same page
-pv = open(os.path.join(ROOT, "privacy.html")).read()
-pv = re.sub(r'<a class="lang-switch".*?</a>', "", pv)
-pv = pv.replace("</nav>", '<a class="lang-switch" href="#fr" hreflang="fr" lang="fr" aria-label="Français">FR</a></nav>', 1)
-open(os.path.join(ROOT, "privacy.html"), "w").write(pv)
 print("built")
