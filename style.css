@@ -203,3 +203,5 @@ header{background:#071421eb;border-bottom:1px solid #b8844b55;box-shadow:0 6px 3
 .dp-software h2 span{color:var(--gold)}
 .dp-software p{max-width:640px;color:#c1cdd4}
 @media (max-width:640px){.dp-split{grid-template-columns:1fr}.dp-wordmark{letter-spacing:.08em}}
+.lang-switch{display:inline-block;margin-left:.4rem;padding:.15rem .6rem;border:1px solid currentColor;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.12em;opacity:.85;text-decoration:none}
+.lang-switch:hover,.lang-switch:focus-visible{opacity:1;color:var(--gold)}

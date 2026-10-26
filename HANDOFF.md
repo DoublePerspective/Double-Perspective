@@ -1,4 +1,4 @@
-# Handoff: Kindred Compass Games website
+# Handoff: Double Perspective website (formerly Kindred Compass Games)
 
 Status as of **2026-10-17**. Written so a new Claude session (or person) can pick up where the last one stopped. Read this first, then `README.md`.
 
@@ -43,3 +43,9 @@ Shared styles are in `style.css`. Fonts: `lexend.woff` (Amber & Sage page).
 - Keep the site static: no frameworks, no build tools, no tracking scripts.
 - Images are `.webp` where possible; share images (`*-share.jpg`, `kc-share.jpg`) are used for link previews via `og:image`.
 - Use full `https://doubleperspective.github.io/Double-Perspective/...` URLs in `og:image` tags; relative paths everywhere else.
+
+## Languages (added 2026-10-26)
+
+The site is bilingual. English pages are at the root, French copies at `fr/` (same file names). `lang.js` opens each page in the visitor's language: an explicit choice from the FR/EN switch is remembered, otherwise the browser's preferred language decides (default English). The privacy policy stays one bilingual page; its FR switch jumps to `#fr`.
+
+To update French after editing an English page: run `python3 tools/i18n/extract.py /tmp/pages.json /tmp/en.tsv`, compare with `tools/i18n/en.tsv`, add new lines to `tools/i18n/fr.tsv` with the same numbers, then run `python3 tools/i18n/build.py .` from the repo root.
