@@ -12,4 +12,4 @@ Site: https://doubleperspective.github.io/Double-Perspective/
 
 The privacy policy is a draft. Verify all data collection, SDKs, advertising, and Data safety declarations against the final Android app. Add actual game screenshots and store links once available.
 
-Support: kindredcompassgames@gmail.com
+Support: doubleperspective.contact@gmail.com

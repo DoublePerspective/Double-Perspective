@@ -7,7 +7,7 @@ Status as of **2026-10-17**. Written so a new Claude session (or person) can pic
 The **studio website** only: a static site hosted on GitHub Pages with no build step. Edit the HTML/CSS directly and push to `main` to publish.
 
 - Live site: https://doubleperspective.github.io/Double-Perspective/
-- Contact/support address used on the site: kindredcompassgames@gmail.com
+- Contact/support address used on the site: doubleperspective.contact@gmail.com
 
 **The game source code is not in this repo.** Umbral Purge and Amber & Sage Sudoku live somewhere else (on the developer's computer or in other Claude chats/projects). A session continuing game work needs those files uploaded or another repo connected.
 
