@@ -214,3 +214,5 @@ header{background:#071421eb;border-bottom:1px solid #b8844b55;box-shadow:0 6px 3
 .lang-list a[aria-current]{color:var(--gold);font-weight:700}
 .lang-list a[aria-current]::after{content:" ✓"}
 footer .legal{display:block;width:100%;margin-top:.6rem;opacity:.7;font-size:.8rem}
+.tm{font-size:.45em;vertical-align:super;margin-left:.12em;letter-spacing:0;font-weight:500;color:inherit;opacity:.8}
+.brand .tm{font-size:.55em}
