@@ -1,6 +1,6 @@
 import json, re, sys
 from bs4 import BeautifulSoup, Comment
-PAGES = ['index.html','umbral-purge.html','amber-sage.html','support.html']
+PAGES = ['index.html','umbral-purge.html','zenith-zero-sudoku.html','support.html']
 META = {('name','description'),('property','og:title'),('property','og:description'),('property','og:image:alt'),('name','twitter:title'),('name','twitter:description')}
 def skip(t):
     return not re.search(r'[A-Za-z]{2}', t) or t in {'Double Perspective'}

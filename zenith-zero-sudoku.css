@@ -1,13 +1,13 @@
-/* Amber & Sage Sudoku page: the game's own "spa" palette and its Lexend type.
+/* Zenith & Zero Sudoku page: the collection's navy, cream and gold palette and its Lexend type.
    Layout: airy single column of soft sections; phones float on a warm glow. */
 @font-face{font-family:"Lexend";src:url("lexend.woff") format("woff");font-weight:100 900;font-display:swap}
 .spa-page{
-  --as-bg:#E8E0D0;--as-glow:#F2E8D6;--as-surface:#F0EADD;--as-cell:#F5F0E6;--as-line:#DDD4C3;--as-line-strong:#B0A38D;
-  --as-ink:#463D33;--as-ink-soft:#6E6253;--as-sage:#587463;--as-amber:#9B6E37;--as-amber-soft:#BEA17C;--as-sage-soft:#99A594;
-  --as-shadow:0 1px 2px rgba(70,61,51,.06),0 10px 30px rgba(70,61,51,.10);
+  --as-bg:#F3EDE0;--as-glow:#FBF7EE;--as-surface:#FAF6EC;--as-cell:#FFFCF5;--as-line:#E3DBCA;--as-line-strong:#A9A08A;
+  --as-ink:#1C2B46;--as-ink-soft:#4F5B70;--as-sage:#2E4A72;--as-amber:#9C7220;--as-amber-soft:#D9BE84;--as-sage-soft:#9DB093;
+  --as-shadow:0 1px 2px rgba(28,43,70,.06),0 10px 30px rgba(28,43,70,.10);
   --as-font:"Lexend",system-ui,"Noto Sans",sans-serif;
   background:var(--as-bg);color:var(--as-ink);font-family:var(--as-font);font-weight:300;line-height:1.7}
-.spa-page header{background:#E8E0D0eb;border-bottom:1px solid var(--as-line);box-shadow:none}
+.spa-page header{background:#F3EDE0eb;border-bottom:1px solid var(--as-line);box-shadow:none}
 .spa-page .brand{color:var(--as-ink);text-shadow:none}
 .spa-page .brand strong{color:var(--as-amber)}
 .spa-page nav a,.spa-page footer a{color:var(--as-ink-soft);font-family:var(--as-font)}
@@ -21,7 +21,7 @@
 
 .as-eyebrow{font-size:.78rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--as-amber)!important;margin:0 0 .4rem}
 .as-button{display:inline-block;padding:13px 24px;border-radius:12px;background:var(--as-sage);color:#fff;text-decoration:none;font-weight:500;box-shadow:var(--as-shadow)}
-.as-button:hover{background:#4c6656}
+.as-button:hover{background:#22385A}
 .as-ghost{display:inline-block;padding:12px 22px;border-radius:12px;border:1px solid var(--as-line-strong);color:var(--as-ink);text-decoration:none;font-weight:400}
 .as-ghost:hover{border-color:var(--as-sage);color:var(--as-sage)}
 .as-button:focus-visible,.as-ghost:focus-visible,.as-gallery a:focus-visible{outline:2px solid var(--as-amber);outline-offset:3px}
@@ -31,7 +31,7 @@
   padding:84px max(7vw,24px) 72px;background:radial-gradient(ellipse 60% 70% at 72% 45%,var(--as-glow) 0%,transparent 70%),var(--as-bg)}
 .as-hero-copy{max-width:600px}
 .as-title{display:flex;align-items:center;gap:18px;margin:.6rem 0 .4rem}
-.as-rose{width:72px;height:72px;flex:none}
+.zz-mark{width:72px;height:72px;flex:none}
 .as-title h1{font-size:clamp(2.6rem,6vw,4.4rem);font-weight:500;line-height:1;margin:0}
 .as-title h1 .amp{color:var(--as-amber);font-weight:300}
 .as-title h1 small{display:block;font-size:.36em;font-weight:300;letter-spacing:.32em;text-transform:uppercase;color:var(--as-sage);margin-top:.5rem}
@@ -41,7 +41,7 @@
 .as-note{font-size:.9rem;max-width:520px;padding:12px 16px;border-radius:12px;background:var(--as-surface);border:1px solid var(--as-line)}
 .as-note b{color:var(--as-ink);font-weight:500}
 .as-hero-phones{position:relative;height:min(600px,52vw);min-height:420px}
-.as-phone{display:block;margin:0;border-radius:30px;border:7px solid #FBF7EF;background:var(--as-cell);overflow:hidden;box-shadow:var(--as-shadow),0 30px 60px rgba(70,61,51,.12)}
+.as-phone{display:block;margin:0;border-radius:30px;border:7px solid #FFFCF5;background:var(--as-cell);overflow:hidden;box-shadow:var(--as-shadow),0 30px 60px rgba(28,43,70,.12)}
 .as-phone img{display:block;width:100%;height:auto}
 .as-hero-phones .as-phone{position:absolute;width:min(280px,46%)}
 .as-hero-phones .back{left:8%;top:6%;transform:rotate(-4deg)}
@@ -70,7 +70,7 @@
 
 /* light and dark */
 .as-duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:520px}
-.as-duo .as-phone:last-child{margin-top:48px;border-color:#2c2721}
+.as-duo .as-phone:last-child{margin-top:48px;border-color:#111A2B}
 .as-split-rev{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .as-langs-label{font-size:.78rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--as-sage)!important;margin:1.6rem 0 .3rem}
 .as-langs{color:var(--as-ink)!important;font-weight:400}
@@ -83,7 +83,7 @@
 /* editions */
 .as-editions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:2rem;max-width:900px}
 .as-editions article{padding:26px;border-radius:18px;background:var(--as-surface);border:1px solid var(--as-line)}
-.as-editions article.pro{background:#F6F1E6;border-color:var(--as-amber-soft)}
+.as-editions article.pro{background:#FFFCF5;border-color:var(--as-amber-soft)}
 .as-price{font-size:1.4rem;font-weight:500;color:var(--as-sage)!important;margin:.1rem 0 .6rem}
 .as-editions .pro .as-price{color:var(--as-amber)!important}
 .as-editions p:last-child{margin:0}
@@ -91,7 +91,7 @@
 /* ending */
 .as-ending{text-align:center;background:radial-gradient(ellipse 50% 80% at 50% 0%,var(--as-glow),transparent 70%),var(--as-bg)}
 .as-ending>p:not(.as-eyebrow){margin-inline:auto}
-.as-rose.big{width:64px;height:64px;margin-bottom:.6rem}
+.zz-mark.big{width:64px;height:64px;margin-bottom:.6rem}
 
 @media(max-width:950px){
   .as-hero{grid-template-columns:1fr;padding-top:56px}
@@ -106,7 +106,7 @@
 @media(max-width:560px){
   .as-section{padding:72px 20px}
   .as-hero{padding:44px 20px 56px}
-  .as-rose{width:56px;height:56px}
+  .zz-mark{width:56px;height:56px}
   .as-features,.as-editions{grid-template-columns:1fr}
   .as-phone{border-radius:22px;border-width:5px}
 }
