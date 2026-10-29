@@ -1,0 +1,64 @@
+/* All card indices occupy a single, fixed top-left line. Tableau cards
+   advance at least 26px so the whole index remains above the next card. */
+:root,.deck-option{--card-paper:#FAF6ED;--card-ink:#48483F;--card-red:#995B58;--card-edge:#D6C9B4;--card-back:#798674;--card-detail:#B19A71;--card-pattern:linear-gradient(transparent,transparent)}
+:root[data-deck=sage],.deck-option[data-deck=sage]{--card-paper:#F1F5ED;--card-ink:#344E43;--card-red:#9B6054;--card-edge:#BBCDBB;--card-back:#688573;--card-detail:#9EAF95;--card-pattern:radial-gradient(circle,#E8F0E22E 1px,transparent 1.5px)}
+:root[data-deck=linen],.deck-option[data-deck=linen]{--card-paper:#FBF8F0;--card-ink:#4F4943;--card-red:#9C5D52;--card-edge:#D3C8B6;--card-back:#A59277;--card-detail:#BDA98A;--card-pattern:repeating-linear-gradient(0deg,transparent,transparent 5px,#FFFFFF14 5px,#FFFFFF14 6px)}
+:root[data-deck=mist],.deck-option[data-deck=mist]{--card-paper:#F1F6F7;--card-ink:#3D5562;--card-red:#A05C6C;--card-edge:#BFCFD4;--card-back:#728F9C;--card-detail:#A4BDC6;--card-pattern:radial-gradient(circle at center,transparent 4px,#FFFFFF1F 4px,#FFFFFF1F 5px,transparent 5px)}
+:root[data-deck=dusk],.deck-option[data-deck=dusk]{--card-paper:#37333F;--card-ink:#EDE5CF;--card-red:#F0B8AC;--card-edge:#706477;--card-back:#50445B;--card-detail:#BBA77E;--card-pattern:linear-gradient(45deg,transparent 47%,#E8D8B51A 49%,#E8D8B51A 51%,transparent 53%)}
+.card{background:var(--card-paper);border:1px solid var(--card-edge);color:var(--card-ink);padding:0;border-radius:7px;box-shadow:0 1px 3px #302A2314;overflow:hidden;isolation:isolate;vertical-align:top}
+.card.red{color:var(--card-red)}
+.card .corner{position:absolute;top:4px;left:4px;display:flex;align-items:center;gap:2px;height:18px;font-size:clamp(10px,1.8vw,16px);font-weight:500;line-height:18px;white-space:nowrap;font-variant-numeric:tabular-nums;z-index:2}
+.card .corner .suit{display:inline;font-size:.9em;margin:0;line-height:1}
+.card .pip{position:absolute;inset:0;display:grid;place-items:center;padding-top:8px;font-size:clamp(16px,4vw,38px);line-height:1;font-weight:400;z-index:1}
+.card .motif{position:absolute;width:47%;aspect-ratio:1;left:26.5%;top:36%;border:1px solid var(--card-detail);border-radius:50%;opacity:.24;z-index:0}
+:root[data-deck=sage] .card .motif{border-radius:75% 15% 75% 15%;transform:rotate(-30deg)}
+:root[data-deck=linen] .card .motif{border-radius:2px;border-left:0;border-right:0;transform:scaleX(.75)}
+:root[data-deck=mist] .card .motif{box-shadow:0 0 0 5px var(--card-paper),0 0 0 6px var(--card-detail);opacity:.18}
+:root[data-deck=dusk] .card .motif{border-radius:4px;transform:rotate(45deg);opacity:.32}
+.card.back{background-color:var(--card-back);background-image:var(--card-pattern);background-size:14px 14px;border:3px solid var(--card-paper)}
+.card.back::before,.mini-back::before{content:'';position:absolute;inset:9%;border:1px solid #F9F3E655;border-radius:5px}
+.card.back::after,.mini-back::after{content:'';position:absolute;left:35%;top:39%;width:30%;aspect-ratio:1;border:1px solid #F9F3E677;border-radius:50%}
+.card.selected{outline:3px solid var(--amber);outline-offset:1px;overflow:visible}
+.card.blocked{filter:none!important;opacity:.78}
+.design-setting{display:flex;align-items:center;gap:10px;width:100%;margin:0 0 12px;text-align:left;font-size:13px}
+.design-setting #design-name{margin-left:auto;color:var(--accent)}
+.deck-options{display:grid;gap:10px}.deck-option{display:flex;align-items:center;text-align:left;gap:16px;padding:12px;min-height:100px;border:1px solid var(--line);background:var(--bg)}
+.deck-option b{font-size:15px;font-weight:500}.deck-option small{display:block;color:var(--soft);font-size:11px;line-height:1.5;margin-top:4px}
+.deck-option[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.deck-check{margin-left:auto;color:var(--accent);visibility:hidden}.deck-option[aria-pressed=true] .deck-check{visibility:visible}
+.deck-sample{display:block;position:relative;width:72px;height:76px;flex:none}.mini-back,.mini-face{position:absolute;display:block;width:46px;height:66px;border-radius:6px;box-shadow:0 2px 4px #00000012}
+.mini-back{left:0;top:0;background-color:var(--card-back);background-image:var(--card-pattern);background-size:14px 14px;border:2px solid var(--card-paper);transform:rotate(-8deg)}
+.mini-face{left:22px;top:7px;color:var(--card-ink);background:var(--card-paper);border:1px solid var(--card-edge);transform:rotate(5deg)}
+.mini-face>span{position:absolute;top:4px;left:4px;font:500 10px Lexend,system-ui,sans-serif}.mini-face i{display:grid;place-items:center;height:100%;font-style:normal;font-size:24px;padding-top:5px}
+.design-done{width:100%;margin-top:16px;background:var(--accent);color:var(--bg)}
+@media(max-width:500px){.card{padding:0;border-radius:5px}.card .corner{top:3px;left:3px}.card.back{border-width:2px}.deck-option{gap:12px}}
+
+/* A visible deck back and a separate playable face-up card. */
+.stock-slot{border:0;min-height:0}.stock-card{height:100%;min-height:0;cursor:pointer}.stock-count{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);background:#F5F0E6;color:#463D33;border-radius:12px;padding:3px 9px;font:500 12px Lexend,system-ui;z-index:3}.stock-empty-symbol{position:absolute;inset:0;display:grid;place-items:center;font-size:30px}.empty-stock{border-style:dashed;background:transparent;color:var(--soft)}.pile-caption{position:absolute;top:100%;left:0;width:100%;padding-top:6px;text-align:center;font-size:11px;color:var(--soft);white-space:nowrap}.draw-row{justify-content:center;gap:22px;margin-bottom:40px}.draw-row>.pile{height:139px!important;min-height:139px}.card.hinted{outline:3px dashed var(--accent);outline-offset:2px}#banner{margin-top:28px;min-height:68px;gap:12px}#banner a{display:flex;align-items:center;min-height:44px;padding:8px;border-radius:8px;border:1px solid var(--line)}
+@media(max-width:500px){.draw-row{grid-template-columns:repeat(2,72px)!important}.draw-row>.pile{height:104px!important;min-height:104px}}
+
+/* Traditional Pyramid: every new tier overlaps the lower half of the
+   preceding tier. Later rows paint on top; indices stay in the exposed strip.
+   TriPeaks retains its own layout. */
+.pyramid-row:not(.peaks){position:relative;margin-bottom:0;gap:5px}
+.pyramid-row:not(.peaks)+.pyramid-row:not(.peaks){margin-top:calc((100% - 36px) / 7 * -.72)}
+.pyramid-row:not(.peaks) .card.blocked{opacity:1;filter:none}
+.pyramid-row:not(.peaks) .card.blocked .pip{opacity:.6}
+
+.discard-slot{border-style:dashed}
+.discard-slot .pile-label{font-size:11px;inset:40% 5px auto;line-height:1.5}
+.discard-slot .card:disabled{opacity:1;cursor:default}
+.discard-slot .card:disabled:hover{filter:none}
+.card-arrive{animation:card-arrive 170ms ease-out both}
+.discard-arrive{animation:discard-settle 190ms ease-out both}
+@keyframes card-arrive{from{opacity:.45;transform:translateX(-10px) rotate(-2deg)}to{opacity:1;transform:translateX(0) rotate(0)}}
+@keyframes discard-settle{from{opacity:.5;transform:translateY(-8px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:500px){.draw-row.pyramid-draw{grid-template-columns:repeat(3,72px)!important}}
+@media(prefers-reduced-motion:reduce){.card-arrive,.discard-arrive{animation:none}}
+
+.music-open{margin-left:auto;font-size:22px;min-width:40px;min-height:44px;padding:7px;border:0}header #theme{margin-left:0}.music-volume{width:100%;accent-color:var(--accent);min-height:44px}.music-label{display:block;margin:18px 0 7px;font-size:13px;color:var(--soft)}.music-select{width:100%;min-height:44px}#music-enabled{width:24px;height:24px;accent-color:var(--accent)}#music-dialog .setting{min-height:44px}
+
+/* Large high-weight indices and traditional counted pip layouts. */
+.card .corner{top:4px;left:4px;height:24px;line-height:24px;font-size:clamp(16px,2.5vw,24px);font-weight:700;gap:2px;letter-spacing:-.7px}.card .corner .suit{font-size:.8em}.card .pip-face{position:absolute;inset:0;width:100%;height:100%;fill:currentColor;pointer-events:none}.card .card-pip{font:25px Georgia,"Times New Roman",serif;text-anchor:middle;dominant-baseline:central}.card .court-rank{font:700 43px Lexend,system-ui,sans-serif;text-anchor:middle;dominant-baseline:central}.card .court-suit{font:30px Georgia,serif;text-anchor:middle;dominant-baseline:central}.pyramid-row:not(.peaks) .card.blocked .pip-face{opacity:.75}@media(max-width:500px){.card .corner{top:3px;left:3px;font-size:16px;height:23px;line-height:23px;gap:1px}}
+
+#board{overflow-x:auto}#board>.row:not(.draw-row){min-width:360px}#board[data-mode=freecell]>.row{min-width:408px}#board[data-mode=spider]>.row{min-width:540px}

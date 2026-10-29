@@ -1,0 +1,1 @@
+(()=>{const langs=["en","fr","de","es","it","pt","ru","zh","ja","ko"];let saved;try{saved=localStorage.getItem('zz-language')}catch{};let detected=(navigator.language||'en').toLowerCase().split('-')[0];window.ZZ_LANG=langs.includes(saved)?saved:langs.includes(detected)?detected:'en';})();

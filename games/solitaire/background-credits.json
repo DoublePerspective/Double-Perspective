@@ -1,0 +1,104 @@
+[
+  {
+    "file": "backgrounds/1.webp",
+    "name": "Alpine Lake",
+    "source": "https://www.pexels.com/photo/417074/",
+    "download": "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?w=1280&q=60&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping."
+  },
+  {
+    "file": "backgrounds/2.webp",
+    "name": "Stillwater Lake",
+    "source": "https://www.pexels.com/photo/346529/",
+    "download": "https://images.pexels.com/photos/346529/pexels-photo-346529.jpeg?w=1280&q=60&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping."
+  },
+  {
+    "file": "backgrounds/3.webp",
+    "name": "Ocean Breeze",
+    "source": "https://www.pexels.com/photo/457882/",
+    "download": "https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg?w=1280&q=60&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping."
+  },
+  {
+    "file": "backgrounds/4.webp",
+    "name": "Panoramic Valley",
+    "source": "https://www.pexels.com/photo/16620487/",
+    "download": "https://images.pexels.com/photos/16620487/pexels-photo-16620487.jpeg?w=1280&q=60&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping."
+  },
+  {
+    "file": "backgrounds/5.webp",
+    "name": "Forest Retreat",
+    "source": "https://www.pexels.com/photo/34391056/",
+    "download": "https://images.pexels.com/photos/34391056/pexels-photo-34391056.jpeg?w=1280&q=60&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping."
+  },
+  {
+    "file": "backgrounds/6.webp",
+    "name": "Autumn Lakeside",
+    "source": "https://www.pexels.com/photo/34652997/",
+    "download": "https://images.pexels.com/photos/34652997/pexels-photo-34652997.jpeg?w=1280&q=60&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping."
+  },
+  {
+    "file": "backgrounds/7.webp",
+    "name": "Coastal Sunset",
+    "source": "https://www.pexels.com/photo/13105432/",
+    "download": "https://images.pexels.com/photos/13105432/pexels-photo-13105432.jpeg?w=1280&q=60&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping."
+  },
+  {
+    "file": "backgrounds/alpine-meadow.webp",
+    "name": "Alpine Meadow",
+    "source": "https://www.pexels.com/photo/meadow-with-flowers-and-mountains-behind-14125717/",
+    "download": "https://images.pexels.com/photos/14125717/pexels-photo-14125717.jpeg?w=1920&q=80&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping.",
+    "photographer": "Philippe Serrand"
+  },
+  {
+    "file": "backgrounds/maine-coon-kitten.webp",
+    "name": "Maine Coon Kittens",
+    "source": "https://www.pexels.com/photo/adorable-maine-coon-kitten-relaxing-indoors-30591804/",
+    "download": "https://images.pexels.com/photos/30591804/pexels-photo-30591804.jpeg?w=1920&q=80&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping.",
+    "photographer": "Bri Schneiter"
+  },
+  {
+    "file": "backgrounds/10.webp",
+    "name": "Playful Puppies",
+    "source": "https://www.pexels.com/photo/29439897/",
+    "download": "https://images.pexels.com/photos/29439897/pexels-photo-29439897.jpeg?w=1280&q=60&auto=compress",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-18",
+    "changes": "Resized and converted to WebP; displayed with CSS cover cropping."
+  }
+]

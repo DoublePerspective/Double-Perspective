@@ -1,0 +1,9 @@
+Third-party software notices
+
+AndroidX libraries: Copyright The Android Open Source Project. Licensed under the Apache License, Version 2.0. https://android.googlesource.com/platform/frameworks/support/
+
+Kotlin runtime: Copyright JetBrains s.r.o. and Kotlin Programming Language contributors. Licensed under the Apache License, Version 2.0. https://github.com/JetBrains/kotlin
+
+Free editions additionally use Google Mobile Ads SDK and Google User Messaging Platform under the applicable Google SDK terms: https://developers.google.com/admob/android/quick-start and https://developers.google.com/admob/android/privacy
+
+The Apache License text is included as APACHE-2.0.txt. Font and media notices are provided separately in this folder.
