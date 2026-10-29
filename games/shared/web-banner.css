@@ -1,0 +1,19 @@
+html.zz-web-demo { --zz-banner-space: 94px; }
+html.zz-web-demo body { padding-bottom: calc(var(--zz-banner-space) + env(safe-area-inset-bottom, 0px)) !important; box-sizing: border-box; }
+html.zz-web-demo #banner, html.zz-web-demo #adTop, html.zz-web-demo #adBanner { display: none !important; }
+html.zz-web-demo body[data-zz-game="sudoku"] #app { height: calc(100dvh - var(--zz-banner-space) - 48px - env(safe-area-inset-bottom, 0px)); min-height: 0 !important; box-sizing: border-box; }
+#zz-web-banner { position: fixed; z-index: 10; bottom: 0; left: 0; right: 0; min-height: 78px; box-sizing: border-box; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; justify-content: center; gap: 14px; background: #10283a; color: #fff6e5; border-top: 1px solid #c99f4b; box-shadow: 0 -3px 14px #0002; font: 13px/1.35 system-ui, sans-serif; }
+#zz-web-banner > small { max-width: 130px; font-size: 10px; color: #eed59f; border: 1px dashed #eed59f88; border-radius: 4px; padding: 4px 6px; }
+#zz-web-banner > span { display: flex; flex-direction: column; gap: 2px; }
+#zz-web-banner strong { font-size: 13px; }
+#zz-web-banner > span > span { font-size: 11px; color: #dce5df; }
+#zz-web-banner > a { flex: none; color: #10283a; background: #f2bd5d; border-radius: 8px; padding: 9px 15px; text-decoration: none; font-weight: 700; }
+#zz-web-banner > a:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+@media (max-width: 420px) {
+  #zz-web-banner { gap: 8px; }
+  #zz-web-banner > small { max-width: 74px; font-size: 9px; }
+  #zz-web-banner strong { font-size: 11px; }
+  #zz-web-banner > a { padding: 8px 10px; }
+}
+
+html.zz-web-demo #proNote { display:none !important; }
