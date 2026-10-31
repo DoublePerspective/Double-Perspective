@@ -216,3 +216,16 @@ header{background:#071421eb;border-bottom:1px solid #b8844b55;box-shadow:0 6px 3
 footer .legal{display:block;width:100%;margin-top:.6rem;opacity:.7;font-size:.8rem}
 .tm{font-size:.45em;vertical-align:super;margin-left:.12em;letter-spacing:0;font-weight:500;color:inherit;opacity:.8}
 .brand .tm{font-size:.55em}
+
+/* Original app illustrations on the studio homepage. */
+.dp-software.software-showcase{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);align-items:center;gap:clamp(28px,5vw,80px)}
+.software-copy{min-width:0}.software-copy h2{font-size:clamp(2.1rem,3.8vw,3.7rem);line-height:1.12}
+.software-copy h2 span{display:block;font-size:.4em;letter-spacing:.03em;margin-top:.8em}.software-copy p{line-height:1.75}
+.software-copy .btn{margin-bottom:8px}.software-copy small{display:block;line-height:1.65}
+.software-art{position:relative;display:block;min-width:0;overflow:hidden;border:1px solid #47615e;border-radius:20px;background:#122c36;text-decoration:none;box-shadow:0 20px 60px #020c1540;transition:transform .25s,border-color .25s}
+.software-art img{display:block;width:100%;height:auto;aspect-ratio:45/34;object-fit:contain}
+.software-art-title{position:absolute;left:7.4%;top:7.3%;font-family:"Lexend",system-ui,sans-serif;font-size:clamp(15px,2.1vw,24px);font-weight:600;letter-spacing:.1em;color:#f0ead6;pointer-events:none}
+.software-art-arrow{position:absolute;right:5%;bottom:5%;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#e3c48c;color:#15333b;font-size:23px;pointer-events:none}
+.software-art:hover,.software-art:focus-visible{transform:translateY(-4px);border-color:#e3c48c}.software-art:focus-visible{outline:3px solid #e3c48c;outline-offset:5px}
+@media(max-width:900px){.dp-software.software-showcase{grid-template-columns:1fr;gap:28px}.software-art{width:100%;max-width:680px;justify-self:center}.software-art-title{font-size:clamp(18px,4vw,28px)}.software-copy h2{font-size:clamp(2rem,7vw,3.6rem)}}
+@media(prefers-reduced-motion:reduce){.software-art{transition:none}.software-art:hover,.software-art:focus-visible{transform:none}}
