@@ -11,6 +11,10 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 
 **The game source code is not in this repo.** Umbral Purge and Zenith & Zero Sudoku live somewhere else (on the developer's computer or in other Claude chats/projects). A session continuing game work needs those files uploaded or another repo connected.
 
+## Sac-à-Do (added 2026-10-30)
+
+Trip and packing planner, formerly "Amber & Sage Outbound" (that name is retired). `sac-a-do.html` is the self-contained web version (10 languages; `?lang=en|fr|…` picks the language for that visit), `sac-a-do-privacy.html` is its bilingual privacy page (also the Play listing privacy URL). Homepage and `fr/index.html` have a `#sac-a-do` block in the Software section, edited directly in both files (like Estivite, not through `tools/i18n`). Android app id `com.doubleperspective.sacado`, 0.4.0 (versionCode 1) is on the internal testing track. Source lives outside this repo (`Documents\Codex\2026-10-18\wha\outputs\sac-a-do-0.4.0`).
+
 ## Zenith & Zero rename (2026-10-29)
 
 The puzzle collection is officially **Zenith & Zero** (Sudoku, Solitaire, Word Search, Crossword, Mahjong). The name Amber & Sage is retired: `amber-sage.html` and `fr/amber-sage.html` are only redirects to `zenith-zero-sudoku.html` for old links; never link to them. Sudoku page images are `zenith-zero-sudoku-*.webp` (game 1.6.0, navy/cream/gold), share image `zenith-zero-sudoku-share.jpg`. Play app ids follow `com.doubleperspective.zenithzero.<game>` (+ `.pro`). Internal save keys inside the browser games (`ambersage.run`, `amber-sage-solitaire-v1`, `amber-sage-mahjong.v1`) are left as they are so web players keep their progress; they are never shown.
