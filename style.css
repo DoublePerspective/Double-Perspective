@@ -229,3 +229,5 @@ footer .legal{display:block;width:100%;margin-top:.6rem;opacity:.7;font-size:.8r
 .software-art:hover,.software-art:focus-visible{transform:translateY(-4px);border-color:#e3c48c}.software-art:focus-visible{outline:3px solid #e3c48c;outline-offset:5px}
 @media(max-width:900px){.dp-software.software-showcase{grid-template-columns:1fr;gap:28px}.software-art{width:100%;max-width:680px;justify-self:center}.software-art-title{font-size:clamp(18px,4vw,28px)}.software-copy h2{font-size:clamp(2rem,7vw,3.6rem)}}
 @media(prefers-reduced-motion:reduce){.software-art{transition:none}.software-art:hover,.software-art:focus-visible{transform:none}}
+
+@media(max-width:900px){.software-showcase .software-art{grid-row:1}.software-showcase .software-copy{grid-row:2}}
