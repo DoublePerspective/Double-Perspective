@@ -13,7 +13,7 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 
 ## Estivite 1.2 (added 2026-10-31)
 
-Estivite now includes the old Workshop Calculator: a fourth project, **Siding**, a **Quick tools** tab (14 calculators) and a **My estimates** tab (several jobs per device, Workshop job-file import). `estivite-v1-2.html` is the self-contained web build (`?lang=en|fr`); `estivite.html` is a copy of it; `estivite-v1-1.html` is kept for old links. Homepage blocks link to v1-2. Source: `Documents\Codex\2026-10-30\sn\outputs\trade-builder` (web) and `sn\work\estivite-android` (Android, versionCode 3 / 1.2.0, build with `node sn\work\build-estivite-1.2.cjs`). Update the "Android 1.1.0" line on both homepages once 1.2.0 is live for testers.
+Estivite now includes the old Workshop Calculator: a fourth project, **Siding**, a **Quick tools** tab (14 calculators) and a **My estimates** tab (several jobs per device, Workshop job-file import). `estivite-v1-2.html` is the self-contained web build (`?lang=en|fr`); `estivite.html` is a copy of it; `estivite-v1-1.html` is kept for old links. Homepage blocks link to v1-2. Source: `Documents\Codex\2026-10-30\sn\outputs\trade-builder` (web) and `sn\work\estivite-android` (Android, versionCode 3 / 1.2.0, build with `node sn\work\build-estivite-1.2.cjs`). Android 1.2.0 (versionCode 3) has been on the internal testing track since 2026-10-31. Build it from the Temp copy (`ZenithZeroBuild\estivite-project`) because Gradle cannot write inside the Codex folder.
 
 ## Sac-à-Do (added 2026-10-30)
 
