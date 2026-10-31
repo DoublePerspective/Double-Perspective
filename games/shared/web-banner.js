@@ -1,10 +1,10 @@
 (() => {
   'use strict';
   if (!/^https?:$/.test(location.protocol) || window.AndroidBridge) return;
-  const games = ['solitaire', 'sudoku', 'wordsearch', 'crossword', 'mahjong'];
+  const games = ['solitaire', 'sudoku', 'wordsearch', 'crossword', 'mahjong', 'cribbage'];
   const current = document.body.dataset.zzGame || location.pathname.split('/').slice(-2, -1)[0];
   const next = (games.indexOf(current) + 1) % games.length;
-  const names = ['Solitaire', 'Sudoku', 'Word Search', 'Crossword', 'Mahjong'];
+  const names = ['Solitaire', 'Sudoku', 'Word Search', 'Crossword', 'Mahjong', 'Cribbage'];
   const copy = {
     en: ['Advertisement placeholder', 'Discover another puzzle', 'Play'],
     fr: ['Espace publicitaire réservé', 'Découvrez un autre jeu', 'Jouer'],

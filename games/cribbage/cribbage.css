@@ -1,0 +1,57 @@
+/* Zenith & Zero Cribbage */
+#game{max-width:620px;margin:auto}
+#game nav{display:flex;align-items:center;justify-content:space-between;margin-top:22px;gap:6px}
+#game nav b{font-size:15px}#dealer-note{font-size:11px;color:var(--soft)}
+.cb-primary-wide{width:100%;background:var(--accent);color:var(--bg);margin-bottom:16px}
+.cb-scores{display:flex;justify-content:space-between;align-items:center;margin:14px 2px 6px;font-size:13px}
+.cb-scores b{font-weight:500}.cb-scores output{font-size:20px;font-variant-numeric:tabular-nums;margin:0 4px}
+.cb-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 6px;vertical-align:middle}
+.cb-dot.me,.cb-peg.me{fill:var(--amber);background:var(--amber)}
+.cb-dot.them,.cb-peg.them{fill:var(--accent);background:var(--accent)}
+.cb-board{display:block;width:100%;height:auto;margin-bottom:10px}
+.cb-wood{fill:var(--surface);stroke:var(--line)}
+.cb-hole{fill:var(--line-strong,var(--soft));opacity:.75}
+.cb-finish{opacity:.8}
+.cb-divider{stroke:var(--line);stroke-width:.6}
+.cb-peg{stroke:var(--surface);stroke-width:.8;transition:cx .35s ease,cy .35s ease}
+.cb-peg.cb-back{opacity:.45}
+.cb-opp{display:flex;align-items:center;justify-content:center;gap:12px;margin:4px 0 10px}
+.cb-opp span{font-size:12px;color:var(--soft)}
+.cb-backs{display:flex}
+.cb-backs .card{position:relative;width:30px;aspect-ratio:.69;margin-left:-14px;border-width:2px}
+.cb-backs .card:first-child{margin-left:0}
+.cb-play{display:grid;grid-template-columns:72px 1fr 72px;align-items:center;gap:8px;min-height:140px}
+.cb-side{display:flex;flex-direction:column;align-items:center;gap:4px}
+.cb-side small{font-size:10px;color:var(--soft);text-align:center;line-height:1.3}
+.cb-slot{position:relative;width:62px;aspect-ratio:.69;border:1px dashed var(--line);border-radius:8px}
+.cb-slot .card{position:absolute;inset:0;width:100%;height:100%}
+.cb-slot .card[disabled]{opacity:1}
+.cb-mid{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;overflow:hidden}
+.cb-pile{position:relative;height:calc(64px/.69);max-width:100%}
+.cb-pile .card{position:absolute;top:0;width:64px;aspect-ratio:.69}
+.cb-pile .card[disabled]{opacity:1}
+.cb-pile .cb-theirs{box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 60%,transparent)}
+.cb-pile .cb-mine{box-shadow:0 0 0 2px color-mix(in srgb,var(--amber) 60%,transparent)}
+.cb-count{font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;min-height:18px}
+.cb-show{border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0;background:var(--surface)}
+.cb-show-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.cb-show-head b{font-weight:500}.cb-show-head output{color:var(--amber);font-size:18px}
+.cb-show-cards{display:flex;gap:5px;flex-wrap:nowrap}
+.cb-show-cards .card{position:relative;width:calc((100% - 20px)/5);max-width:64px;aspect-ratio:.69}
+.cb-show-cards .card[disabled]{opacity:1}
+.cb-show-cards .cb-starter{margin-left:8px;outline:2px dashed var(--amber);outline-offset:1px}
+.cb-show-list{list-style:none;margin:10px 0 0;padding:0;font-size:13px}
+.cb-show-list li{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--line)}
+.cb-show-list li:last-child{border-bottom:0}
+#notice{white-space:pre-line;font-size:13px;color:var(--soft);min-height:40px;line-height:1.5;text-align:center;margin:8px 4px}
+#action{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:8px}
+#action:empty{display:none}
+.cb-primary{background:var(--accent);color:var(--bg);border-color:var(--accent);min-width:180px}
+.cb-primary:disabled{opacity:.5;cursor:default}
+.cb-hand{position:relative;height:calc(var(--cw,70px)/.69 + 24px);--cw:70px}
+.cb-hand .card{position:absolute;bottom:0;width:var(--cw);aspect-ratio:.69;top:auto;transition:transform .15s ease,opacity .15s ease}
+.cb-hand .card.cb-up{transform:translateY(-20px)}
+.cb-hand .card.cb-off{opacity:.5}
+.cb-hand .card.cb-rest{opacity:.75}
+.cb-hand .card.cb-hint{outline:3px solid var(--amber);outline-offset:1px;overflow:visible}
+#menu .choices+.design-setting{margin-top:16px}
