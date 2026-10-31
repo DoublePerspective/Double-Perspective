@@ -11,6 +11,10 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 
 **The game source code is not in this repo.** Umbral Purge and Zenith & Zero Sudoku live somewhere else (on the developer's computer or in other Claude chats/projects). A session continuing game work needs those files uploaded or another repo connected.
 
+## Estivite 1.2 (added 2026-10-31)
+
+Estivite now includes the old Workshop Calculator: a fourth project, **Siding**, a **Quick tools** tab (14 calculators) and a **My estimates** tab (several jobs per device, Workshop job-file import). `estivite-v1-2.html` is the self-contained web build (`?lang=en|fr`); `estivite.html` is a copy of it; `estivite-v1-1.html` is kept for old links. Homepage blocks link to v1-2. Source: `Documents\Codex\2026-10-30\sn\outputs\trade-builder` (web) and `sn\work\estivite-android` (Android, versionCode 3 / 1.2.0, build with `node sn\work\build-estivite-1.2.cjs`). Update the "Android 1.1.0" line on both homepages once 1.2.0 is live for testers.
+
 ## Sac-à-Do (added 2026-10-30)
 
 Trip and packing planner, formerly "Amber & Sage Outbound" (that name is retired). `sac-a-do.html` is the self-contained web version (10 languages; `?lang=en|fr|…` picks the language for that visit), `sac-a-do-privacy.html` is its bilingual privacy page (also the Play listing privacy URL). Homepage and `fr/index.html` have a `#sac-a-do` block in the Software section, edited directly in both files (like Estivite, not through `tools/i18n`). Android app id `com.doubleperspective.sacado`, 0.4.0 (versionCode 1) is on the internal testing track. Source lives outside this repo (`Documents\Codex\2026-10-18\wha\outputs\sac-a-do-0.4.0`).
