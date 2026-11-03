@@ -1,0 +1,77 @@
+name: Publish Ice Camp 0.21.0
+on:
+  push:
+    paths:
+      - '.github/workflows/ice-camp-0.21.0-release.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: ice-camp-v0.21.0
+      RELEASE_TITLE: 'Ice Camp 0.21.0 — Frozen Fools Fishing Derby'
+      RELEASE_NOTES: |
+        ## Frozen Fools Fishing Derby
+        A co-op ice-fishing playtest for **1–4 friends**. Enter as one crew, catch something enormous, strap it to the sleigh, and get it to weigh-in before the bell.
+        
+        ### New in 0.21.0
+        - **Shared 12-minute fishing contests** replace the sales-quota loop.
+        - **Far-shore weigh-in:** Murray's market is across the lake. Follow orange flags along the longer solid shoreline, or risk the shorter, slippery crossing over weakened ice.
+        - **Three ways to win:** delivered fish value earns points; raw featured species add 12 points each; biggest-fish and featured-species prizes pay camp cash.
+        - **Physical contest boards** show crew standings, rival club scores, time remaining, and the previous result. Rival club scores are scripted, not other online teams.
+        - **Forgiving rounds:** keep camp cash and upgrades regardless of placement. A full-crew freeze ends the round and gets everyone back into play. Undelivered fish do not count.
+        - **Individual fish weights** add trophy variety and survive save/continue.
+        - Existing friendslop remains: bucking fish, recoverable sleigh spills, human tow chains, bucket heads, shared rescues, trophy poses, guitar breaks, and camp errands.
+        
+        ### Downloads and starting the game
+        Windows and Linux packages will be attached to this release by the owner.
+        
+        | Platform | File | Start |
+        |---|---|---|
+        | Windows x86_64 | `IceCamp-0.21.0-Windows-x86_64.zip` | Extract the entire ZIP and run `IceCamp.exe`. |
+        | Linux x86_64 | `IceCamp-0.21.0-Linux-x86_64.tar.gz` | Extract and run `IceCamp.x86_64`. Enable executable permission if necessary (`chmod +x IceCamp.x86_64`). |
+        
+        Keep `IceCamp.pck` beside the executable. **Godot and Unity do not need to be installed.** Personal saves and profiles are not included. The automatic GitHub “Source code” downloads are not the playable game.
+        
+        ### Playing with friends
+        - Everyone needs **version 0.21.0**. Maximum four campers, including the host.
+        - One person chooses **Host the fishing derby** or continues a saved camp; friends use **Join**.
+        - On the same network, use the host's LAN address from **Connection help**.
+        - Across different homes, the host must forward **UDP port 24565** to their PC; friends join with the host's public IP address.
+        - There is **no relay, Steam invitation flow, or automatic matchmaking** in this prototype.
+        - The host keeps the shared save and must stay in game. **H** readies the crew for another round.
+        
+        ### Quick controls
+        - **WASD / mouse / Shift / Space:** move, look, sprint, jump or stand.
+        - **1 / 2 / 3:** hands, auger, fishing rod. **Left click:** drill, cast, hook, reel.
+        - **E:** interact, pick up, load/unload, cook, sit, or help a fallen friend.
+        - With empty hands, **hold click near an angler** to help reel a big fish.
+        - **R:** tow sleigh. **G:** ride. **Z:** grab/release a coat for a human tow chain; **Space** lets go immediately.
+        - As a sleigh passenger, select **hands** and **hold click** to pin bucking fish. Slow down to protect the load.
+        - **P:** trophy pose. **F:** shove. **V:** change camera.
+        - **Esc:** menu/settings. **F5:** host save. **F11:** fullscreen.
+        - Choose **Relaxed derby** for gentler cold and fuel use.
+        
+        ### Validation and current limits
+        - Passed Windows executable startup and local co-op checks covering pickups, cargo, towing, knockdowns, rescues, and recovery.
+        - Passed three-player local tests for shared derby scores, fish weights, late joining, and round results.
+        - Passed scoring/deadline, prizes, save/continue, older-save migration, and solid shoreline-route checks.
+        - Updated Windows portable launcher, menus, user data, evening systems, and guitar-pose checks passed.
+        - **Linux is cross-built and archive-checked, but has not been played on Linux hardware.**
+        - Different-home internet co-op testing remains pending.
+        
+        This is a **prototype playtest release**, not a finished commercial release.
+    steps:
+      - name: Publish playtest release without binary uploads
+        shell: bash
+        run: |
+          printf '%s\n' "$RELEASE_NOTES" > release-notes.md
+          if gh release view "$RELEASE_TAG" --repo "$GH_REPO" >/dev/null 2>&1; then
+            gh release edit "$RELEASE_TAG" --repo "$GH_REPO" --title "$RELEASE_TITLE" --notes-file release-notes.md --prerelease
+          else
+            gh release create "$RELEASE_TAG" --repo "$GH_REPO" --target "${{ github.sha }}" --title "$RELEASE_TITLE" --notes-file release-notes.md --prerelease
+          fi
