@@ -73,7 +73,7 @@ function drawBoard(){let svg=$('#board'),h='<rect x="1" y="1" width="358" height
  svg.innerHTML=h;}
 
 /* ---------- render ---------- */
-function render(){if(!st)return;drawBoard();$('#score-me').textContent=st.scores[0];$('#score-them').textContent=st.scores[1];
+function renderBoard(){if(!st)return;drawBoard();$('#score-me').textContent=st.scores[0];$('#score-them').textContent=st.scores[1];
  $('#dealer-note').textContent=t('Dealer')+': '+who(st.dealer);
  let ownCrib=st.dealer===0;$('#crib-label').textContent=ownCrib?t('Your crib'):t('Their crib');
  /* opponent */
@@ -114,5 +114,6 @@ window.addEventListener('resize',()=>{if(!$('#game').hidden)render();});
 /* ---------- Android back button ---------- */
 window.__back=()=>{let d=document.querySelector('dialog[open]');if(d){d.close();return;}if(!$('#game').hidden){$('#home').click();return;}window.AndroidApp?.exit?.();};
 window.__pause=()=>{if(st)save();};
+function render(){renderBoard();if(st?.phase==='gameover')window.ZZWin.show({key:st,game:'Cribbage',match:true,won:st.winner===0,stats:[[t('You'),st.scores[0]],[t('Opponent'),st.scores[1]]],again:()=>{clearTimeout(timer);st=C.create();msg='';sel=[];hint=[];save();render();step();},menu:()=>$('#home').click()});}
 window.ZZCribbage={get state(){return st;},set state(v){st=v;},render};
 })();

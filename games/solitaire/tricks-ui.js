@@ -74,7 +74,7 @@ function tapCard(c){if(st.phase==='pass'){let i=passSel.findIndex(x=>T.same(x,c)
 /* ---------- render ---------- */
 function seatInfo(p){if(st.game==='hearts'){let pts=T.points(st.taken[p]);return `${st.scores[p]}${pts?` · +${pts}`:''}`;}
  let b=st.bids?.[p];return b===null||b===undefined?'…':`${t('Bid')} ${bidName(b)} · ${t('Won')} ${st.tricks[p]}`;}
-function render(){if(!st)return;let n=names();$('#tr-title').textContent=t(st.game==='hearts'?'Hearts':'Spades');
+function renderTable(){if(!st)return;let n=names();$('#tr-title').textContent=t(st.game==='hearts'?'Hearts':'Spades');
  $('#tr-sub').textContent=st.game==='hearts'?t('Game to 100 · lowest score wins'):`${t('Us')} ${st.scores[0]} (${t('Bags')} ${st.bags[0]}) · ${t('Them')} ${st.scores[1]} (${t('Bags')} ${st.bags[1]})`;
  sec.querySelectorAll('.tr-seat').forEach(el=>{let p=+el.dataset.seat;el.classList.toggle('tr-turn',(st.phase==='play'||st.phase==='bid')&&st.turn===p&&st.trick.length<4);el.classList.toggle('tr-team',st.game==='spades'&&p%2===0);
   el.innerHTML=`<b></b><small></small>${p?'<span class="tr-count"></span>':''}`;el.querySelector('b').textContent=n[p];el.querySelector('small').textContent=seatInfo(p);if(p)el.querySelector('.tr-count').textContent=st.hands[p].length?'🂠 '+st.hands[p].length:'';});
@@ -107,5 +107,6 @@ function scores(){let n=names();dlg.querySelector('h2').textContent=t('Scores');
 
 /* ---------- Android back button ---------- */
 const prevBack=window.__back;window.__back=()=>{let d=document.querySelector('dialog[open]');if(d){d.close();return;}if(!sec.hidden){home();return;}if(prevBack){prevBack();return;}let g=$('#game');if(g&&!g.hidden){$('#home')?.click();return;}window.AndroidApp?.exit?.();};
+function render(){renderTable();if(st?.phase==='gameover'){const heads=st.game==='hearts'?names():[t('Us'),t('Them')];window.ZZWin.show({key:st,game:st.game==='hearts'?'Hearts':'Spades',match:true,won:st.result.winner===0,subtitle:summary(),stats:st.scores.map((score,i)=>[heads[i],score]),again:()=>{clearTimeout(timer);st=T.create(st.game);event='';passSel=[];hint=[];save();render();step();},menu:home});}}
 window.ZZTricks={open,get state(){return st;}};
 })();
