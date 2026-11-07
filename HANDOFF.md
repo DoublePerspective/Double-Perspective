@@ -11,6 +11,10 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 
 **The game source code is not in this repo.** Umbral Purge and Zenith & Zero Sudoku live somewhere else (on the developer's computer or in other Claude chats/projects). A session continuing game work needs those files uploaded or another repo connected.
 
+## Ice Camp (added 2026-11-07)
+
+Co-op ice-fishing game (Godot), released as GitHub prereleases in this repo (`ice-camp-v0.20.0`, `ice-camp-v0.21.0`; release notes come from `.github/workflows/ice-camp-*.yml`, binaries are uploaded by the owner). Homepage and `fr/index.html` have an `#ice-camp` block after Zenith & Zero, edited directly in both files (like Estivite and Sac-à-Do, not through `tools/i18n`). The poster is CSS only (`.icecamp-*` in `style.css`). When a new Ice Camp release goes out, update the version and the release link in both blocks. Cabane Chaos (Unity sugar-shack co-op, local 0.8) is not on the site yet: no public build.
+
 ## Estivite 1.2 (added 2026-10-31)
 
 Estivite now includes the old Workshop Calculator: a fourth project, **Siding**, a **Quick tools** tab (14 calculators) and a **My estimates** tab (several jobs per device, Workshop job-file import). `estivite-v1-2.html` is the self-contained web build (`?lang=en|fr`); `estivite.html` is a copy of it; `estivite-v1-1.html` is kept for old links. Homepage blocks link to v1-2. Source: `Documents\Codex\2026-10-30\sn\outputs\trade-builder` (web) and `sn\work\estivite-android` (Android, versionCode 3 / 1.2.0, build with `node sn\work\build-estivite-1.2.cjs`). Android 1.2.0 (versionCode 3) has been on the internal testing track since 2026-10-31. Build it from the Temp copy (`ZenithZeroBuild\estivite-project`) because Gradle cannot write inside the Codex folder.

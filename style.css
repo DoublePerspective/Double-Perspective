@@ -231,3 +231,20 @@ footer .legal{display:block;width:100%;margin-top:.6rem;opacity:.7;font-size:.8r
 @media(prefers-reduced-motion:reduce){.software-art{transition:none}.software-art:hover,.software-art:focus-visible{transform:none}}
 
 @media(max-width:900px){.software-showcase .software-art{grid-row:1}.software-showcase .software-copy{grid-row:2}}
+
+/* Ice Camp (homepage) */
+.icecamp-preview{background:radial-gradient(ellipse 60% 85% at 80% 50%,#1d3b4c 0%,transparent 70%),#0f1c24!important;border-top-color:#2c4b5a}
+.icecamp-preview h2 span{color:#9fd6ee}
+.icecamp-preview .ice-eyebrow{color:#9fd6ee}
+.icecamp-preview .lead{color:#e4f1f7!important}
+.icecamp-preview .coming{color:#9fd6ee!important}
+.ice-button{background:#cfeaf6;color:#0d2230}.ice-button:hover{background:#ffffff}
+.icecamp-poster{background:linear-gradient(180deg,#b9dcef 0%,#e9f5fb 46%,#cfe4ee 47%,#9ec2d4 100%)!important;border:2px solid #9fd6ee!important;box-shadow:0 0 0 7px #9fd6ee14,0 20px 70px #000a!important}
+.icecamp-poster .ice-hole{position:absolute;left:50%;top:60%;width:170px;height:62px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,#05121a 45%,#1d4257 72%,#5d8ea6 100%);box-shadow:0 0 0 7px #f4fbff}
+.icecamp-poster .ice-line{position:absolute;left:50%;top:0;width:2px;height:64%;background:#30495a}
+.icecamp-poster .ice-flags{position:absolute;left:12%;right:12%;top:41%;height:14px;background:radial-gradient(circle,#ff7a3d 4px,transparent 5px) 0 0/48px 14px repeat-x;opacity:.85}
+.icecamp-poster .poster-caption{color:#0d2230;letter-spacing:.12em}
+.icecamp-poster .poster-caption small{font-size:.75rem;color:#2c5a73;letter-spacing:.2em}
+.icecamp-poster .poster-caption strong{color:#c4471f}
+footer div:nth-child(2){flex-wrap:wrap}
+@media(max-width:460px){.icecamp-poster .poster-caption{top:20px;bottom:auto}.icecamp-poster .ice-line{left:72%}.icecamp-poster .ice-hole{left:72%;width:130px;height:50px;top:66%}}
