@@ -11,6 +11,12 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 
 **The game source code is not in this repo.** Umbral Purge and Zenith & Zero Sudoku live somewhere else (on the developer's computer or in other Claude chats/projects). A session continuing game work needs those files uploaded or another repo connected.
 
+## Content refresh (2026-11-07)
+
+- **Umbral Purge is Steam-only for now** (PC and Steam Deck, owner's decision 2026-11-06). The game page and homepage say "Coming to Steam", with no ads and no microtransactions; the old Android/reward-video wording is gone. The five world cards use the in-game village names (the Meadow, Saffron Crossing, Frostmere, Cinderwake, the Umbral Capital) with the old region name after the village number, because `umbral-purge-worlds.webp` still shows the old names. Replace that image and the v1.30.2 screenshots when new PC captures exist.
+- **Zenith & Zero has seven games** (Cribbage added): homepage text, studio paragraph and meta descriptions updated. Cribbage now says "in testing" like Nonograms.
+- Edited directly in the EN and FR pages.
+
 ## Privacy policy rewrite (2026-11-07)
 
 `privacy.html` and `fr/privacy.html` were rewritten as one short policy for everything: Zenith & Zero (7 games incl. Cribbage), Umbral Purge, Estivite, Sac-à-Do and the site. Owner's rule: collect nothing; games with ads send only Google's minimum. Ads are **non-personalized** (AdMob `npa=1`) and the apps remove the AD_ID, ad-services Topics and attribution permissions (`Documents\Codex\zz-2.2\zz-privacy.ps1`, applied by the Zenith & Zero build scripts). Test builds up to 2026-11-07 (Z&Z 2.1, Cribbage 1.1.1, Umbral Purge 1.55) still use the standard settings, and the policy says so; drop that sentence once those are replaced. Umbral Purge's Android build needs the same two changes before its next release. The in-app copies (`localization/privacy-en.html`, `privacy-fr.html`) carry the same text. `estivite-privacy.html` and `sac-a-do-privacy.html` were checked and are accurate (no internet permission, backup off).
