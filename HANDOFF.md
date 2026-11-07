@@ -13,7 +13,7 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 
 ## Content refresh (2026-11-07)
 
-- **Umbral Purge is Steam-only for now** (PC and Steam Deck, owner's decision 2026-11-06). The game page and homepage say "Coming to Steam", with no ads and no microtransactions; the old Android/reward-video wording is gone. The five world cards use the in-game village names (the Meadow, Saffron Crossing, Frostmere, Cinderwake, the Umbral Capital) with the old region name after the village number, because `umbral-purge-worlds.webp` still shows the old names. Replace that image and the v1.30.2 screenshots when new PC captures exist.
+- **Umbral Purge is Steam-only for now** (PC and Steam Deck, owner's decision 2026-11-06). The game page and homepage say "Coming to Steam", with no ads and no microtransactions; the old Android/reward-video wording is gone. The five world cards use the in-game village names (the Meadow, Saffron Crossing, Frostmere, Cinderwake, the Umbral Capital). The strip above them is `umbral-purge-worlds.webp` (EN) and `umbral-purge-worlds-fr.webp` (FR, French captions): 1920×556, one landscape capture per village from the 1.58 browser build (1280×800, mid-siege, cropped to 4:5). The v1.30.2 phone screenshots in the gallery are still old.
 - **Zenith & Zero has seven games** (Cribbage added): homepage text, studio paragraph and meta descriptions updated. Cribbage now says "in testing" like Nonograms.
 - Edited directly in the EN and FR pages.
 
