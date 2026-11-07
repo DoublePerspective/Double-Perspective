@@ -11,6 +11,10 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 
 **The game source code is not in this repo.** Umbral Purge and Zenith & Zero Sudoku live somewhere else (on the developer's computer or in other Claude chats/projects). A session continuing game work needs those files uploaded or another repo connected.
 
+## Privacy policy rewrite (2026-11-07)
+
+`privacy.html` and `fr/privacy.html` were rewritten as one short policy for everything: Zenith & Zero (7 games incl. Cribbage), Umbral Purge, Estivite, Sac-à-Do, Ice Camp, Cabane Chaos and the site. Owner's rule: collect nothing; games with ads send only Google's minimum. Ads are **non-personalized** (AdMob `npa=1`) and the apps remove the AD_ID, ad-services Topics and attribution permissions (`Documents\Codex\zz-2.2\zz-privacy.ps1`, applied by the Zenith & Zero build scripts). Test builds up to 2026-11-07 (Z&Z 2.1, Cribbage 1.1.1, Umbral Purge 1.55) still use the standard settings, and the policy says so; drop that sentence once those are replaced. Umbral Purge's Android build needs the same two changes before its next release. The in-app copies (`localization/privacy-en.html`, `privacy-fr.html`) carry the same text. `estivite-privacy.html` and `sac-a-do-privacy.html` were checked and are accurate (no internet permission, backup off).
+
 ## Ice Camp (added 2026-11-07)
 
 Co-op ice-fishing game (Godot), released as GitHub prereleases in this repo (`ice-camp-v0.20.0`, `ice-camp-v0.21.0`; release notes come from `.github/workflows/ice-camp-*.yml`, binaries are uploaded by the owner). Homepage and `fr/index.html` have an `#ice-camp` block after Zenith & Zero, edited directly in both files (like Estivite and Sac-à-Do, not through `tools/i18n`). The poster is CSS only (`.icecamp-*` in `style.css`). When a new Ice Camp release goes out, update the version and the release link in both blocks. Cabane Chaos (Unity sugar-shack co-op, local 0.8) is not on the site yet: no public build.
