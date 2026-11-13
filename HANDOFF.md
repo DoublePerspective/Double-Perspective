@@ -1,6 +1,6 @@
 # Handoff: Double Perspective website (formerly Kindred Compass Games)
 
-Status as of **2026-10-17**. Written so a new Claude session (or person) can pick up where the last one stopped. Read this first, then `README.md`.
+Status as of **2026-11-13**. Written so a new Claude session (or person) can pick up where the last one stopped. Read this first, then `README.md`.
 
 ## What this repo is
 
@@ -10,6 +10,14 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 - Contact/support address used on the site: doubleperspective.contact@gmail.com
 
 **The game source code is not in this repo.** Umbral Purge and Zenith & Zero Sudoku live somewhere else (on the developer's computer or in other Claude chats/projects). A session continuing game work needs those files uploaded or another repo connected.
+
+## Zenith & Zero refresh (2026-11-13)
+
+- `zenith-zero.html` and `fr/zenith-zero.html` (edited directly, not through `tools/i18n`): new screenshots from the current Android test builds (Solitaire 2.2.24, Sudoku 2.2.23, Word Search 2.3.25, Crossword 2.3.25, Mahjong 2.3.25, Nonograms 1.3.24, Cribbage 1.1.30) in `assets/gameplay/2026-11/` (`<game>-board.webp` for the cards, `<game>-phone.webp` for Enlarge, `-fr` versions for the French page), the new app icons in `assets/icons/<game>-128.png`, an "On your phone" gallery (themes, backgrounds, card designs, victory screen) and corrected facts (8 Mahjong layouts, 63 Nonograms pictures, 1-2 Cribbage opponents and peg colours, pinch to zoom). Extra styles in `zenith-zero.refresh.css`. The old `assets/gameplay/*.png` files are no longer used by these pages.
+- `zenith-zero-sudoku*.webp` replaced with current screens (same file names, now 600x1301); themes are Ivory, Sage and Midnight.
+- Homepage status: "In testing on Android · coming to Google Play".
+- Privacy policy (13 Nov): "Free with ads" instead of "small banner ad", records mentioned under saves. `tools/i18n/privacy.en.html` / `privacy.fr.html` were out of date (October text) and now match the live pages again. Note: `tools/i18n/en.tsv` / `fr.tsv` are out of date for the homepage and Sudoku page, which have been edited directly since October; don't run `build.py` over them without re-extracting first.
+- `games/` still holds October browser copies of the games. Nothing links to them.
 
 ## Content refresh (2026-11-07)
 
