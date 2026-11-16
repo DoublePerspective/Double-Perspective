@@ -17,7 +17,7 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 - `zenith-zero-sudoku*.webp` replaced with current screens (same file names, now 600x1301); themes are Ivory, Sage and Midnight.
 - Homepage status: "In testing on Android · coming to Google Play".
 - Privacy policy (13 Nov): "Free with ads" instead of "small banner ad", records mentioned under saves. `tools/i18n/privacy.en.html` / `privacy.fr.html` were out of date (October text) and now match the live pages again. Note: `tools/i18n/en.tsv` / `fr.tsv` are out of date for the homepage and Sudoku page, which have been edited directly since October; don't run `build.py` over them without re-extracting first.
-- `games/` still holds October browser copies of the games. Nothing links to them.
+- The October browser copies of the games (`games/`) were removed on 15 Nov 2026; nothing linked to them. Website names now follow the store titles ("Sudoku: Zenith & Zero", French "Sudoku : Zenith & Zero"); the support page lists all seven Zenith & Zero games and says Umbral Purge is coming to Steam.
 
 ## Content refresh (2026-11-07)
 
