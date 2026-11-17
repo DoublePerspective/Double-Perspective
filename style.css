@@ -227,6 +227,7 @@ footer .legal{display:block;width:100%;margin-top:.6rem;opacity:.7;font-size:.8r
 .software-art-title{position:absolute;left:7.4%;top:7.3%;font-family:"Lexend",system-ui,sans-serif;font-size:clamp(15px,2.1vw,24px);font-weight:600;letter-spacing:.1em;color:#f0ead6;pointer-events:none}
 .software-art-arrow{position:absolute;right:5%;bottom:5%;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#e3c48c;color:#15333b;font-size:23px;pointer-events:none}
 .software-art:hover,.software-art:focus-visible{transform:translateY(-4px);border-color:#e3c48c}.software-art:focus-visible{outline:3px solid #e3c48c;outline-offset:5px}
+.software-art-static:hover{transform:none;border-color:#47615e}
 @media(max-width:900px){.dp-software.software-showcase{grid-template-columns:1fr;gap:28px}.software-art{width:100%;max-width:680px;justify-self:center}.software-art-title{font-size:clamp(18px,4vw,28px)}.software-copy h2{font-size:clamp(2rem,7vw,3.6rem)}}
 @media(prefers-reduced-motion:reduce){.software-art{transition:none}.software-art:hover,.software-art:focus-visible{transform:none}}
 

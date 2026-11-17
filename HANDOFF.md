@@ -27,7 +27,7 @@ The **studio website** only: a static site hosted on GitHub Pages with no build 
 
 ## Privacy policy rewrite (2026-11-07)
 
-`privacy.html` and `fr/privacy.html` were rewritten as one short policy for everything: Zenith & Zero (7 games incl. Cribbage), Umbral Purge, Estivite, Sac-à-Do and the site. Owner's rule: collect nothing; games with ads send only Google's minimum. Ads are **non-personalized** (AdMob `npa=1`) and the apps remove the AD_ID, ad-services Topics and attribution permissions (`Documents\Codex\zz-2.2\zz-privacy.ps1`, applied by the Zenith & Zero build scripts). Test builds up to 2026-11-07 (Z&Z 2.1, Cribbage 1.1.1, Umbral Purge 1.55) still use the standard settings, and the policy says so; drop that sentence once those are replaced. Umbral Purge is PC/Steam only now (owner, 2026-11-07); the policy lists it without ads and only mentions the old Android test build in the test-versions sentence. The in-app copies (`localization/privacy-en.html`, `privacy-fr.html`) carry the same text. `estivite-privacy.html` and `sac-a-do-privacy.html` were checked and are accurate (no internet permission, backup off).
+`privacy.html` and `fr/privacy.html` are one short policy for everything: Zenith & Zero (7 games incl. Cribbage), Lirecho, Umbral Purge, Estivite, Sac-à-Do and the site. Owner's rule: collect nothing; games with ads send only Google's minimum. Ads are **non-personalized** (AdMob `npa=1`) and the apps remove the AD_ID, ad-services Topics and attribution permissions (`Documents\Codex\zz-2.2\zz-privacy.ps1`, applied by the Zenith & Zero build scripts). Test builds up to 2026-11-07 (Z&Z 2.1, Cribbage 1.1.1, Umbral Purge 1.55) still use the standard settings, and the policy says so; drop that sentence once those are replaced. Umbral Purge is PC/Steam only now (owner, 2026-11-07); the policy lists it without ads and only mentions the old Android test build in the test-versions sentence. The in-app copies (`localization/privacy-en.html`, `privacy-fr.html`) carry the same text. `estivite-privacy.html` and `sac-a-do-privacy.html` describe the Android apps only (no internet permission, backup off); their former browser demos were removed on 17 Nov 2026.
 
 ## Ice Camp and Cabane Chaos: not on the site (owner's decision, 2026-11-07)
 
@@ -35,14 +35,8 @@ The owner doesn't want the ice-fishing game (Ice Camp) or the sugar-shack game (
 
 ## Estivite 1.2 (added 2026-10-31)
 
-Estivite now includes the old Workshop Calculator: a fourth project, **Siding**, a **Quick tools** tab (14 calculators) and a **My estimates** tab (several jobs per device, Workshop job-file import). `estivite-v1-2.html` is the self-contained web build (`?lang=en|fr`); `estivite.html` is a copy of it; `estivite-v1-1.html` is kept for old links. Homepage blocks link to v1-2. Source: `Documents\Codex\2026-10-30\sn\outputs\trade-builder` (web) and `sn\work\estivite-android` (Android, versionCode 3 / 1.2.0, build with `node sn\work\build-estivite-1.2.cjs`). Android 1.2.0 (versionCode 3) has been on the internal testing track since 2026-10-31. Build it from the Temp copy (`ZenithZeroBuild\estivite-project`) because Gradle cannot write inside the Codex folder.
-
-## Sac-à-Do (added 2026-10-30)
-
-Trip and packing planner, formerly "Amber & Sage Outbound" (that name is retired). `sac-a-do.html` is the self-contained web version (10 languages; `?lang=en|fr|…` picks the language for that visit), `sac-a-do-privacy.html` is its bilingual privacy page (also the Play listing privacy URL). Homepage and `fr/index.html` have a `#sac-a-do` block in the Software section, edited directly in both files (like Estivite, not through `tools/i18n`). Android app id `com.doubleperspective.sacado`, 0.4.0 (versionCode 1) is on the internal testing track. Source lives outside this repo (`Documents\Codex\2026-10-18\wha\outputs\sac-a-do-0.4.0`).
-
-## Zenith & Zero rename (2026-10-29)
-
+Estivite retains its homepage software information and Android internal-test details. Its public browser-demo files and homepage demo link were removed on 17 Nov 2026.
+Sac-à-Do retains its homepage software information and Android internal-test details. Its public browser-demo file and homepage demo link were removed on 17 Nov 2026. Android app id `com.doubleperspective.sacado`, 0.4.0 (versionCode 1), remains on the internal testing track.
 The puzzle collection is officially **Zenith & Zero** (Sudoku, Solitaire, Word Search, Crossword, Mahjong). The name Amber & Sage is retired: `amber-sage.html` and `fr/amber-sage.html` are only redirects to `zenith-zero-sudoku.html` for old links; never link to them. Sudoku page images are `zenith-zero-sudoku-*.webp` (game 1.6.0, navy/cream/gold), share image `zenith-zero-sudoku-share.jpg`. Play app ids follow `com.doubleperspective.zenithzero.<game>` (+ `.pro`). Internal save keys inside the browser games (`ambersage.run`, `amber-sage-solitaire-v1`, `amber-sage-mahjong.v1`) are left as they are so web players keep their progress; they are never shown.
 
 ## Pages
