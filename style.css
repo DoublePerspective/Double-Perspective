@@ -233,6 +233,33 @@ footer .legal{display:block;width:100%;margin-top:.6rem;opacity:.7;font-size:.8r
 
 @media(max-width:900px){.software-showcase .software-art{grid-row:1}.software-showcase .software-copy{grid-row:2}}
 
+.software-art:has(img[src$="lirecho-icon.png"]){
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+  justify-items:center;
+  gap:clamp(8px,2vw,18px);
+  padding:clamp(14px,3vw,28px);
+  box-sizing:border-box;
+  aspect-ratio:45/34;
+  background:radial-gradient(ellipse at center,#152c4a,#09182b 75%);
+}
+.software-art:has(img[src$="lirecho-icon.png"]) .software-art-title{
+  position:static;
+  grid-row:1;
+  align-self:center;
+}
+.software-art img[src$="lirecho-icon.png"]{
+  grid-row:2;
+  align-self:center;
+  width:auto;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  aspect-ratio:1;
+  object-fit:contain;
+  border-radius:24%;
+}
+
 /* Ice Camp (homepage) */
 .icecamp-preview{background:radial-gradient(ellipse 60% 85% at 80% 50%,#1d3b4c 0%,transparent 70%),#0f1c24!important;border-top-color:#2c4b5a}
 .icecamp-preview h2 span{color:#9fd6ee}
