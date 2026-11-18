@@ -237,14 +237,15 @@ footer .legal{display:block;width:100%;margin-top:.6rem;opacity:.7;font-size:.8r
   display:grid;
   place-items:center;
   aspect-ratio:45/34;
-  background:radial-gradient(ellipse at 50% 55%,#153760,#0a2041 75%);
+  background:radial-gradient(ellipse at center,#061429 0%,#081a35 57%,#0a2041 100%);
 }
 .software-art img[src$="lirecho-icon.png"]{
   width:53%;
   height:auto;
   aspect-ratio:1;
   object-fit:contain;
-  border-radius:24%;
+  mask-image:radial-gradient(circle closest-side, #000 84%, transparent 98%);
+  -webkit-mask-image:radial-gradient(circle closest-side, #000 84%, transparent 98%);
 }
 
 /* Ice Camp (homepage) */
