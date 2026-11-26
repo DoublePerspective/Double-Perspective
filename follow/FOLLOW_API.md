@@ -16,7 +16,7 @@ App calls use `Authorization: Bearer <token>` from registration. Times are milli
 | Call | Body | Notes |
 |---|---|---|
 | `POST /api/rides` | `{intervalMin: 15\|30\|60, expectedReturn?, lat, lon, battery?}` | Ends any open ride. Answer `{rideId, intervalMin, limits}` |
-| `POST /api/rides/:id/checkins` | `{points: [{t, lat, lon, kind?, note?}], battery?}` | Up to 200 points; send queued dead-zone points in one call when signal returns. `kind`: `move` (default), `stop`, `ok`, `battery` |
+| `POST /api/rides/:id/checkins` | `{points: [{t, lat, lon, kind?, note?}], tracks?: [encodedPolyline], battery?}` | Up to 200 points; send queued dead-zone points in one call when signal returns. `kind`: `move` (default), `stop`, `ok`, `battery` |
 | `POST /api/rides/:id/pause` | `{kind: "fuel"\|"restaurant"\|"camp"\|"pause", until, lat, lon}` | Alerts wait until `until` (5 min – 24 h). Cleared by the next `move` |
 | `POST /api/rides/:id/alert` | `{lat, lon}` | "Everything OK?" got no answer: followers are alerted now |
 | `POST /api/rides/:id/end` | `{lat, lon}` | "Home safe" |
@@ -42,3 +42,5 @@ Web page: `GET /f/<token>`; data `GET /api/f/<token>`: `{riderName, lang, now, r
 - Positions are deleted 7 days after a ride ends; rides never ended are closed 48 h after their last check-in.
 - Tokens are stored only as SHA-256. No IP addresses or follower identities are stored.
 - Pages send `Referrer-Policy: no-referrer` and `X-Robots-Tag: noindex`.
+
+Road-following path: `tracks` are Google encoded polylines (precision 5) of the recorded track since the previous check-in, one per check-in; stored one row per segment and shown only when `fullPath` (Pro).

@@ -139,7 +139,7 @@ function render(v) {
   } else {
     $("last").textContent = ""; $("gmaps").hidden = $("osm").hidden = true;
   }
-  drawPath(v.points, last);
+  drawPath(v.points, last, (v.tracks || []).map(decodePolyline));
 
   const list = $("events"); list.textContent = "";
   const events = v.points.filter((p) => p.kind !== "move").slice(-30).reverse();
@@ -158,19 +158,35 @@ const worldX = (lon, z) => (lon + 180) / 360 * TILE * 2 ** z;
 const worldY = (lat, z) => { const r = lat * Math.PI / 180; return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * TILE * 2 ** z; };
 let lastDrawKey = "";
 
-function drawPath(points, last) {
+/** Google encoded polyline (precision 5) → [{lat, lon}]. */
+function decodePolyline(str) {
+  const out = []; let i = 0, lat = 0, lon = 0;
+  while (i < str.length) {
+    for (const which of [0, 1]) {
+      let shift = 0, result = 0, b;
+      do { b = str.charCodeAt(i++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20 && i < str.length);
+      const d = result & 1 ? ~(result >> 1) : result >> 1;
+      if (which === 0) lat += d; else lon += d;
+    }
+    out.push({ lat: lat / 1e5, lon: lon / 1e5 });
+  }
+  return out;
+}
+
+function drawPath(points, last, tracks) {
   const box = $("map"), tiles = $("tiles"), svg = $("path");
   const pts = points.length ? points.slice() : [];
   if (last && !pts.some((p) => p.t === last.t)) pts.push(last);
+  const trackPts = [].concat(...tracks);
   box.hidden = !pts.length;
   if (!pts.length) return;
   const W = box.clientWidth || 320, H = box.clientHeight || 260;
-  const key = W + "x" + H + ":" + pts.length + ":" + (last ? last.t : 0);
+  const key = W + "x" + H + ":" + pts.length + ":" + trackPts.length + ":" + (last ? last.t : 0);
   if (key === lastDrawKey) return;
   lastDrawKey = key;
 
   let minLat = Infinity, maxLat = -Infinity, minLon = Infinity, maxLon = -Infinity;
-  for (const p of pts) { minLat = Math.min(minLat, p.lat); maxLat = Math.max(maxLat, p.lat); minLon = Math.min(minLon, p.lon); maxLon = Math.max(maxLon, p.lon); }
+  for (const p of pts.concat(trackPts)) { minLat = Math.min(minLat, p.lat); maxLat = Math.max(maxLat, p.lat); minLon = Math.min(minLon, p.lon); maxLon = Math.max(maxLon, p.lon); }
   let z = pts.length === 1 ? 13 : MAX_ZOOM;
   while (z > 3 && (worldX(maxLon, z) - worldX(minLon, z) > W - 60 || worldY(minLat, z) - worldY(maxLat, z) > H - 90)) z--;
   const cx = (worldX(minLon, z) + worldX(maxLon, z)) / 2, cy = (worldY(maxLat, z) + worldY(minLat, z)) / 2 - 15; // room for the pin above
@@ -192,10 +208,12 @@ function drawPath(points, last) {
   const ns = "http://www.w3.org/2000/svg";
   svg.textContent = "";
   svg.setAttribute("viewBox", "0 0 " + W + " " + H);
-  if (pts.length > 1) {
-    for (const [color, width] of [["#ffffff", 7], ["#0f8f5c", 4]]) {
+  // With road-following tracks (Pro), draw them; otherwise join the check-ins in time order.
+  const lines = tracks.length ? tracks.filter((t) => t.length > 1) : pts.length > 1 ? [pts.slice().sort((a, b) => a.t - b.t)] : [];
+  for (const [color, width] of [["#ffffff", 7], ["#0f8f5c", 4]]) for (const seg of lines) {
+    {
       const line = document.createElementNS(ns, "polyline");
-      line.setAttribute("points", pts.map((p) => xy(p).map((v) => v.toFixed(1)).join(",")).join(" "));
+      line.setAttribute("points", seg.map((p) => xy(p).map((v) => v.toFixed(1)).join(",")).join(" "));
       line.setAttribute("fill", "none"); line.setAttribute("stroke", color); line.setAttribute("stroke-width", width);
       line.setAttribute("stroke-linejoin", "round"); line.setAttribute("stroke-linecap", "round");
       svg.append(line);

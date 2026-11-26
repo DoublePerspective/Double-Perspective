@@ -131,6 +131,8 @@ async function ensureSchema(env) {
     env.DB.prepare("CREATE INDEX IF NOT EXISTS links_rider ON links (rider_id)"),
     env.DB.prepare("CREATE TABLE IF NOT EXISTS follows (id INTEGER PRIMARY KEY AUTOINCREMENT, rider_id INTEGER NOT NULL, follower_id INTEGER NOT NULL, link_id INTEGER NOT NULL, created INTEGER NOT NULL, UNIQUE (rider_id, follower_id))"),
     env.DB.prepare("CREATE TABLE IF NOT EXISTS webpush (id INTEGER PRIMARY KEY AUTOINCREMENT, link_id INTEGER NOT NULL, endpoint TEXT NOT NULL UNIQUE, created INTEGER NOT NULL)"),
+    // Road-following path between check-ins: one row per check-in, Google encoded polyline (precision 5).
+    env.DB.prepare("CREATE TABLE IF NOT EXISTS tracks (ride_id INTEGER NOT NULL, t INTEGER NOT NULL, poly TEXT NOT NULL, PRIMARY KEY (ride_id, t))"),
     env.DB.prepare("CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)"),
   ]);
   schemaReady = true;
@@ -195,6 +197,7 @@ async function deleteRider(env, rider) {
   const links = "SELECT id FROM links WHERE rider_id = ?1";
   await env.DB.batch([
     env.DB.prepare(`DELETE FROM points WHERE ride_id IN (${rides})`).bind(rider.id),
+    env.DB.prepare(`DELETE FROM tracks WHERE ride_id IN (${rides})`).bind(rider.id),
     env.DB.prepare("DELETE FROM rides WHERE rider_id = ?1").bind(rider.id),
     env.DB.prepare(`DELETE FROM webpush WHERE link_id IN (${links})`).bind(rider.id),
     env.DB.prepare("DELETE FROM links WHERE rider_id = ?1").bind(rider.id),
@@ -232,6 +235,11 @@ async function postCheckins(env, ride, data) {
   const points = list.map((p) => validPoint(p, ride.started - MIN, now + 2 * MIN)).filter(Boolean);
   if (!points.length) fail(400, "no valid points");
   await insertPoints(env, ride.id, points);
+  const tracks = (Array.isArray(data.tracks) ? data.tracks : []).filter(validPolyline).slice(0, 50);
+  if (tracks.length) {
+    const stmt = env.DB.prepare("INSERT OR REPLACE INTO tracks (ride_id, t, poly) VALUES (?, ?, ?)");
+    await env.DB.batch(tracks.map((poly, i) => stmt.bind(ride.id, now * 100 + i, poly)));
+  }
   const last = points.reduce((a, b) => (b.t > a.t ? b : a));
   const wasOverdue = ride.nonews_sent || ride.alarm_sent;
   await env.DB.prepare(
@@ -435,6 +443,10 @@ async function followerView(env, link) {
       : "SELECT t, lat, lon, kind FROM points WHERE ride_id = ? AND kind <> 'move' ORDER BY t";
     points = (await env.DB.prepare(query).bind(ride.id).all()).results;
   }
+  let tracks = [];
+  if (ride && limits.fullPath) {
+    tracks = (await env.DB.prepare("SELECT poly FROM tracks WHERE ride_id = ? ORDER BY t").bind(ride.id).all()).results.map((r) => r.poly);
+  }
   return {
     riderName: rider?.name || "Rider",
     lang: rider?.lang || "en",
@@ -446,6 +458,7 @@ async function followerView(env, link) {
       ...rideState(ride),
     },
     points,
+    tracks,
     fullPath: limits.fullPath,
   };
 }
@@ -481,6 +494,7 @@ async function cleanUp(env) {
     env.DB.prepare(`DELETE FROM follows WHERE link_id IN (${deadLinks})`).bind(now - KEEP_AFTER_RIDE),
     env.DB.prepare(`DELETE FROM links WHERE id IN (${deadLinks})`).bind(now - KEEP_AFTER_RIDE),
     env.DB.prepare(`DELETE FROM points WHERE ride_id IN (${old})`).bind(now - KEEP_AFTER_RIDE),
+    env.DB.prepare(`DELETE FROM tracks WHERE ride_id IN (${old})`).bind(now - KEEP_AFTER_RIDE),
     env.DB.prepare("DELETE FROM rides WHERE ended IS NOT NULL AND ended < ?1").bind(now - KEEP_AFTER_RIDE),
     env.DB.prepare("DELETE FROM links WHERE revoked IS NOT NULL AND revoked < ?1").bind(now - DAY),
     // Phones not seen for a year (app uninstalled) are forgotten.
@@ -630,6 +644,11 @@ function validPoint(p, earliest = 0, latest = Date.now() + 2 * MIN) {
   if (!Number.isFinite(t) || t < earliest || t > latest) return null;
   const kind = KINDS.includes(p.kind) ? p.kind : "move";
   return { t: Math.round(t), lat: Math.round(lat * 1e6) / 1e6, lon: Math.round(lon * 1e6) / 1e6, kind, note: cleanText(p.note, 80) || null };
+}
+
+/** Google encoded polyline: printable ASCII 63–126, at most 16 KB per segment. */
+function validPolyline(value) {
+  return typeof value === "string" && value.length >= 4 && value.length <= 16_384 && /^[\x3f-\x7e]+$/.test(value);
 }
 
 function validTime(value, min, max) {
