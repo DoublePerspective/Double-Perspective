@@ -1,0 +1,32 @@
+{
+  // Double Perspective private admin: https://admin.doubleperspective.com
+  // Reachable only through Cloudflare Access (WARP + owner email). The Worker also
+  // verifies the Access token itself, so a misconfigured route still refuses.
+  "name": "dp-admin",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "admin.doubleperspective.com", "custom_domain": true }],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "dp-admin", "database_id": "REPLACE_WITH_D1_ID" }
+  ],
+  "r2_buckets": [{ "binding": "MAPS", "bucket_name": "dp-maps" }],
+  "send_email": [
+    { "name": "ALERT_EMAIL", "destination_address": "doubleperspective.contact@gmail.com" }
+  ],
+  "triggers": { "crons": ["17 * * * *"] },
+  "vars": {
+    "OWNER_EMAIL": "doubleperspective.contact@gmail.com",
+    "ALERT_FROM": "alerts@doubleperspective.com",
+    "ACCOUNT_ID": "1378c55bdf849562720ff3925fa3fd68",
+    "GITHUB_REPO": "DoublePerspective/Double-Perspective",
+    "GITHUB_BRANCH": "main",
+    "MAPS_PUBLIC_URL": "https://maps.doubleperspective.com",
+    "ACCESS_TEAM": "REPLACE_WITH_TEAM_NAME",
+    "ACCESS_AUD": "REPLACE_WITH_ACCESS_AUD"
+  }
+  // Secrets (set in the dashboard, never in this file):
+  //   CF_API_TOKEN  - Cloudflare API token with Account Analytics: Read
+  //   GITHUB_TOKEN  - fine-grained GitHub token, this repo only, Contents: Read and write
+}

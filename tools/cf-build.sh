@@ -5,7 +5,7 @@ set -e
 rm -rf dist
 mkdir dist
 for f in * .well-known; do
-  case "$f" in dist|tools|HANDOFF.md|README.md) continue ;; esac
+  case "$f" in dist|tools|admin|maps|HANDOFF.md|README.md) continue ;; esac
   [ -e "$f" ] && cp -R "$f" dist/
 done
 echo "Copied $(find dist -type f | wc -l) files to dist/"

@@ -1,0 +1,15 @@
+{
+  // Public map-pack downloads: https://maps.doubleperspective.com
+  // The R2 bucket stays private; this Worker serves it and refuses downloads
+  // while the admin's free-plan brake is on, so R2 can never bill.
+  "name": "dp-maps",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "maps.doubleperspective.com", "custom_domain": true }],
+  "r2_buckets": [{ "binding": "MAPS", "bucket_name": "dp-maps" }],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "dp-admin", "database_id": "REPLACE_WITH_D1_ID" }
+  ]
+}
