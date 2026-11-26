@@ -65,6 +65,8 @@ export default {
       if (url.pathname === "/api/catalog" && method === "PUT") return json(await putCatalog(req, env, ctxInfo));
       const pm = url.pathname.match(/^\/api\/packs\/([a-z]{2,8})$/);
       if (pm && method === "PUT") return json(await putPack(req, env, ctxInfo, pm[1]));
+      const im = url.pathname.match(/^\/api\/packs\/([a-z]{2,8})\/import$/);
+      if (im && method === "POST") return json(await importPack(req, env, ctxInfo, im[1]));
       if (url.pathname === "/api/edits" && method === "GET") return json(await getEdits(env));
       if (url.pathname === "/api/edits" && method === "POST") return json(await postEdit(req, env, ctxInfo));
       return text("Not found", 404);
@@ -290,60 +292,67 @@ async function putCatalog(req, env, who) {
   return { ok: true, packs: cat.packs.length };
 }
 async function putPack(req, env, who, id) {
-  const cat = await readCatalog(env);
-  if (!cat) throw new Error("Import the catalog (canada.json) first");
-  const entry = cat.packs.find((p) => p.id === id);
-  if (!entry) throw new Error("No pack '" + id + "' in the catalog");
   const len = Number(req.headers.get("Content-Length"));
   if (!len) throw new Error("Content-Length required");
   const expected = (req.headers.get("X-Expected-SHA256") || "").toLowerCase();
+  return storePack(env, who, id, req.body, len, expected, "upload");
+}
+
+// Pull a pack from this repo's temporary transfer branch (used when files can't be
+// picked in a browser). Only raw GitHub URLs of the site repo are accepted, and the
+// file must match the catalog's SHA-256 exactly.
+const IMPORT_PREFIX = "https://raw.githubusercontent.com/";
+async function importPack(req, env, who, id) {
+  const { url } = await req.json();
+  if (typeof url !== "string" || !url.startsWith(IMPORT_PREFIX + env.GITHUB_REPO + "/") || url.includes("..")) throw new Error("Only raw.githubusercontent.com URLs from " + env.GITHUB_REPO + " are accepted");
+  const cat = await readCatalog(env);
+  const entry = cat && cat.packs.find((p) => p.id === id);
+  if (!entry || !entry.sha256) throw new Error("Pack not in catalog");
+  const r = await fetch(url, { headers: { "Accept-Encoding": "identity" } });
+  if (!r.ok) throw new Error("Download failed: " + r.status);
+  const len = Number(r.headers.get("Content-Length"));
+  if (r.headers.get("Content-Encoding") || len !== entry.bytes) throw new Error(`Source size ${len} does not match catalog ${entry.bytes}`);
+  return storePack(env, who, id, r.body, len, entry.sha256.toLowerCase(), "import");
+}
+
+// R2 verifies the SHA-256 itself while storing (put with sha256), so the Worker does
+// no hashing and stays inside the free plan's CPU limit.
+async function storePack(env, who, id, stream, len, expected, how) {
+  if (!/^[0-9a-f]{64}$/.test(expected)) throw new Error("A SHA-256 checksum is required");
+  const cat = await readCatalog(env);
+  if (!cat) throw new Error("Import the catalog (canada.json) first");
+  if (!cat.packs.find((p) => p.id === id)) throw new Error("No pack '" + id + "' in the catalog");
   const month = new Date().toISOString().slice(0, 7);
   const g = await env.DB.prepare("SELECT until, reason FROM guard WHERE name = 'uploads'").first();
   if (g && g.until > month) throw new Error("Uploads are paused to stay inside the free plan: " + g.reason);
   let stored = 0, cur;
   do { const l = await env.MAPS.list({ cursor: cur }); for (const o of l.objects) stored += o.size; cur = l.truncated ? l.cursor : undefined; } while (cur);
-  // upload briefly needs room for a temporary copy as well as the final file
-  if (stored + 2 * len > LIMITS.r2StorageBytes * R2_BRAKE) throw new Error(`Not enough free R2 storage: ${fmt(stored, "bytes")} used, this upload needs ${fmt(2 * len, "bytes")}, the free limit is 10 GB`);
+  if (stored + len > LIMITS.r2StorageBytes * R2_BRAKE) throw new Error(`Not enough free R2 storage: ${fmt(stored, "bytes")} used, this file is ${fmt(len, "bytes")}, the free limit is 10 GB`);
 
-  const digest = new crypto.DigestStream("SHA-256");
-  const dw = digest.getWriter();
-  let first = true, badHeader = false;
-  const hasher = new TransformStream({
-    async transform(chunk, c) {
-      if (first) {
-        first = false;
-        const magic = new TextDecoder().decode(chunk.slice(0, 7));
-        if (magic !== "PMTiles") badHeader = true;
-      }
-      await dw.write(chunk);
-      c.enqueue(chunk);
-    },
-    async flush() { await dw.close(); },
-  });
-  const tmpKey = `packs/.upload-${id}-${crypto.randomUUID()}`;
-  const fixed = new FixedLengthStream(len);
-  const piping = req.body.pipeThrough(hasher).pipeTo(fixed.writable);
-  await env.MAPS.put(tmpKey, fixed.readable);
-  await piping;
-  const sha = hex(await digest.digest);
-  if (badHeader || (expected && expected !== sha)) {
-    await env.MAPS.delete(tmpKey);
-    throw new Error(badHeader ? "File is not a PMTiles archive" : `Checksum mismatch: browser ${expected}, server ${sha}`);
+  // Content-addressed name: phones never see a half-replaced file.
+  const finalKey = `packs/${id}-${expected.slice(0, 12)}.pmtiles`;
+  try {
+    await env.MAPS.put(finalKey, stream, { sha256: expected, httpMetadata: { contentType: "application/octet-stream", cacheControl: "public, max-age=31536000, immutable" } });
+  } catch (e) {
+    throw new Error("R2 refused the file (checksum or size mismatch?): " + e.message);
   }
-  // Store under a content-addressed name so phones never see a half-replaced file.
-  const finalKey = `packs/${id}-${sha.slice(0, 12)}.pmtiles`;
-  const tmp = await env.MAPS.get(tmpKey);
-  await env.MAPS.put(finalKey, tmp.body, { httpMetadata: { contentType: "application/octet-stream", cacheControl: "public, max-age=31536000, immutable" }, sha256: sha });
-  await env.MAPS.delete(tmpKey);
-  const oldPath = entry.path;
-  entry.bytes = len;
-  entry.sha256 = sha;
-  entry.path = finalKey;
-  cat.updated = new Date().toISOString();
-  await writeCatalog(env, cat);
+  const head = await env.MAPS.get(finalKey, { range: { offset: 0, length: 7 } });
+  const magic = head ? new TextDecoder().decode(await head.arrayBuffer()) : "";
+  if (magic !== "PMTiles" || (head && head.size !== len)) {
+    await env.MAPS.delete(finalKey);
+    throw new Error("Stored file is not a complete PMTiles archive");
+  }
+  const fresh = await readCatalog(env);
+  const e2 = fresh.packs.find((p) => p.id === id);
+  const oldPath = e2.path;
+  e2.bytes = len;
+  e2.sha256 = expected;
+  e2.path = finalKey;
+  fresh.updated = new Date().toISOString();
+  await writeCatalog(env, fresh);
   if (oldPath && oldPath !== finalKey) await env.MAPS.delete(oldPath);
-  await log(env, who, "pack-upload", `${id}: ${len} bytes, sha256 ${sha}`);
-  return { ok: true, id, bytes: len, sha256: sha, path: finalKey, url: `${env.MAPS_PUBLIC_URL}/${finalKey}` };
+  await log(env, who, "pack-" + how, `${id}: ${len} bytes, sha256 ${expected}`);
+  return { ok: true, id, bytes: len, sha256: expected, path: finalKey, url: `${env.MAPS_PUBLIC_URL}/${finalKey}` };
 }
 
 // ---- Quick website edits (commits to GitHub) --------------------------------
