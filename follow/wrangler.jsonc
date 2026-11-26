@@ -1,0 +1,24 @@
+{
+  // Rider check-ins and follower alerts for Gravel & Pavement Scout:
+  // https://follow.doubleperspective.com
+  // Riders post check-ins from the app; followers see them in the app or on a
+  // private link page, and get alerts (FCM in the app, Web Push in a browser)
+  // when check-ins stop. Positions are deleted 7 days after a ride ends.
+  "name": "dp-follow",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "follow.doubleperspective.com", "custom_domain": true }],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "dp-follow", "database_id": "bfb0fb0c-39aa-4cbc-bf68-abe68825b908" }
+  ],
+  // Overdue check and clean-up every 5 minutes (288 runs a day, well inside the free plan).
+  "triggers": { "crons": ["*/5 * * * *"] },
+  "vars": {
+    "PUBLIC_URL": "https://follow.doubleperspective.com",
+    "CONTACT": "mailto:support@doubleperspective.com"
+  }
+  // Secret (optional, set later): FCM_SERVICE_ACCOUNT = the Firebase service-account JSON.
+  // Without it, app followers get no push yet; web-link followers still get Web Push.
+}
