@@ -172,8 +172,8 @@ function drawPath(points, last) {
   let minLat = Infinity, maxLat = -Infinity, minLon = Infinity, maxLon = -Infinity;
   for (const p of pts) { minLat = Math.min(minLat, p.lat); maxLat = Math.max(maxLat, p.lat); minLon = Math.min(minLon, p.lon); maxLon = Math.max(maxLon, p.lon); }
   let z = pts.length === 1 ? 13 : MAX_ZOOM;
-  while (z > 3 && (worldX(maxLon, z) - worldX(minLon, z) > W - 60 || worldY(minLat, z) - worldY(maxLat, z) > H - 60)) z--;
-  const cx = (worldX(minLon, z) + worldX(maxLon, z)) / 2, cy = (worldY(maxLat, z) + worldY(minLat, z)) / 2;
+  while (z > 3 && (worldX(maxLon, z) - worldX(minLon, z) > W - 60 || worldY(minLat, z) - worldY(maxLat, z) > H - 90)) z--;
+  const cx = (worldX(minLon, z) + worldX(maxLon, z)) / 2, cy = (worldY(maxLat, z) + worldY(minLat, z)) / 2 - 15; // room for the pin above
   const left = cx - W / 2, top = cy - H / 2, n = 2 ** z;
 
   tiles.textContent = "";
@@ -208,10 +208,17 @@ function drawPath(points, last) {
     svg.append(dot);
   }
   if (last) {
-    const [x, y] = xy(last), me = document.createElementNS(ns, "circle");
-    me.setAttribute("cx", x); me.setAttribute("cy", y); me.setAttribute("r", "8");
-    me.setAttribute("fill", "#ff3b30"); me.setAttribute("stroke", "#fff"); me.setAttribute("stroke-width", "3");
-    svg.append(me);
+    // Map pin whose tip sits exactly on the last position.
+    const [x, y] = xy(last);
+    const shadow = document.createElementNS(ns, "ellipse");
+    shadow.setAttribute("cx", x); shadow.setAttribute("cy", y); shadow.setAttribute("rx", "7"); shadow.setAttribute("ry", "2.5");
+    shadow.setAttribute("fill", "rgba(0,0,0,.35)");
+    const pin = document.createElementNS(ns, "path");
+    pin.setAttribute("d", "M" + x.toFixed(1) + " " + y.toFixed(1) + " c-2.5-7.5-13-13-13-23.5 a13 13 0 1 1 26 0 c0 10.5-10.5 16-13 23.5z");
+    pin.setAttribute("fill", "#ff3b30"); pin.setAttribute("stroke", "#fff"); pin.setAttribute("stroke-width", "2.5"); pin.setAttribute("stroke-linejoin", "round");
+    const hole = document.createElementNS(ns, "circle");
+    hole.setAttribute("cx", x); hole.setAttribute("cy", y - 23.5); hole.setAttribute("r", "5"); hole.setAttribute("fill", "#fff");
+    svg.append(shadow, pin, hole);
   }
 }
 window.addEventListener("resize", () => { lastDrawKey = ""; load().catch(console.warn); });
