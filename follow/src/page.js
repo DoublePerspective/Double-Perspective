@@ -25,7 +25,8 @@ export const PAGE_HTML = `<!doctype html>
     <a id="osm" class="button" target="_blank" rel="noopener noreferrer">OpenStreetMap</a></p>
   </section>
   <section class="card"><h2 id="eventsTitle"></h2><ul id="events"></ul></section>
-  <section class="card"><button id="alerts" type="button"></button><p id="alertsNote" class="muted"></p></section>
+  <section class="card"><button id="alerts" type="button"></button><p id="alertsNote" class="muted"></p>
+    <p id="appRow" class="actions" hidden><a id="openApp" class="button secondary"></a></p><p id="appNote" class="muted small" hidden></p></section>
   <p class="muted small" id="footer"></p>
 </main>
 <script src="/f/app.js"></script>
@@ -61,6 +62,7 @@ h1 { font-size:22px; margin:4px 0 12px; } h2 { font-size:15px; margin:0 0 8px; }
 .actions { display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 0; }
 .button, button { display:inline-block; border:0; border-radius:10px; padding:10px 14px; background:var(--accent); color:#04130c; font-weight:700; text-decoration:none; font-size:15px; cursor:pointer; }
 button[disabled] { opacity:.5; cursor:default; }
+.button.secondary { background:transparent; color:var(--accent); outline:2px solid var(--accent); }
 ul { list-style:none; margin:0; padding:0; } li { padding:6px 0; border-top:1px solid rgba(127,127,127,.18); } li:first-child { border-top:0; }
 `;
 
@@ -79,6 +81,7 @@ const T = fr ? {
   alertsOn: "Recevoir les alertes sur cet appareil", alertsDone: "Alertes activées sur cet appareil", alertsOff: "Désactiver les alertes",
   iosNote: "Sur iPhone : touchez Partager puis « Sur l’écran d’accueil », ouvrez la page depuis l’icône, puis activez les alertes.",
   noPush: "Ce navigateur ne permet pas les alertes. La page se met à jour toute seule.",
+  openApp: "Suivre dans l’application", appNote: "Avec l’application Gravel & Pavement Scout, les alertes sonnent comme une alarme.",
   blocked: "Les notifications sont bloquées pour ce site. Autorisez-les dans les réglages du navigateur, puis réessayez.",
   footer: "Lien privé partagé par le motard. Les positions sont effacées 7 jours après la sortie. Les nouvelles dépendent du réseau cellulaire; ce n’est pas un service d’urgence.",
   ago: (m) => m < 1 ? "à l’instant" : m < 60 ? "il y a " + m + " min" : "il y a " + Math.floor(m / 60) + " h " + String(m % 60).padStart(2, "0"),
@@ -92,6 +95,7 @@ const T = fr ? {
   alertsOn: "Get alerts on this device", alertsDone: "Alerts are on for this device", alertsOff: "Turn alerts off",
   iosNote: "On iPhone: tap Share, then “Add to Home Screen”, open the page from the icon, then turn on alerts.",
   noPush: "This browser can’t show alerts. The page updates by itself.",
+  openApp: "Follow in the app", appNote: "With the Gravel & Pavement Scout app, alerts ring like an alarm.",
   blocked: "Notifications are blocked for this site. Allow them in the browser settings, then try again.",
   footer: "Private link shared by the rider. Positions are deleted 7 days after the ride. Check-ins need cell signal; this is not an emergency service.",
   ago: (m) => m < 1 ? "just now" : m < 60 ? m + " min ago" : Math.floor(m / 60) + " h " + String(m % 60).padStart(2, "0") + " ago",
@@ -271,6 +275,14 @@ async function setupAlerts() {
     } catch (e) { console.warn(e); }
     button.disabled = false; show();
   };
+}
+
+// Android: open this link in the app (explicit package, so it works without App Links verification).
+if (/Android/.test(navigator.userAgent)) {
+  const a = $("openApp");
+  a.textContent = T.openApp; $("appNote").textContent = T.appNote;
+  a.href = "intent://follow.doubleperspective.com/f/" + token + "#Intent;scheme=https;package=com.doubleperspective.gravelpavementscout;S.browser_fallback_url=" + encodeURIComponent("https://doubleperspective.com/") + ";end";
+  $("appRow").hidden = false; $("appNote").hidden = false;
 }
 
 load().catch(console.warn);

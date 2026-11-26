@@ -371,10 +371,10 @@ async function followWithLink(env, follower, token) {
   const link = await findLink(env, token);
   if (!link) fail(410, "expired");
   if (link.rider_id === follower.id) fail(400, "you can't follow yourself");
-  await env.DB.prepare("INSERT INTO follows (rider_id, follower_id, link_id, created) VALUES (?, ?, ?, ?) ON CONFLICT(rider_id, follower_id) DO UPDATE SET link_id = excluded.link_id")
-    .bind(link.rider_id, follower.id, link.id, Date.now()).run();
+  const row = await env.DB.prepare("INSERT INTO follows (rider_id, follower_id, link_id, created) VALUES (?, ?, ?, ?) ON CONFLICT(rider_id, follower_id) DO UPDATE SET link_id = excluded.link_id RETURNING id")
+    .bind(link.rider_id, follower.id, link.id, Date.now()).first();
   const rider = await env.DB.prepare("SELECT name FROM riders WHERE id = ?").bind(link.rider_id).first();
-  return json({ ok: true, riderName: rider?.name });
+  return json({ ok: true, followId: row.id, riderName: rider?.name });
 }
 
 async function listFollowing(env, follower) {
