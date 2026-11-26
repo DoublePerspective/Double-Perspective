@@ -523,10 +523,10 @@ async function notifyFollowers(env, rider, event) {
   }
 
   const { results: apps } = await env.DB.prepare(
-    `SELECT DISTINCT r.fcm_token FROM follows f JOIN riders r ON r.id = f.follower_id WHERE f.link_id IN (${marks}) AND r.fcm_token IS NOT NULL`
+    `SELECT f.id AS follow_id, r.fcm_token FROM follows f JOIN riders r ON r.id = f.follower_id WHERE f.link_id IN (${marks}) AND r.fcm_token IS NOT NULL`
   ).bind(...ids).all();
   for (const app of apps) {
-    await sendFcm(env, app.fcm_token, { type: event.type, riderId: String(rider.id), riderName: rider.name, rideId: String(event.rideId ?? ""), at: String(now) })
+    await sendFcm(env, app.fcm_token, { type: event.type, followId: String(app.follow_id), riderId: String(rider.id), riderName: rider.name, rideId: String(event.rideId ?? ""), at: String(now) })
       .catch((e) => console.warn("fcm", e.message));
   }
 }
