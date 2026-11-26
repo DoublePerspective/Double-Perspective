@@ -29,7 +29,9 @@ button.act:disabled{opacity:.5;cursor:default}input[type=text]{width:100%;backgr
 <section id="packs"><h2>Map packs</h2>
 <div class="card"><p class="small muted">Catalog: <code id="cat-url"></code></p>
 <p class="small">1. Import the catalog <code>canada.json</code> from the GPS project (app/src/main/assets/map-packs). 2. Upload each <code>.pmtiles</code> pack; size and SHA-256 are checked in your browser and again on the server, then written to the catalog.</p>
-<label class="act">Import catalog<input id="cat-file" type="file" accept=".json" hidden></label> <span id="cat-msg" class="small"></span></div>
+<label class="act">Import catalog<input id="cat-file" type="file" accept=".json" hidden></label> <span id="cat-msg" class="small"></span>
+<p class="small">Then upload all packs at once: select every <code>.pmtiles</code> file from <code>data-cache\\canada-map-packs\\archives</code>; each is matched by its name (qc.pmtiles → Quebec).</p>
+<label class="act">Upload all packs<input id="all-packs" type="file" accept=".pmtiles" multiple hidden></label> <span id="all-msg" class="small"></span></div>
 <div class="card"><table><thead><tr><th>Pack</th><th>Catalog size / SHA-256</th><th>Hosted file</th><th></th></tr></thead><tbody id="packs-body"></tbody></table></div></section>
 <section id="edits"><h2>Quick site edits</h2><p class="muted small">Each save makes one commit to GitHub with the English and French text together; Cloudflare republishes the site in about a minute.</p><div id="edits-body"></div></section>
 <section id="log"><h2>Access log</h2><p class="small muted">Every admin action is recorded here. Sign-ins and refused attempts are in <a id="access-logs" style="color:var(--teal)" target="_blank" rel="noopener">Cloudflare Access logs</a>.</p><div class="card"><table><thead><tr><th>When</th><th>Who</th><th>From</th><th>Action</th><th>Detail</th></tr></thead><tbody id="log-body"></tbody></table></div></section>
@@ -101,6 +103,22 @@ async function uploadPack(inp) {
     msg.innerHTML = "<span class='ok'>Done</span>"; setTimeout(loadPacks, 800);
   } catch (e) { msg.innerHTML = "<span class='err'>" + esc(e.message) + "</span>"; }
 }
+$("#all-packs").onchange = async (ev) => {
+  const files = [...ev.target.files]; if (!files.length) return;
+  const out = $("#all-msg"); let ok = 0, bad = [];
+  for (const [i, f] of files.entries()) {
+    const id = f.name.toLowerCase().replace(/\.pmtiles$/, "");
+    out.textContent = "(" + (i + 1) + "/" + files.length + ") " + f.name + ": checking…";
+    try {
+      const sha = await sha256Hex(f);
+      out.textContent = "(" + (i + 1) + "/" + files.length + ") " + f.name + ": uploading " + (f.size / 1048576).toFixed(1) + " MB…";
+      await api("/api/packs/" + encodeURIComponent(id), { method: "PUT", body: f, headers: { "X-Expected-SHA256": sha, "Content-Type": "application/octet-stream" } });
+      ok++;
+    } catch (e) { bad.push(f.name + ": " + e.message); }
+  }
+  out.innerHTML = "<span class='ok'>" + ok + " uploaded</span>" + (bad.length ? " · <span class='err'>" + esc(bad.join(" · ")) + "</span>" : "");
+  loadPacks();
+};
 $("#cat-file").onchange = async (ev) => {
   const f = ev.target.files[0]; if (!f) return;
   try { const r = await api("/api/catalog", { method: "PUT", body: await f.text(), headers: { "Content-Type": "application/json" } }); $("#cat-msg").innerHTML = "<span class='ok'>Imported " + r.packs + " packs</span>"; loadPacks(); }
