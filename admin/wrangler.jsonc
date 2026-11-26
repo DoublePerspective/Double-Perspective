@@ -9,7 +9,7 @@
   "preview_urls": false,
   "routes": [{ "pattern": "admin.doubleperspective.com", "custom_domain": true }],
   "d1_databases": [
-    { "binding": "DB", "database_name": "dp-admin", "database_id": "REPLACE_WITH_D1_ID" }
+    { "binding": "DB", "database_name": "dp-admin", "database_id": "ec59ea41-bfbf-43df-833c-9a89a5f43281" }
   ],
   "r2_buckets": [{ "binding": "MAPS", "bucket_name": "dp-maps" }],
   "send_email": [
@@ -23,8 +23,8 @@
     "GITHUB_REPO": "DoublePerspective/Double-Perspective",
     "GITHUB_BRANCH": "main",
     "MAPS_PUBLIC_URL": "https://maps.doubleperspective.com",
-    "ACCESS_TEAM": "REPLACE_WITH_TEAM_NAME",
-    "ACCESS_AUD": "REPLACE_WITH_ACCESS_AUD"
+    "ACCESS_TEAM": "ancient-flower-7287",
+    "ACCESS_AUD": "473a88e45e5120a7ad5d3c721dc2805f956fa1c7abefb2047b3e8bed4101c21c"
   }
   // Secrets (set in the dashboard, never in this file):
   //   CF_API_TOKEN  - Cloudflare API token with Account Analytics: Read

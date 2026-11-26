@@ -10,6 +10,6 @@
   "routes": [{ "pattern": "maps.doubleperspective.com", "custom_domain": true }],
   "r2_buckets": [{ "binding": "MAPS", "bucket_name": "dp-maps" }],
   "d1_databases": [
-    { "binding": "DB", "database_name": "dp-admin", "database_id": "REPLACE_WITH_D1_ID" }
+    { "binding": "DB", "database_name": "dp-admin", "database_id": "ec59ea41-bfbf-43df-833c-9a89a5f43281" }
   ]
 }
