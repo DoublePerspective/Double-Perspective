@@ -1,6 +1,6 @@
 # Kindred Compass Games
 
-Static studio website featuring Umbral Purge. Free GitHub Pages hosting; no build process.
+Static studio website (Double Perspective). Hosted on Cloudflare Pages at https://doubleperspective.com/; the build only copies files (`sh tools/cf-build.sh`).
 
 ## Publishing
 
