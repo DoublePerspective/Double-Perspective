@@ -114,12 +114,16 @@ export default {
       const seen = await env.DB.prepare("SELECT 1 FROM usage_alerts WHERE key = ?").bind(key).first();
       if (!seen) {
         await env.DB.prepare("INSERT INTO usage_alerts (key, ts) VALUES (?, ?)").bind(key, Date.now()).run();
-        hits.push("USAGE MONITOR CAN'T READ SOME NUMBERS (" + usage.errors.join("; ") + "). Automatic brakes need these; check the CF_API_TOKEN secret.");
+        hits.push("USAGE MONITOR: can't read " + usage.errors.join("; ") + ". Add or renew the CF_API_TOKEN secret on the dp-admin Worker (Settings > Variables and Secrets).");
       }
     }
     if (hits.length) {
-      await sendMail(env, `Cloudflare usage warning (${hits.length})`,
-        "These free-plan limits are getting close:\n\n- " + hits.join("\n- ") +
+      const onlyMonitor = hits.every((h) => h.startsWith("USAGE MONITOR"));
+      await sendMail(env,
+        onlyMonitor ? "Admin usage monitor can't read your Cloudflare usage" : `Cloudflare usage warning (${hits.length})`,
+        (onlyMonitor
+          ? "Nothing is near a limit as far as the admin knows, but it can't read your usage right now, so it can't warn you or pause R2 automatically.\n\n- "
+          : "These free-plan limits are getting close:\n\n- ") + hits.join("\n- ") +
         "\n\nWorkers and D1 are on the free plan: they stop at the limit and never bill." +
         "\nR2 is the only service that could bill, so map downloads/uploads pause automatically at 95%." +
         "\nOpen https://admin.doubleperspective.com for details.\n");
