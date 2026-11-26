@@ -2,11 +2,19 @@
 
 Status as of **2026-11-13**. Written so a new Claude session (or person) can pick up where the last one stopped. Read this first, then `README.md`.
 
+## Hosting moved to doubleperspective.com (2026-11-26)
+
+- Domain registered at Network Solutions (paid to Nov 2029), DNS on Cloudflare (free plan).
+- Cloudflare Pages project `double-perspective` deploys `main`; build `sh tools/cf-build.sh` → `dist/` (keeps `tools/`, notes and dotfiles off the public site).
+- All absolute URLs (`og:image`, canonical, `tools/i18n/build.py` SITE) now use `https://doubleperspective.com/`.
+- `app-ads.txt` is now in this repo, served at https://doubleperspective.com/app-ads.txt. The `doubleperspective.github.io` repo copy can go once AdMob reads the new one.
+- GitHub Pages stays enabled for old Play privacy links until every listing points to https://doubleperspective.com/privacy.html.
+
 ## What this repo is
 
 The **studio website** only: a static site hosted on GitHub Pages with no build step. Edit the HTML/CSS directly and push to `main` to publish.
 
-- Live site: https://doubleperspective.github.io/Double-Perspective/
+- Live site: https://doubleperspective.com/
 - Contact/support address used on the site: doubleperspective.contact@gmail.com
 
 **The game source code is not in this repo.** Umbral Purge and Zenith & Zero Sudoku live somewhere else (on the developer's computer or in other Claude chats/projects). A session continuing game work needs those files uploaded or another repo connected.

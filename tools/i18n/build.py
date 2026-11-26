@@ -2,7 +2,7 @@
 import html, json, os, re, sys
 ROOT = sys.argv[1]
 HERE = os.path.dirname(os.path.abspath(__file__))
-SITE = "https://doubleperspective.github.io/Double-Perspective/"
+SITE = "https://doubleperspective.com/"
 PAGES = ["index.html", "umbral-purge.html", "zenith-zero-sudoku.html", "support.html", "privacy.html"]
 EMAIL = open(os.path.join(HERE, "email.txt")).read().strip()
 LEGAL_EN = "Registered in Québec · NEQ 2282699877"
