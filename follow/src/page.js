@@ -74,6 +74,7 @@ const T = fr ? {
   alertsOn: "Recevoir les alertes sur cet appareil", alertsDone: "Alertes activées sur cet appareil", alertsOff: "Désactiver les alertes",
   iosNote: "Sur iPhone : touchez Partager puis « Sur l’écran d’accueil », ouvrez la page depuis l’icône, puis activez les alertes.",
   noPush: "Ce navigateur ne permet pas les alertes. La page se met à jour toute seule.",
+  blocked: "Les notifications sont bloquées pour ce site. Autorisez-les dans les réglages du navigateur, puis réessayez.",
   footer: "Lien privé partagé par le motard. Les positions sont effacées 7 jours après la sortie. Les nouvelles dépendent du réseau cellulaire; ce n’est pas un service d’urgence.",
   ago: (m) => m < 1 ? "à l’instant" : m < 60 ? "il y a " + m + " min" : "il y a " + Math.floor(m / 60) + " h " + String(m % 60).padStart(2, "0"),
 } : {
@@ -86,6 +87,7 @@ const T = fr ? {
   alertsOn: "Get alerts on this device", alertsDone: "Alerts are on for this device", alertsOff: "Turn alerts off",
   iosNote: "On iPhone: tap Share, then “Add to Home Screen”, open the page from the icon, then turn on alerts.",
   noPush: "This browser can’t show alerts. The page updates by itself.",
+  blocked: "Notifications are blocked for this site. Allow them in the browser settings, then try again.",
   footer: "Private link shared by the rider. Positions are deleted 7 days after the ride. Check-ins need cell signal; this is not an emergency service.",
   ago: (m) => m < 1 ? "just now" : m < 60 ? m + " min ago" : Math.floor(m / 60) + " h " + String(m % 60).padStart(2, "0") + " ago",
 };
@@ -125,7 +127,7 @@ function render(v) {
   const last = r && r.last;
   if (last) {
     const ll = last.lat.toFixed(5) + "," + last.lon.toFixed(5);
-    $("last").textContent = T.last + " : " + ll + " · " + day(last.t) + " " + time(last.t);
+    $("last").textContent = T.last + (fr ? " : " : ": ") + ll + " · " + day(last.t) + " " + time(last.t);
     $("gmaps").href = "https://www.google.com/maps/search/?api=1&query=" + ll;
     $("osm").href = "https://www.openstreetmap.org/?mlat=" + last.lat + "&mlon=" + last.lon + "#map=13/" + last.lat + "/" + last.lon;
     $("gmaps").hidden = $("osm").hidden = false;
@@ -186,7 +188,10 @@ async function setupAlerts() {
   }
   const reg = await navigator.serviceWorker.register("/f/sw.js?t=" + token, { scope: "/f/" + token });
   let sub = await reg.pushManager.getSubscription();
-  const show = () => { button.textContent = sub ? T.alertsOff : T.alertsOn; note.textContent = sub ? T.alertsDone : (ios ? T.iosNote : ""); };
+  const show = () => {
+    button.textContent = sub ? T.alertsOff : T.alertsOn;
+    note.textContent = sub ? T.alertsDone : Notification.permission === "denied" ? T.blocked : ios ? T.iosNote : "";
+  };
   show();
   button.onclick = async () => {
     button.disabled = true;
