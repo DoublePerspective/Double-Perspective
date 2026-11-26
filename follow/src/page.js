@@ -18,7 +18,8 @@ export const PAGE_HTML = `<!doctype html>
   <h1 id="title">…</h1>
   <section id="status" class="card"><p id="state">…</p><p id="detail" class="muted"></p></section>
   <section class="card">
-    <svg id="path" viewBox="0 0 320 200" role="img" aria-label=""></svg>
+    <div id="map" class="map"><div id="tiles"></div><svg id="path"></svg>
+    <a class="attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a></div>
     <p id="last" class="muted"></p>
     <p class="actions"><a id="gmaps" class="button" target="_blank" rel="noopener noreferrer">Google Maps</a>
     <a id="osm" class="button" target="_blank" rel="noopener noreferrer">OpenStreetMap</a></p>
@@ -52,7 +53,11 @@ h1 { font-size:22px; margin:4px 0 12px; } h2 { font-size:15px; margin:0 0 8px; }
 .ok #state { color:var(--accent); } .warn #state { color:var(--warn); } .bad #state { color:var(--bad); }
 .bad { outline:2px solid var(--bad); }
 .muted { color:var(--muted); margin:4px 0 0; } .small { font-size:13px; }
-svg { width:100%; height:auto; background:rgba(127,127,127,.08); border-radius:10px; }
+.map { position:relative; width:100%; height:260px; overflow:hidden; border-radius:10px; background:#dfe5e2; }
+#tiles, #path { position:absolute; inset:0; }
+#tiles img { position:absolute; width:256px; height:256px; user-select:none; }
+#path { width:100%; height:100%; pointer-events:none; }
+.attribution { position:absolute; right:0; bottom:0; padding:1px 6px; font-size:11px; background:rgba(255,255,255,.8); color:#333; text-decoration:none; border-top-left-radius:6px; }
 .actions { display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 0; }
 .button, button { display:inline-block; border:0; border-radius:10px; padding:10px 14px; background:var(--accent); color:#04130c; font-weight:700; text-decoration:none; font-size:15px; cursor:pointer; }
 button[disabled] { opacity:.5; cursor:default; }
@@ -146,37 +151,70 @@ function render(v) {
   }
 }
 
+// Map: OpenStreetMap tiles placed by hand (no map library), path and stops drawn on top in SVG.
+// Tiles are requested with only the site origin as referrer, never the private link.
+const TILE = 256, MAX_ZOOM = 15;
+const worldX = (lon, z) => (lon + 180) / 360 * TILE * 2 ** z;
+const worldY = (lat, z) => { const r = lat * Math.PI / 180; return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * TILE * 2 ** z; };
+let lastDrawKey = "";
+
 function drawPath(points, last) {
-  const svg = $("path"); svg.textContent = "";
-  const pts = points.length ? points : last ? [last] : [];
+  const box = $("map"), tiles = $("tiles"), svg = $("path");
+  const pts = points.length ? points.slice() : [];
+  if (last && !pts.some((p) => p.t === last.t)) pts.push(last);
+  box.hidden = !pts.length;
   if (!pts.length) return;
+  const W = box.clientWidth || 320, H = box.clientHeight || 260;
+  const key = W + "x" + H + ":" + pts.length + ":" + (last ? last.t : 0);
+  if (key === lastDrawKey) return;
+  lastDrawKey = key;
+
   let minLat = Infinity, maxLat = -Infinity, minLon = Infinity, maxLon = -Infinity;
   for (const p of pts) { minLat = Math.min(minLat, p.lat); maxLat = Math.max(maxLat, p.lat); minLon = Math.min(minLon, p.lon); maxLon = Math.max(maxLon, p.lon); }
-  const k = Math.cos(((minLat + maxLat) / 2) * Math.PI / 180);
-  const w = Math.max((maxLon - minLon) * k, 0.01), h = Math.max(maxLat - minLat, 0.01);
-  const scale = Math.min(290 / w, 170 / h);
-  const ox = 160 - ((minLon + maxLon) / 2 - minLon) * k * scale, oy = 100 + ((minLat + maxLat) / 2 - minLat) * scale;
-  const xy = (p) => [ox + (p.lon - minLon) * k * scale, oy - (p.lat - minLat) * scale];
-  const ns = "http://www.w3.org/2000/svg";
-  if (pts.length > 1) {
-    const line = document.createElementNS(ns, "polyline");
-    line.setAttribute("points", pts.map((p) => xy(p).map((n) => n.toFixed(1)).join(",")).join(" "));
-    line.setAttribute("fill", "none"); line.setAttribute("stroke", "#23d18b"); line.setAttribute("stroke-width", "3");
-    line.setAttribute("stroke-linejoin", "round"); line.setAttribute("stroke-linecap", "round");
-    svg.append(line);
+  let z = pts.length === 1 ? 13 : MAX_ZOOM;
+  while (z > 3 && (worldX(maxLon, z) - worldX(minLon, z) > W - 60 || worldY(minLat, z) - worldY(maxLat, z) > H - 60)) z--;
+  const cx = (worldX(minLon, z) + worldX(maxLon, z)) / 2, cy = (worldY(maxLat, z) + worldY(minLat, z)) / 2;
+  const left = cx - W / 2, top = cy - H / 2, n = 2 ** z;
+
+  tiles.textContent = "";
+  for (let tx = Math.floor(left / TILE); tx <= Math.floor((left + W) / TILE); tx++) {
+    for (let ty = Math.floor(top / TILE); ty <= Math.floor((top + H) / TILE); ty++) {
+      if (ty < 0 || ty >= n) continue;
+      const img = document.createElement("img");
+      img.alt = ""; img.decoding = "async"; img.referrerPolicy = "origin";
+      img.src = "https://tile.openstreetmap.org/" + z + "/" + (((tx % n) + n) % n) + "/" + ty + ".png";
+      img.style.left = (tx * TILE - left) + "px"; img.style.top = (ty * TILE - top) + "px";
+      tiles.append(img);
+    }
   }
-  for (const p of pts.filter((p) => p.kind !== "move")) {
+
+  const xy = (p) => [worldX(p.lon, z) - left, worldY(p.lat, z) - top];
+  const ns = "http://www.w3.org/2000/svg";
+  svg.textContent = "";
+  svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+  if (pts.length > 1) {
+    for (const [color, width] of [["#ffffff", 7], ["#0f8f5c", 4]]) {
+      const line = document.createElementNS(ns, "polyline");
+      line.setAttribute("points", pts.map((p) => xy(p).map((v) => v.toFixed(1)).join(",")).join(" "));
+      line.setAttribute("fill", "none"); line.setAttribute("stroke", color); line.setAttribute("stroke-width", width);
+      line.setAttribute("stroke-linejoin", "round"); line.setAttribute("stroke-linecap", "round");
+      svg.append(line);
+    }
+  }
+  for (const p of pts.filter((p) => p.kind !== "move" && (!last || p.t !== last.t))) {
     const [x, y] = xy(p), dot = document.createElementNS(ns, "circle");
-    dot.setAttribute("cx", x); dot.setAttribute("cy", y); dot.setAttribute("r", "4"); dot.setAttribute("fill", "#f2b134");
+    dot.setAttribute("cx", x); dot.setAttribute("cy", y); dot.setAttribute("r", "5");
+    dot.setAttribute("fill", "#f2b134"); dot.setAttribute("stroke", "#fff"); dot.setAttribute("stroke-width", "2");
     svg.append(dot);
   }
   if (last) {
     const [x, y] = xy(last), me = document.createElementNS(ns, "circle");
-    me.setAttribute("cx", x); me.setAttribute("cy", y); me.setAttribute("r", "7"); me.setAttribute("fill", "#ff5a4f");
-    me.setAttribute("stroke", "#fff"); me.setAttribute("stroke-width", "2");
+    me.setAttribute("cx", x); me.setAttribute("cy", y); me.setAttribute("r", "8");
+    me.setAttribute("fill", "#ff3b30"); me.setAttribute("stroke", "#fff"); me.setAttribute("stroke-width", "3");
     svg.append(me);
   }
 }
+window.addEventListener("resize", () => { lastDrawKey = ""; load().catch(console.warn); });
 
 // ---- alerts (Web Push without payload; the service worker fetches the status itself)
 const b64 = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((s.length + 3) % 4)), (c) => c.charCodeAt(0));
