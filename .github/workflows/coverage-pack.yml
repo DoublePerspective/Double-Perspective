@@ -1,0 +1,45 @@
+name: coverage-pack
+# Cell coverage overlay for Gravel & Pavement Scout: LTE and 5G areas (all carriers combined),
+# from the Atlas of Canada "Wireless Data Network" (NRCan, data from the CRTC), Open Government Licence – Canada.
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    permissions:
+      contents: write
+    steps:
+      - name: Tools
+        run: sudo apt-get install -y -qq gdal-bin tippecanoe >/dev/null
+      - name: Download
+        run: |
+          curl -sfL -o w.zip "https://ftp.maps.canada.ca/pub/nrcan_rncan/Geographical-maps_Carte-geographique/Wireless_Data_Network-Reseau_de_donnees_sans_fil/AtlasofCanada_Communications_AtlasduCanada.gdb.zip"
+          unzip -q w.zip
+      - name: Build
+        run: |
+          G=$(ls -d *.gdb | head -1)
+          for pair in "LTE_2024:lte" "_5G_2024:g5"; do
+            L=${pair%%:*}; N=${pair##*:}
+            ogr2ogr -f GeoJSONSeq -t_srs EPSG:4326 -dim XY -lco RS=NO -select "" -nln $N $N.geojsons "$G" "$L" -makevalid
+            echo "$N: $(wc -l < $N.geojsons) features"
+          done
+          tippecanoe -o coverage-canada.pmtiles -Z 3 -z 11 --no-tile-size-limit --coalesce-densest-as-needed \
+            --detect-shared-borders --simplification=4 --force \
+            -L lte:lte.geojsons -L g5:g5.geojsons \
+            --attribution="Coverage © CRTC / Natural Resources Canada, Open Government Licence – Canada"
+          python3 - <<'PY'
+          import hashlib, json, os, datetime
+          f = "coverage-canada.pmtiles"
+          h = hashlib.sha256(open(f, "rb").read()).hexdigest()
+          json.dump({"id": "coverage-canada", "file": f, "bytes": os.path.getsize(f), "sha256": h, "year": 2024,
+                     "built": datetime.date.today().isoformat()}, open("coverage-catalog.json", "w"), indent=2)
+          print(open("coverage-catalog.json").read())
+          PY
+      - name: Release
+        run: |
+          TAG="coverage-$(date +%Y%m%d)-${{ github.run_number }}"
+          gh release create "$TAG" --prerelease --title "Cell coverage $(date +%Y-%m-%d)" \
+            --notes "LTE and 5G coverage (2024, all carriers combined). Atlas of Canada Wireless Data Network, Natural Resources Canada, data from the CRTC. Open Government Licence – Canada." \
+            coverage-canada.pmtiles coverage-catalog.json
