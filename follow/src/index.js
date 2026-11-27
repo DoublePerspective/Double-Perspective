@@ -12,7 +12,7 @@ const KEEP_AFTER_RIDE = 7 * DAY;     // positions are deleted 7 days after a rid
 const LINK_AFTER_RIDE = 12 * HOUR;   // a "this ride only" link stops working 12 h after the ride ends
 const STALE_RIDE = 48 * HOUR;        // a ride never ended is treated as ended 48 h after its last check-in
 const INTERVALS = [15, 30, 60];
-const KINDS = ["start", "move", "stop", "fuel", "restaurant", "camp", "pause", "ok", "battery", "no_answer", "end"];
+const KINDS = ["start", "move", "stop", "fuel", "restaurant", "camp", "pause", "ok", "battery", "no_answer", "help", "end"];
 const MAX_POINTS_PER_POST = 200;
 const MAX_ACTIVE_LINKS = 20;
 
@@ -268,16 +268,17 @@ async function pauseRide(env, ride, data) {
   return json({ ok: true, until });
 }
 
-/** "Everything OK?" got no answer on the phone: alert followers right away, with the position. */
+/** "Everything OK?" got no answer, or the rider tapped "Alert them now" (help): alert followers right away, with the position. */
 async function alertNow(env, ride, data) {
   if (ride.ended) fail(409, "ride already ended");
   const now = Date.now();
-  const point = validPoint({ ...data, kind: "no_answer", t: now });
+  const kind = data && data.help === true ? "help" : "no_answer";
+  const point = validPoint({ ...data, kind, t: now });
   if (point) await insertPoints(env, ride.id, [point]);
-  await env.DB.prepare("UPDATE rides SET last_kind = 'no_answer', last_lat = COALESCE(?, last_lat), last_lon = COALESCE(?, last_lon), alarm_sent = 1, nonews_sent = 1, pause_until = NULL WHERE id = ?")
-    .bind(point?.lat ?? null, point?.lon ?? null, ride.id).run();
+  await env.DB.prepare("UPDATE rides SET last_kind = ?, last_lat = COALESCE(?, last_lat), last_lon = COALESCE(?, last_lon), alarm_sent = 1, nonews_sent = 1, pause_until = NULL WHERE id = ?")
+    .bind(kind, point?.lat ?? null, point?.lon ?? null, ride.id).run();
   const rider = await env.DB.prepare("SELECT * FROM riders WHERE id = ?").bind(ride.rider_id).first();
-  await notifyFollowers(env, rider, { type: "no_answer", rideId: ride.id });
+  await notifyFollowers(env, rider, { type: kind, rideId: ride.id });
   return json({ ok: true });
 }
 
@@ -413,7 +414,7 @@ function rideState(ride, now = Date.now()) {
   if (!ride) return { state: "idle" };
   if (ride.ended) return { state: "ended" };
   const t = timings(ride);
-  if (ride.last_kind === "no_answer") return { state: "no_answer", since: ride.last_at };
+  if (ride.last_kind === "no_answer" || ride.last_kind === "help") return { state: ride.last_kind, since: ride.last_at };
   if (ride.pause_until && ride.pause_until > now) return { state: "paused", until: ride.pause_until, kind: ride.pause_kind };
   if (now >= t.alarmAt) return { state: "alarm", since: ride.last_at };
   if (now >= t.noNewsAt) return { state: "no_news", since: ride.last_at };
@@ -517,7 +518,7 @@ async function notifyFollowers(env, rider, event) {
 
   const { results: subs } = await env.DB.prepare(`SELECT id, endpoint FROM webpush WHERE link_id IN (${marks})`).bind(...ids).all();
   for (const sub of subs) {
-    const urgent = event.type === "alarm" || event.type === "no_answer";
+    const urgent = event.type === "alarm" || event.type === "no_answer" || event.type === "help";
     const status = await sendWebPush(env, sub.endpoint, urgent ? "high" : "normal").catch(() => 0);
     if (status === 404 || status === 410) await env.DB.prepare("DELETE FROM webpush WHERE id = ?").bind(sub.id).run();
   }
@@ -599,7 +600,7 @@ async function sendFcm(env, token, data) {
   const response = await fetch(`https://fcm.googleapis.com/v1/projects/${account.project_id}/messages:send`, {
     method: "POST",
     headers: { Authorization: `Bearer ${access}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ message: { token, data, android: { priority: data.type === "alarm" || data.type === "no_answer" ? "HIGH" : "NORMAL", ttl: "86400s" } } }),
+    body: JSON.stringify({ message: { token, data, android: { priority: data.type === "alarm" || data.type === "no_answer" || data.type === "help" ? "HIGH" : "NORMAL", ttl: "86400s" } } }),
   });
   if (response.status === 404 || response.status === 400) {
     const detail = await response.text();

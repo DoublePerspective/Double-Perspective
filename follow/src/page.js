@@ -73,11 +73,11 @@ const fr = (navigator.language || "en").toLowerCase().startsWith("fr");
 document.documentElement.lang = fr ? "fr" : "en";
 const T = fr ? {
   title: (n) => "Sortie de " + n, idle: "Aucune sortie en cours", riding: "En route", paused: "En pause", ended: "Rentré · sortie terminée",
-  no_news: "Pas de nouvelles depuis un moment", alarm: "Pas de nouvelles — alerte", no_answer: "N’a pas répondu à « Tout va bien? »",
+  no_news: "Pas de nouvelles depuis un moment", alarm: "Pas de nouvelles — alerte", no_answer: "N’a pas répondu à « Tout va bien? »", help: "A demandé de l’aide",
   since: "Dernière nouvelle", next: "Prochaine nouvelle attendue vers", back: "Retour prévu vers", until: "jusqu’à environ",
   noSignal: "Probablement hors réseau cellulaire.", call: "Essayez de l’appeler. Si vous êtes inquiet, appelez le 911 avec la dernière position.",
   last: "Dernière position", battery: "Batterie", events: "Arrêts et événements", none: "Rien pour l’instant.",
-  kinds: { start:"Départ", stop:"Arrêt", fuel:"Plein d’essence", restaurant:"Repas", camp:"Camp pour la nuit", pause:"Pause", ok:"Tout va bien", end:"Arrivé", no_answer:"Pas de réponse à « Tout va bien? »", battery:"Batterie faible" },
+  kinds: { start:"Départ", stop:"Arrêt", fuel:"Plein d’essence", restaurant:"Repas", camp:"Camp pour la nuit", pause:"Pause", ok:"Tout va bien", end:"Arrivé", no_answer:"Pas de réponse à « Tout va bien? »", help:"Demande d’aide", battery:"Batterie faible" },
   alertsOn: "Recevoir les alertes sur cet appareil", alertsDone: "Alertes activées sur cet appareil", alertsOff: "Désactiver les alertes",
   iosNote: "Sur iPhone : touchez Partager puis « Sur l’écran d’accueil », ouvrez la page depuis l’icône, puis activez les alertes.",
   noPush: "Ce navigateur ne permet pas les alertes. La page se met à jour toute seule.",
@@ -87,11 +87,11 @@ const T = fr ? {
   ago: (m) => m < 1 ? "à l’instant" : m < 60 ? "il y a " + m + " min" : "il y a " + Math.floor(m / 60) + " h " + String(m % 60).padStart(2, "0"),
 } : {
   title: (n) => n + "’s ride", idle: "No ride in progress", riding: "On the road", paused: "Taking a break", ended: "Home safe · ride ended",
-  no_news: "No news for a while", alarm: "No news — alert", no_answer: "Didn’t answer “Everything OK?”",
+  no_news: "No news for a while", alarm: "No news — alert", no_answer: "Didn’t answer “Everything OK?”", help: "Asked for help",
   since: "Last news", next: "Next check-in expected around", back: "Expected back around", until: "until about",
   noSignal: "Probably out of cell coverage.", call: "Try calling them. If you’re worried, call 911 with the last position.",
   last: "Last position", battery: "Battery", events: "Stops and events", none: "Nothing yet.",
-  kinds: { start:"Started", stop:"Stopped", fuel:"Fuel stop", restaurant:"Meal", camp:"Camp for the night", pause:"Break", ok:"Everything OK", end:"Arrived", no_answer:"No answer to “Everything OK?”", battery:"Low battery" },
+  kinds: { start:"Started", stop:"Stopped", fuel:"Fuel stop", restaurant:"Meal", camp:"Camp for the night", pause:"Break", ok:"Everything OK", end:"Arrived", no_answer:"No answer to “Everything OK?”", help:"Asked for help", battery:"Low battery" },
   alertsOn: "Get alerts on this device", alertsDone: "Alerts are on for this device", alertsOff: "Turn alerts off",
   iosNote: "On iPhone: tap Share, then “Add to Home Screen”, open the page from the icon, then turn on alerts.",
   noPush: "This browser can’t show alerts. The page updates by itself.",
@@ -125,7 +125,7 @@ function render(v) {
     if (r.state === "riding") { card.classList.add("ok"); detail = T.since + " " + T.ago(mins) + " · " + T.next + " " + time(r.nextExpected); }
     else if (r.state === "paused") { card.classList.add("ok"); state = (T.kinds[r.kind] || T.paused) + " · " + T.until + " " + time(r.until); detail = T.since + " " + T.ago(mins); }
     else if (r.state === "no_news") { card.classList.add("warn"); detail = T.since + " " + T.ago(mins) + " (" + time(r.since) + "). " + T.noSignal; }
-    else if (r.state === "alarm" || r.state === "no_answer") { card.classList.add("bad"); detail = T.since + " " + T.ago(mins) + " (" + day(r.since) + " " + time(r.since) + "). " + T.call; }
+    else if (r.state === "alarm" || r.state === "no_answer" || r.state === "help") { card.classList.add("bad"); detail = T.since + " " + T.ago(mins) + " (" + day(r.since) + " " + time(r.since) + "). " + T.call; }
     else if (r.state === "ended") { card.classList.add("ok"); detail = day(r.ended) + " " + time(r.ended); }
     if (r.expectedReturn && !r.ended) detail += " · " + T.back + " " + time(r.expectedReturn);
     if (r.battery !== null && r.battery !== undefined) detail += " · " + T.battery + " " + r.battery + " %";
@@ -298,11 +298,11 @@ const fr = (self.navigator.language || "en").toLowerCase().startsWith("fr");
 const TEXT = fr ? {
   riding: (n) => n + " est en route", paused: (n) => n + " est en pause", ended: (n) => n + " est rentré",
   no_news: (n) => "Pas de nouvelles de " + n, alarm: (n) => "Alerte : pas de nouvelles de " + n,
-  no_answer: (n) => n + " n’a pas répondu à « Tout va bien? »", body: "Touchez pour voir la dernière position.",
+  no_answer: (n) => n + " n’a pas répondu à « Tout va bien? »", help: (n) => n + " demande de l’aide", body: "Touchez pour voir la dernière position.",
 } : {
   riding: (n) => n + " is on the road", paused: (n) => n + " is taking a break", ended: (n) => n + " is home safe",
   no_news: (n) => "No news from " + n, alarm: (n) => "Alert: no news from " + n,
-  no_answer: (n) => n + " didn’t answer “Everything OK?”", body: "Tap to see the last position.",
+  no_answer: (n) => n + " didn’t answer “Everything OK?”", help: (n) => n + " is asking for help", body: "Tap to see the last position.",
 };
 self.addEventListener("push", (event) => {
   event.waitUntil((async () => {
@@ -311,7 +311,7 @@ self.addEventListener("push", (event) => {
       const v = await (await fetch("/api/f/" + token, { cache: "no-store" })).json();
       const state = (v.ride && v.ride.state) || "riding";
       title = (TEXT[state] || TEXT.riding)(v.riderName);
-      urgent = state === "alarm" || state === "no_answer";
+      urgent = state === "alarm" || state === "no_answer" || state === "help";
     } catch (e) {}
     await self.registration.showNotification(title, { body: TEXT.body, tag: "ride-" + token.slice(0, 8), renotify: true, requireInteraction: urgent, data: { url: "/f/" + token } });
   })());

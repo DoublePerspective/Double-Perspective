@@ -18,7 +18,7 @@ App calls use `Authorization: Bearer <token>` from registration. Times are milli
 | `POST /api/rides` | `{intervalMin: 15\|30\|60, expectedReturn?, lat, lon, battery?}` | Ends any open ride. Answer `{rideId, intervalMin, limits}` |
 | `POST /api/rides/:id/checkins` | `{points: [{t, lat, lon, kind?, note?}], tracks?: [encodedPolyline], battery?}` | Up to 200 points; send queued dead-zone points in one call when signal returns. `kind`: `move` (default), `stop`, `ok`, `battery` |
 | `POST /api/rides/:id/pause` | `{kind: "fuel"\|"restaurant"\|"camp"\|"pause", until, lat, lon}` | Alerts wait until `until` (5 min – 24 h). Cleared by the next `move` |
-| `POST /api/rides/:id/alert` | `{lat, lon}` | "Everything OK?" got no answer: followers are alerted now |
+| `POST /api/rides/:id/alert` | `{lat, lon, help?}` | "Everything OK?" got no answer (state `no_answer`), or with `help: true` the rider tapped "Alert them now" (state and FCM type `help`): followers are alerted now |
 | `POST /api/rides/:id/end` | `{lat, lon}` | "Home safe" |
 
 Server-side alerts (cron every 5 min): "no news" 2 intervals + 15 min after the last check-in (or the end of a pause); alarm 30 min after `expectedReturn`, otherwise 2 h (15/30 min) or 3 h (60 min). A check-in after an alert sends "back in touch".
