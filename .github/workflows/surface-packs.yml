@@ -19,7 +19,7 @@ jobs:
           ls -la nrn.zip; unzip -q nrn.zip; find . -name "*.gpkg"
       - name: Build
         run: |
-          G=$(find . -name "*.gpkg" | head -1)
+          G=$(find . -name "*_en.gpkg" | head -1); [ -n "$G" ] || G=$(find . -name "*.gpkg" | head -1)
           L=$(ogrinfo -ro -q "$G" | sed -E 's/^[0-9]+: ([^ ]+).*/\1/' | grep -i 'ROADSEG$' | head -1)
           echo "layer $L"
           ogr2ogr -f GeoJSONSeq -t_srs EPSG:4326 -dim XY -lco RS=NO surface.geojsons "$G" -nln surface -sql "
