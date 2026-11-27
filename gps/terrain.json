@@ -7,6 +7,18 @@
   "packs": [
     {
       "id": "canada",
+      "kind": "fuel",
+      "province": "CA",
+      "pruid": "",
+      "name": "Gas stations",
+      "nameFr": "Stations-service",
+      "file": "fuel-canada.tsv.gz",
+      "bytes": 138186,
+      "sha256": "e49f4f2e0ebd79db74aba8b613b11c9d69f04a5315d45729600bbc64e1fb3a84",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/fuel-20261127-1/fuel-canada.tsv.gz"
+    },
+    {
+      "id": "canada",
       "kind": "trails",
       "province": "CA",
       "pruid": "",
