@@ -73,6 +73,17 @@
       "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-nl.pmtiles"
     },
     {
+      "id": "nt",
+      "province": "NT",
+      "pruid": "61",
+      "name": "Northwest Territories",
+      "nameFr": "Territoires du Nord-Ouest",
+      "file": "terrain-nt.pmtiles",
+      "bytes": 407778005,
+      "sha256": "bca420800bc6ecf114a45f55483f2c0c08c25d84883058b5088175bacc897559",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-3/terrain-nt.pmtiles"
+    },
+    {
       "id": "ns",
       "province": "NS",
       "pruid": "12",
@@ -82,6 +93,17 @@
       "bytes": 32243583,
       "sha256": "1f5d2951029d4c25ca34e9d8fc84540c3f2e91d5d3aece06b7933366c29199ca",
       "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-ns.pmtiles"
+    },
+    {
+      "id": "nu",
+      "province": "NU",
+      "pruid": "62",
+      "name": "Nunavut",
+      "nameFr": "Nunavut",
+      "file": "terrain-nu.pmtiles",
+      "bytes": 1133377898,
+      "sha256": "a34e97c09cb509c5227c38cbb4b503b5081a9c0c61b6454906c30cbfd0fb61ed",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-3/terrain-nu.pmtiles"
     },
     {
       "id": "on",
