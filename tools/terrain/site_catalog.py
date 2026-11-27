@@ -114,7 +114,7 @@ if len(sys.argv) >= 11 and sys.argv[9] != "-":
                 continue
             packs.append({"id": info["id"], "kind": kind, **meta, "file": part["file"], "bytes": part["bytes"],
                           "sha256": part["sha256"],
-                          "url": f"https://github.com/{REPO}/releases/download/{routing_tag}/{part['file']}"})
+                          "url": f"https://github.com/{REPO}/releases/download/{info.get('tag', routing_tag)}/{part['file']}"})
 if len(sys.argv) >= 9 and sys.argv[7] != "-":
     contours_tag, contours = sys.argv[7], json.load(open(sys.argv[8]))
     for info in contours["packs"]:
