@@ -108,8 +108,10 @@ if len(sys.argv) >= 11 and sys.argv[9] != "-":
     routing_tag, routing = sys.argv[9], json.load(open(sys.argv[10]))
     for info in routing["packs"]:
         meta = NAMES[info["id"]]
-        for kind in ("route", "search"):
-            part = info[kind]
+        for kind in ("route", "search", "address"):
+            part = info.get(kind)
+            if part is None:
+                continue
             packs.append({"id": info["id"], "kind": kind, **meta, "file": part["file"], "bytes": part["bytes"],
                           "sha256": part["sha256"],
                           "url": f"https://github.com/{REPO}/releases/download/{routing_tag}/{part['file']}"})
