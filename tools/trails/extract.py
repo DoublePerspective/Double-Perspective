@@ -9,6 +9,10 @@ import json, sys
 import osmium
 
 YES = {"yes", "designated", "permissive"}
+# Ordinary streets and highways where quads or sleds are merely allowed: drawn by the road layers, not as trails
+# (otherwise town streets show up as dashed trail lines).
+STREETS = {"motorway", "trunk", "primary", "secondary", "tertiary", "residential", "living_street", "service",
+           "motorway_link", "trunk_link", "primary_link", "secondary_link", "tertiary_link", "pedestrian", "busway"}
 
 
 def own_kind(t):
@@ -53,6 +57,8 @@ class Ways(osmium.SimpleHandler):
         if not kind and route:
             kind = route["kind"]
         if not kind:
+            return
+        if kind != "winter_road" and t.get("highway") in STREETS:
             return
         try:
             coords = [(round(n.lon, 6), round(n.lat, 6)) for n in w.nodes]
