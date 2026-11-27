@@ -35,11 +35,12 @@ jobs:
           [ -f names.zip ] && unzip -q -o names.zip && mv "$(find . -iname 'cgn_*.csv' | head -1)" names.csv
           python tools/routing/build_routing.py "$G" route-${{ matrix.prov }}.gpsr
           python tools/routing/build_search.py "$G" names.csv search-${{ matrix.prov }}.tsv.gz
+          python tools/routing/build_addresses.py "$G" addr-${{ matrix.prov }}.tsv.gz
           python3 - <<'PY'
           import hashlib, json, os
           p = "${{ matrix.prov }}"
           entry = {"id": p}
-          for kind, f in (("route", f"route-{p}.gpsr"), ("search", f"search-{p}.tsv.gz")):
+          for kind, f in (("route", f"route-{p}.gpsr"), ("search", f"search-{p}.tsv.gz"), ("address", f"addr-{p}.tsv.gz")):
               entry[kind] = {"file": f, "bytes": os.path.getsize(f), "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest()}
           json.dump(entry, open(f"routing-{p}.json", "w"))
           print(json.dumps(entry))
@@ -50,6 +51,7 @@ jobs:
           path: |
             route-${{ matrix.prov }}.gpsr
             search-${{ matrix.prov }}.tsv.gz
+            addr-${{ matrix.prov }}.tsv.gz
             routing-${{ matrix.prov }}.json
           if-no-files-found: ignore
   publish:
@@ -75,5 +77,5 @@ jobs:
           print(open('routing-catalog.json').read())"
           TAG="routing-$(date +%Y%m%d)-${{ github.run_number }}"
           gh release create "$TAG" --prerelease --title "Routing and search $(date +%Y-%m-%d)" \
-            --notes "Offline routing graphs and search indexes. National Road Network and Canadian Geographical Names © Natural Resources Canada, Open Government Licence – Canada." \
-            route-*.gpsr search-*.tsv.gz routing-catalog.json
+            --notes "Offline routing graphs, search indexes and house-number ranges. National Road Network and Canadian Geographical Names © Natural Resources Canada, Open Government Licence – Canada." \
+            route-*.gpsr search-*.tsv.gz addr-*.tsv.gz routing-catalog.json
