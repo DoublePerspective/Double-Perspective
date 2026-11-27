@@ -17,8 +17,11 @@
   "triggers": { "crons": ["*/5 * * * *"] },
   "vars": {
     "PUBLIC_URL": "https://follow.doubleperspective.com",
-    "CONTACT": "mailto:support@doubleperspective.com"
+    "CONTACT": "mailto:support@doubleperspective.com",
+    "PACKAGE_NAME": "com.doubleperspective.gravelpavementscout"
   }
+  // Secret (optional, set later): PLAY_SERVICE_ACCOUNT = a service-account JSON with access to the app in Play Console
+  // (Users and permissions → "View financial data"). Without it, /api/pro answers 503 and the app keeps its own Play state.
   // Secret (optional, set later): FCM_SERVICE_ACCOUNT = the Firebase service-account JSON.
   // Without it, app followers get no push yet; web-link followers still get Web Push.
 }

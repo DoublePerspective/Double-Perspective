@@ -59,6 +59,11 @@ async function route(request, env, ctx) {
   if (path === "/" && method === "GET") return text("Gravel & Pavement Scout check-ins. Nothing to see here.\n");
   if (path === "/robots.txt") return text("User-agent: *\nDisallow: /\n");
   if (path === "/api/vapid" && method === "GET") return json({ publicKey: (await vapidKeys(env)).publicKey });
+  // Public: is early access on (everything unlocked for everyone)? Lets the app decide without registering.
+  if (path === "/api/plan" && method === "GET") {
+    const config = (await setting(env, "free_limits")) || { enforced: false };
+    return json({ earlyAccess: !config.enforced });
+  }
 
   // Follower web page (token in the path; the page reads it from location).
   let m = path.match(/^\/f\/([A-Za-z0-9_-]{43})$/);
@@ -87,6 +92,7 @@ async function route(request, env, ctx) {
   const rider = await authRider(env, request);
   if (path === "/api/riders/me" && method === "PUT") return updateRider(env, rider, await body(request));
   if (path === "/api/riders/me" && method === "DELETE") return deleteRider(env, rider);
+  if (path === "/api/pro" && method === "POST") return verifyPro(env, rider, await body(request));
 
   if (path === "/api/rides" && method === "POST") return startRide(env, rider, await body(request));
   m = path.match(/^\/api\/rides\/(\d+)\/(checkins|pause|alert|end)$/);
@@ -134,6 +140,9 @@ async function ensureSchema(env) {
     // Road-following path between check-ins: one row per check-in, Google encoded polyline (precision 5).
     env.DB.prepare("CREATE TABLE IF NOT EXISTS tracks (ride_id INTEGER NOT NULL, t INTEGER NOT NULL, poly TEXT NOT NULL, PRIMARY KEY (ride_id, t))"),
     env.DB.prepare("CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)"),
+    // Google Play subscriptions, checked with the Play Developer API. The purchase token itself is not kept, only its hash.
+    env.DB.prepare("CREATE TABLE IF NOT EXISTS subscriptions (token_hash TEXT PRIMARY KEY, rider_id INTEGER NOT NULL, product TEXT NOT NULL, expires INTEGER NOT NULL, state TEXT NOT NULL, updated INTEGER NOT NULL)"),
+    env.DB.prepare("CREATE INDEX IF NOT EXISTS subscriptions_rider ON subscriptions (rider_id)"),
   ]);
   schemaReady = true;
 }
@@ -154,10 +163,44 @@ async function putSetting(env, key, value) {
  */
 async function limitsFor(env, rider) {
   const config = (await setting(env, "free_limits")) || { enforced: false };
-  const pro = !config.enforced; // TODO: OR rider has a verified Play subscription
+  const sub = await env.DB.prepare("SELECT MAX(expires) AS until FROM subscriptions WHERE rider_id = ?").bind(rider.id).first();
+  const proUntil = sub && sub.until > Date.now() ? sub.until : null;
+  const pro = !config.enforced || proUntil !== null;
+  const base = { earlyAccess: !config.enforced, proUntil };
   return pro
-    ? { pro: true, intervals: INTERVALS, maxFollowers: 999, fullPath: true }
-    : { pro: false, intervals: [30, 60], maxFollowers: 1, fullPath: false };
+    ? { ...base, pro: true, intervals: INTERVALS, maxFollowers: 999, fullPath: true }
+    : { ...base, pro: false, intervals: [30, 60], maxFollowers: 1, fullPath: false };
+}
+
+// ---------------------------------------------------------------- Pro (Google Play subscriptions)
+
+const PRO_PRODUCTS = ["pro"];
+const VALID_STATES = ["SUBSCRIPTION_STATE_ACTIVE", "SUBSCRIPTION_STATE_IN_GRACE_PERIOD", "SUBSCRIPTION_STATE_CANCELED"];
+
+/** The app sends its Play purchase token after buying (and at each launch); the server asks Google whether it is valid. */
+async function verifyPro(env, rider, data) {
+  const productId = String(data.productId || "");
+  const purchaseToken = String(data.purchaseToken || "");
+  if (!PRO_PRODUCTS.includes(productId) || !/^[A-Za-z0-9._:-]{20,500}$/.test(purchaseToken)) fail(400, "bad purchase");
+  if (!env.PLAY_SERVICE_ACCOUNT) return json({ error: "verification not configured", limits: await limitsFor(env, rider) }, 503);
+  const account = JSON.parse(env.PLAY_SERVICE_ACCOUNT);
+  const access = await googleAccessToken(account, "https://www.googleapis.com/auth/androidpublisher");
+  const response = await fetch(
+    `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${env.PACKAGE_NAME}/purchases/subscriptionsv2/tokens/${encodeURIComponent(purchaseToken)}`,
+    { headers: { Authorization: `Bearer ${access}` } }
+  );
+  if (response.status === 400 || response.status === 404 || response.status === 410) fail(402, "purchase not found");
+  if (!response.ok) fail(502, "Google Play did not answer");
+  const purchase = await response.json();
+  const item = (purchase.lineItems || []).find((line) => line.productId === productId);
+  const expires = item ? Date.parse(item.expiryTime) : 0;
+  const state = String(purchase.subscriptionState || "");
+  const valid = VALID_STATES.includes(state) && expires > Date.now();
+  await env.DB.prepare(
+    "INSERT INTO subscriptions (token_hash, rider_id, product, expires, state, updated) VALUES (?, ?, ?, ?, ?, ?) " +
+    "ON CONFLICT (token_hash) DO UPDATE SET rider_id = excluded.rider_id, expires = excluded.expires, state = excluded.state, updated = excluded.updated"
+  ).bind(await sha256(purchaseToken), rider.id, productId, valid ? expires : 0, state.replace("SUBSCRIPTION_STATE_", "").toLowerCase(), Date.now()).run();
+  return json({ valid, expires: valid ? expires : null, limits: await limitsFor(env, rider) });
 }
 
 // ---------------------------------------------------------------- riders
@@ -202,6 +245,7 @@ async function deleteRider(env, rider) {
     env.DB.prepare(`DELETE FROM webpush WHERE link_id IN (${links})`).bind(rider.id),
     env.DB.prepare("DELETE FROM links WHERE rider_id = ?1").bind(rider.id),
     env.DB.prepare("DELETE FROM follows WHERE rider_id = ?1 OR follower_id = ?1").bind(rider.id),
+    env.DB.prepare("DELETE FROM subscriptions WHERE rider_id = ?1").bind(rider.id),
     env.DB.prepare("DELETE FROM riders WHERE id = ?1").bind(rider.id),
   ]);
   return json({ ok: true });
@@ -592,7 +636,7 @@ async function vapidKeys(env) {
 }
 
 /** Firebase Cloud Messaging HTTP v1, with a data-only message so the app shows a notification in the rider's language. */
-let fcmTokenCache = null;
+const googleTokenCache = {};
 async function sendFcm(env, token, data) {
   if (!env.FCM_SERVICE_ACCOUNT) return; // not configured yet
   const account = JSON.parse(env.FCM_SERVICE_ACCOUNT);
@@ -608,15 +652,21 @@ async function sendFcm(env, token, data) {
   }
 }
 
-async function fcmAccessToken(account) {
+function fcmAccessToken(account) {
+  return googleAccessToken(account, "https://www.googleapis.com/auth/firebase.messaging");
+}
+
+/** OAuth access token for a Google service account (FCM, Play Developer API), cached per scope. */
+async function googleAccessToken(account, scope) {
   const now = Math.floor(Date.now() / 1000);
-  if (fcmTokenCache && fcmTokenCache.exp > now + 60) return fcmTokenCache.token;
+  const cached = googleTokenCache[scope];
+  if (cached && cached.exp > now + 60) return cached.token;
   const pem = account.private_key.replace(/-----[^-]+-----/g, "").replace(/\s+/g, "");
   const der = Uint8Array.from(atob(pem), (c) => c.charCodeAt(0));
   const key = await crypto.subtle.importKey("pkcs8", der, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]);
   const assertion = await signJwt(
     { alg: "RS256", typ: "JWT" },
-    { iss: account.client_email, scope: "https://www.googleapis.com/auth/firebase.messaging", aud: "https://oauth2.googleapis.com/token", iat: now, exp: now + 3600 },
+    { iss: account.client_email, scope, aud: "https://oauth2.googleapis.com/token", iat: now, exp: now + 3600 },
     key, { name: "RSASSA-PKCS1-v1_5" }
   );
   const response = await fetch("https://oauth2.googleapis.com/token", {
@@ -625,9 +675,9 @@ async function fcmAccessToken(account) {
     body: new URLSearchParams({ grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer", assertion }),
   });
   const result = await response.json();
-  if (!result.access_token) throw new Error("FCM auth failed");
-  fcmTokenCache = { token: result.access_token, exp: now + (result.expires_in || 3600) };
-  return fcmTokenCache.token;
+  if (!result.access_token) throw new Error("Google auth failed");
+  googleTokenCache[scope] = { token: result.access_token, exp: now + (result.expires_in || 3600) };
+  return result.access_token;
 }
 
 // ---------------------------------------------------------------- helpers
