@@ -4,14 +4,19 @@ jobs:
   look:
     runs-on: ubuntu-latest
     steps:
-      - name: Données Québec trail datasets
+      - name: Inspect RQTT
         run: |
-          for q in "sentiers VHR" "sentiers motoneige" "véhicules hors route" "quad" "Adresses Québec réseau routier"; do
-            echo "== $q"
-            curl -s "https://www.donneesquebec.ca/recherche/api/3/action/package_search?rows=6&q=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$q")" | python3 -c "
-          import json,sys
-          for p in json.load(sys.stdin)['result']['results']:
-              print('#', p['title'], '|', p.get('license_title'), '|', (p.get('organization') or {}).get('title'), '|', p['name'], '|', p.get('metadata_modified'))
-              for r in p.get('resources',[]): print('   ', r.get('format'), r.get('name'), r.get('url'))
-          "
+          sudo apt-get install -y -qq gdal-bin >/dev/null
+          curl -sfL -o r.zip "https://diffusion.mern.gouv.qc.ca/diffusion/RGQ/Vectoriel/Theme/Local/RQTT/OGC(GPKG)/RQTT_GPKG.zip"
+          ls -la r.zip; unzip -q r.zip; G=$(find . -name "*.gpkg" | head -1); echo $G
+          ogrinfo -ro -q "$G" | head -40
+          for L in $(ogrinfo -ro -q "$G" | sed -E 's/^[0-9]+: ([^ ]+).*/\1/'); do
+            echo "=== $L $(ogrinfo -ro -so "$G" "$L" | grep 'Feature Count')"
+            ogrinfo -ro -so "$G" "$L" | sed -n '/^Geometry Column/,$p' | head -40
+          done
+          echo "##### text fields with trail words"
+          for L in $(ogrinfo -ro -q "$G" | sed -E 's/^[0-9]+: ([^ ]+).*/\1/'); do
+            for F in $(ogrinfo -ro -so "$G" "$L" | grep -E ': String' | cut -d: -f1); do
+              ogrinfo -ro -q "$G" -sql "SELECT \"$F\", COUNT(*) AS n FROM \"$L\" GROUP BY \"$F\" ORDER BY n DESC LIMIT 25" 2>/dev/null | grep -E "$F \(|n \(" | paste - - | grep -iE "motoneig|vhr|quad|sentier|hors|vtt|chemin|forest" | sed "s/^/$L.$F: /" | head -25
+            done
           done
