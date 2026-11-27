@@ -21,8 +21,8 @@ from shapely import get_coordinates, simplify
 
 CLASSES = {"Freeway": 0, "Expressway / Highway": 1, "Arterial": 2, "Collector": 3, "Local / Street": 4,
            "Local / Strata": 4, "Local / Unknown": 4, "Resource / Recreation": 5, "Service Lane": 6,
-           "Alleyway / Lane": 6, "Ramp": 7, "Winter": 7}
-SKIP = {"Rapid Transit"}
+           "Alleyway / Lane": 6, "Ramp": 7}
+SKIP = {"Rapid Transit", "Winter"}  # ice/winter roads are shown on the trails layer, never routed
 
 
 def main(gpkg, output):
