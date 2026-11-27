@@ -1,0 +1,61 @@
+name: contour-packs
+# Contour lines for Gravel & Pavement Scout (Pro), one PMTiles per province/territory.
+# Elevation © Natural Resources Canada, Open Government Licence – Canada.
+on:
+  workflow_dispatch:
+    inputs:
+      provinces:
+        description: 'Space-separated ids (default: all)'
+        required: false
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        province: [pe, ns, nb, nl, qc, on, mb, sk, ab, bc, yt, nt, nu]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ${{ matrix.province }}
+        run: |
+          if [ -n "${{ github.event.inputs.provinces }}" ] && ! echo " ${{ github.event.inputs.provinces }} " | grep -q " ${{ matrix.province }} "; then
+            echo "skipped"; exit 0
+          fi
+          sudo apt-get install -y -qq gdal-bin tippecanoe >/dev/null
+          pip install -q rasterio mercantile pmtiles pillow numpy
+          python tools/terrain/build_contours.py ${{ matrix.province }} contours-${{ matrix.province }}.pmtiles | tee build.log
+          tail -n 1 build.log > contours-${{ matrix.province }}.json
+          rm -f dem.tif contours.gpkg contours.geojsons
+      - uses: actions/upload-artifact@v4
+        with:
+          name: contours-${{ matrix.province }}
+          path: contours-${{ matrix.province }}.*
+          if-no-files-found: ignore
+  publish:
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Release
+        run: |
+          cd out
+          ls contours-*.pmtiles >/dev/null 2>&1 || { echo "nothing built"; exit 0; }
+          python3 -c "
+          import json,glob
+          packs=[json.loads(open(f).read()) for f in sorted(glob.glob('contours-*.json'))]
+          json.dump({'schemaVersion':1,'kind':'contours','packs':packs},open('contours-catalog.json','w'),indent=2)
+          print(open('contours-catalog.json').read())"
+          TAG="contours-$(date +%Y%m%d)-${{ github.run_number }}"
+          gh release create "$TAG" --prerelease --title "Contours $(date +%Y-%m-%d)" \
+            --notes "Contour lines every 20 m (100 m index). Elevation © Natural Resources Canada, Open Government Licence – Canada." \
+            contours-*.pmtiles contours-catalog.json
