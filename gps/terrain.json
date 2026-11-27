@@ -304,7 +304,7 @@
       "file": "route-ab.gpsr",
       "bytes": 34599841,
       "sha256": "b35e2e61da28ee718cdecdf00f89022df959df4e386439d920fc071fcfa5e4e0",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-ab.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-ab.gpsr"
     },
     {
       "id": "ab",
@@ -315,8 +315,20 @@
       "nameFr": "Alberta",
       "file": "search-ab.tsv.gz",
       "bytes": 838361,
-      "sha256": "3028e32c0183182a469c7e8cade3851302596ea03c7c2dba69d980a30a1ccc5f",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-ab.tsv.gz"
+      "sha256": "804f8258241dd493af19f3df127789a10c3d98769a430c070d2181f8ccf438e8",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-ab.tsv.gz"
+    },
+    {
+      "id": "ab",
+      "kind": "address",
+      "province": "AB",
+      "pruid": "48",
+      "name": "Alberta",
+      "nameFr": "Alberta",
+      "file": "addr-ab.tsv.gz",
+      "bytes": 5438114,
+      "sha256": "6e895f07757fae1aec404d0cb6d6b84a000aadfd53951875a580a0d5e5f20765",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-ab.tsv.gz"
     },
     {
       "id": "bc",
@@ -328,7 +340,7 @@
       "file": "route-bc.gpsr",
       "bytes": 25136716,
       "sha256": "81714ab6325a2e7390e47b65134b90fb45c89b3b122687a808dbdceabd3c5bd7",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-bc.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-bc.gpsr"
     },
     {
       "id": "bc",
@@ -339,8 +351,20 @@
       "nameFr": "Colombie-Britannique",
       "file": "search-bc.tsv.gz",
       "bytes": 1574695,
-      "sha256": "af6da223ef06263d37303d7dc6fa2dfa540e894e4d6513bcb771adc5c66ccc84",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-bc.tsv.gz"
+      "sha256": "fdd8159c909111a74456aa2f81b133863881205ec808e23390d550ae617e0b4f",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-bc.tsv.gz"
+    },
+    {
+      "id": "bc",
+      "kind": "address",
+      "province": "BC",
+      "pruid": "59",
+      "name": "British Columbia",
+      "nameFr": "Colombie-Britannique",
+      "file": "addr-bc.tsv.gz",
+      "bytes": 37,
+      "sha256": "74a6221cce0f4310e4486769ae09730dea8015e60739ee343f699f955c8c7dc5",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-bc.tsv.gz"
     },
     {
       "id": "mb",
@@ -352,7 +376,7 @@
       "file": "route-mb.gpsr",
       "bytes": 8742707,
       "sha256": "7a59955ccc16789aec6784ede60a4f5121c2b6254ee58e5700934825401d472c",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-mb.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-mb.gpsr"
     },
     {
       "id": "mb",
@@ -363,8 +387,20 @@
       "nameFr": "Manitoba",
       "file": "search-mb.tsv.gz",
       "bytes": 575224,
-      "sha256": "59c2499fadadbaa5082976580f4761aca48398331a08d1aba3ddc876b3416e03",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-mb.tsv.gz"
+      "sha256": "0f45349fed54fa78734e44312ca4afb28ff8b755bd6dc881660ccee0ba097971",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-mb.tsv.gz"
+    },
+    {
+      "id": "mb",
+      "kind": "address",
+      "province": "MB",
+      "pruid": "46",
+      "name": "Manitoba",
+      "nameFr": "Manitoba",
+      "file": "addr-mb.tsv.gz",
+      "bytes": 877900,
+      "sha256": "f71da3e78fc9d155cae4a22a4dddae28752d527109c89574bacdd45a6cc4febd",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-mb.tsv.gz"
     },
     {
       "id": "nb",
@@ -376,7 +412,7 @@
       "file": "route-nb.gpsr",
       "bytes": 6972774,
       "sha256": "99d7b0a75e898db08ca7c8ac28d66aabd7628954300d17be5ebcff5eafa9d278",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-nb.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-nb.gpsr"
     },
     {
       "id": "nb",
@@ -387,8 +423,20 @@
       "nameFr": "Nouveau-Brunswick",
       "file": "search-nb.tsv.gz",
       "bytes": 545822,
-      "sha256": "3337e70534533372fc12e65428199b7c9548e6a3d3ba49089343d31c678722ee",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-nb.tsv.gz"
+      "sha256": "587c003a38e819d79037f0bd4c2d5de33b9b140092a0b80c17ec569c4ee0d1ac",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-nb.tsv.gz"
+    },
+    {
+      "id": "nb",
+      "kind": "address",
+      "province": "NB",
+      "pruid": "13",
+      "name": "New Brunswick",
+      "nameFr": "Nouveau-Brunswick",
+      "file": "addr-nb.tsv.gz",
+      "bytes": 2508734,
+      "sha256": "22c7c3dadfccf56c8c980460629a2209a27e21b6c1bd0e005c9b29c372f26f8b",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-nb.tsv.gz"
     },
     {
       "id": "nl",
@@ -400,7 +448,7 @@
       "file": "route-nl.gpsr",
       "bytes": 4622358,
       "sha256": "c2c3b07ded4dd71655b652740a1cc3947e3f51f3adad0b32f584af93366c434b",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-nl.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-nl.gpsr"
     },
     {
       "id": "nl",
@@ -411,8 +459,20 @@
       "nameFr": "Terre-Neuve-et-Labrador",
       "file": "search-nl.tsv.gz",
       "bytes": 567548,
-      "sha256": "2ca318dbd655beb4bbd2c01eef095205db02011fa111394e2b11c972d8007615",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-nl.tsv.gz"
+      "sha256": "244be6b21650044817cf08ba346f3be23c1a0e695d57cce31ceed04ec4e091d0",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-nl.tsv.gz"
+    },
+    {
+      "id": "nl",
+      "kind": "address",
+      "province": "NL",
+      "pruid": "10",
+      "name": "Newfoundland and Labrador",
+      "nameFr": "Terre-Neuve-et-Labrador",
+      "file": "addr-nl.tsv.gz",
+      "bytes": 497461,
+      "sha256": "d1e1b58fe292f46f7c4720be9fbd5937bcd63597707f1906e3b800cbe8d7b9cf",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-nl.tsv.gz"
     },
     {
       "id": "ns",
@@ -424,7 +484,7 @@
       "file": "route-ns.gpsr",
       "bytes": 13152177,
       "sha256": "e9aa16688fe7a8deffa1385990c7d77374ad7f844c7583c250125612373dc733",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-ns.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-ns.gpsr"
     },
     {
       "id": "ns",
@@ -435,8 +495,20 @@
       "nameFr": "Nouvelle-Écosse",
       "file": "search-ns.tsv.gz",
       "bytes": 771378,
-      "sha256": "304624faca454d71313854f3cf1fb3ac6ad66a64f1dd1e634dd0ae19c7dd995a",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-ns.tsv.gz"
+      "sha256": "83906fcc170e777801f1aeceebf26cc374d24a7873066113766b43d5ac4047fb",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-ns.tsv.gz"
+    },
+    {
+      "id": "ns",
+      "kind": "address",
+      "province": "NS",
+      "pruid": "12",
+      "name": "Nova Scotia",
+      "nameFr": "Nouvelle-Écosse",
+      "file": "addr-ns.tsv.gz",
+      "bytes": 3514300,
+      "sha256": "0357af7f591ab24274380e29e1c04d4b12cbec3c458fb96fe17afd66c6e8d640",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-ns.tsv.gz"
     },
     {
       "id": "nt",
@@ -448,7 +520,7 @@
       "file": "route-nt.gpsr",
       "bytes": 800545,
       "sha256": "b741e22110210841a0586ac00648fe3b1c517e60ffc022e09e09c4d1992418be",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-nt.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-nt.gpsr"
     },
     {
       "id": "nt",
@@ -459,8 +531,20 @@
       "nameFr": "Territoires du Nord-Ouest",
       "file": "search-nt.tsv.gz",
       "bytes": 85376,
-      "sha256": "0d947f6024961c7a31c19541d6855eb5d8b216f3c32a5623b7bd56adb62663fc",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-nt.tsv.gz"
+      "sha256": "9708b4ae262c1c799cea9a1088923e86abfb1b5214f943a27efd241e0dd077d3",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-nt.tsv.gz"
+    },
+    {
+      "id": "nt",
+      "kind": "address",
+      "province": "NT",
+      "pruid": "61",
+      "name": "Northwest Territories",
+      "nameFr": "Territoires du Nord-Ouest",
+      "file": "addr-nt.tsv.gz",
+      "bytes": 37,
+      "sha256": "a5f3f16a4a94b371d4dcc42ffa4c71ca238da4f1a752135075b2962dfe1b130b",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-nt.tsv.gz"
     },
     {
       "id": "nu",
@@ -472,7 +556,7 @@
       "file": "route-nu.gpsr",
       "bytes": 489801,
       "sha256": "d506cc0e993d5a1d9971fe44d74ddbd3332635446a035d67d674bf364aea75d2",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-nu.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-nu.gpsr"
     },
     {
       "id": "nu",
@@ -483,8 +567,20 @@
       "nameFr": "Nunavut",
       "file": "search-nu.tsv.gz",
       "bytes": 116555,
-      "sha256": "981c221bf101c4324a50c1d27aadbdb416f6c3f588072f66546a378c7966d487",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-nu.tsv.gz"
+      "sha256": "75975e558d95d6403276463b10bce3409835ea1856c981cae625d12eed5cad4d",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-nu.tsv.gz"
+    },
+    {
+      "id": "nu",
+      "kind": "address",
+      "province": "NU",
+      "pruid": "62",
+      "name": "Nunavut",
+      "nameFr": "Nunavut",
+      "file": "addr-nu.tsv.gz",
+      "bytes": 20235,
+      "sha256": "75363d7d137d949610b262ae6c14629dea06d36eca848c1ac449ed71e34a19d7",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-nu.tsv.gz"
     },
     {
       "id": "on",
@@ -496,7 +592,7 @@
       "file": "route-on.gpsr",
       "bytes": 59442848,
       "sha256": "54fdc2f5eb14a0362de6e8601d680fdbf3870e750f70c222d7dfa64df12ec39c",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-on.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-on.gpsr"
     },
     {
       "id": "on",
@@ -507,8 +603,20 @@
       "nameFr": "Ontario",
       "file": "search-on.tsv.gz",
       "bytes": 3403296,
-      "sha256": "62b6a1828e15be25b5c032bf25e7511dd04a8d3b9e52a7aef663de7e9590e390",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-on.tsv.gz"
+      "sha256": "0347d4805cde654d6b7e1500f652f62115d6be0835fa901d1bdeaeffea7f3bdb",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-on.tsv.gz"
+    },
+    {
+      "id": "on",
+      "kind": "address",
+      "province": "ON",
+      "pruid": "35",
+      "name": "Ontario",
+      "nameFr": "Ontario",
+      "file": "addr-on.tsv.gz",
+      "bytes": 15324321,
+      "sha256": "f9bd6d22097911ccd8c2670675053548ec4d3a8567b997899fdfbe4f33d06bff",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-on.tsv.gz"
     },
     {
       "id": "pe",
@@ -520,7 +628,7 @@
       "file": "route-pe.gpsr",
       "bytes": 1613121,
       "sha256": "de222467020a1459a480a060ed052f7db84e3756b64ff124714fd8e38e92a06a",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-pe.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-pe.gpsr"
     },
     {
       "id": "pe",
@@ -531,8 +639,20 @@
       "nameFr": "Île-du-Prince-Édouard",
       "file": "search-pe.tsv.gz",
       "bytes": 125174,
-      "sha256": "f7e07f2b100d58eccbdbbd140116fb62a413d90f8a337ecef49f77cbc9e3407f",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-pe.tsv.gz"
+      "sha256": "66f99da505db338577bb3000586b334d7d20bad614be3a676f0e4c07817f4245",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-pe.tsv.gz"
+    },
+    {
+      "id": "pe",
+      "kind": "address",
+      "province": "PE",
+      "pruid": "11",
+      "name": "Prince Edward Island",
+      "nameFr": "Île-du-Prince-Édouard",
+      "file": "addr-pe.tsv.gz",
+      "bytes": 475284,
+      "sha256": "fe9fe9312ea432cfe73990b26e34df1eb8325e5cc7366f2c5cc4174c851d8860",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-pe.tsv.gz"
     },
     {
       "id": "qc",
@@ -544,7 +664,7 @@
       "file": "route-qc.gpsr",
       "bytes": 40502383,
       "sha256": "861033469e26efbe6ef431361a42a77064e8c2a062479acf79756d367d2ca769",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-qc.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-qc.gpsr"
     },
     {
       "id": "qc",
@@ -555,8 +675,20 @@
       "nameFr": "Québec",
       "file": "search-qc.tsv.gz",
       "bytes": 3984818,
-      "sha256": "c51d3bb2142021d184eb1cc1cdfa581a09bbd06caec1d4e02c04a932b345a122",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-qc.tsv.gz"
+      "sha256": "b915aa67d835de50d342924c74ccfbf35bad6b72a4839125c29602316d6c2462",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-qc.tsv.gz"
+    },
+    {
+      "id": "qc",
+      "kind": "address",
+      "province": "QC",
+      "pruid": "24",
+      "name": "Quebec",
+      "nameFr": "Québec",
+      "file": "addr-qc.tsv.gz",
+      "bytes": 11760152,
+      "sha256": "7404042888a1bb195209be0e31bdfc76f92774f5d835d8cacc459bba18688d0f",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-qc.tsv.gz"
     },
     {
       "id": "sk",
@@ -568,7 +700,7 @@
       "file": "route-sk.gpsr",
       "bytes": 22952309,
       "sha256": "5e60502fa05a1975dc4c970cf4b648db5b6f03c3b037dd4fe06773fa73f85ef2",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-sk.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-sk.gpsr"
     },
     {
       "id": "sk",
@@ -579,8 +711,20 @@
       "nameFr": "Saskatchewan",
       "file": "search-sk.tsv.gz",
       "bytes": 536470,
-      "sha256": "3772e88179b2c07b6dda8185e460ea74d8eed0c5339a30fcd8c6ad691e721c9f",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-sk.tsv.gz"
+      "sha256": "cdab80ad52df3ce223f2cd373698e046e3eab1a82b61c6834e5a94fab080af66",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-sk.tsv.gz"
+    },
+    {
+      "id": "sk",
+      "kind": "address",
+      "province": "SK",
+      "pruid": "47",
+      "name": "Saskatchewan",
+      "nameFr": "Saskatchewan",
+      "file": "addr-sk.tsv.gz",
+      "bytes": 37,
+      "sha256": "89471d744e4ad0e3db94cb29d57f51c8b5ff0c5d56ed3774f08f2624504f6982",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-sk.tsv.gz"
     },
     {
       "id": "yt",
@@ -592,7 +736,7 @@
       "file": "route-yt.gpsr",
       "bytes": 1048817,
       "sha256": "da5577453c7f14c9d47a539362fa443f3882404108cdaa7e2456777dbeae8078",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/route-yt.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/route-yt.gpsr"
     },
     {
       "id": "yt",
@@ -603,8 +747,20 @@
       "nameFr": "Yukon",
       "file": "search-yt.tsv.gz",
       "bytes": 76953,
-      "sha256": "0acacaa0fb49cbbcf8696c134c6870142ac7ebeedd32ce59815e5020d286ff18",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-2/search-yt.tsv.gz"
+      "sha256": "af3b64f95a42d6fb2d6905fd42861f4aab1b2d9af04aff263e86d219a3e09e5b",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/search-yt.tsv.gz"
+    },
+    {
+      "id": "yt",
+      "kind": "address",
+      "province": "YT",
+      "pruid": "60",
+      "name": "Yukon",
+      "nameFr": "Yukon",
+      "file": "addr-yt.tsv.gz",
+      "bytes": 197761,
+      "sha256": "8ca79a3c4b24e14dc31c3377591382b81177a423a2297da06c958af5f093285b",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/routing-20261127-4/addr-yt.tsv.gz"
     }
   ]
 }
