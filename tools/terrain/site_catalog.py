@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Turns a terrain release's terrain-catalog.json into the app catalog served at /gps/terrain.json.
 
-Usage: python3 tools/terrain/site_catalog.py <release-tag> <terrain-catalog.json> > gps/terrain.json
+Usage: python3 tools/terrain/site_catalog.py <terrain-tag> <terrain-catalog.json> [<trails-tag> <trails-catalog.json>] > gps/terrain.json
 The pack files stay on the GitHub release; the app downloads them from there (https, Range resume).
 """
 import json, sys
 
-REPO = "DoublePerspective/double-perspective"
+REPO = "DoublePerspective/Double-Perspective"
 NAMES = {
     "bc": {
         "province": "BC",
@@ -89,13 +89,19 @@ NAMES = {
 }
 
 tag, path = sys.argv[1], sys.argv[2]
-release = json.load(open(path))
+release = json.load(open(path)) if path != "-" else {"packs": []}
 packs = []
 for info in release["packs"]:
     meta = NAMES[info["id"]]
     packs.append({"id": info["id"], **meta, "file": info["file"], "bytes": info["bytes"], "sha256": info["sha256"],
                   "url": f"https://github.com/{REPO}/releases/download/{tag}/{info['file']}"})
 packs.sort(key=lambda p: p["name"])
+if len(sys.argv) >= 5:
+    trails_tag, trails = sys.argv[3], json.load(open(sys.argv[4]))
+    packs.insert(0, {"id": "canada", "kind": "trails", "province": "CA", "pruid": "",
+                     "name": "Trails: snowmobile, quad, winter roads", "nameFr": "Sentiers : motoneige, quad, chemins d’hiver",
+                     "file": trails["file"], "bytes": trails["bytes"], "sha256": trails["sha256"],
+                     "url": f"https://github.com/{REPO}/releases/download/{trails_tag}/{trails['file']}"})
 json.dump({"schemaVersion": 1, "kind": "terrain", "release": tag, "built": release.get("built"),
            "attribution": "Elevation \u00a9 Natural Resources Canada, Open Government Licence \u2013 Canada",
            "packs": packs}, sys.stdout, indent=2, ensure_ascii=False)
