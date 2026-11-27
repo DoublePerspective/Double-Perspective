@@ -1,0 +1,83 @@
+name: Build terrain packs (Gravel & Pavement Scout)
+# Terrain-shading overlays from Natural Resources Canada elevation (Open Government Licence – Canada),
+# one PMTiles file per province/territory, published as a GitHub release for the map-pack admin to import.
+on:
+  push:
+    paths:
+      - '.github/workflows/terrain-packs.yml'
+      - 'tools/terrain/build_terrain.py'
+  workflow_dispatch:
+    inputs:
+      provinces:
+        description: 'Space-separated ids (default: all)'
+        required: false
+permissions:
+  contents: write
+concurrency:
+  group: terrain-packs
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      max-parallel: 13
+      matrix:
+        province: [pe, ns, nb, nl, qc, on, mb, sk, ab, bc, yt, nt, nu]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: pip install rasterio mercantile pmtiles pillow numpy
+      - name: Build ${{ matrix.province }}
+        run: |
+          if [ -n "${{ github.event.inputs.provinces }}" ] && ! echo " ${{ github.event.inputs.provinces }} " | grep -q " ${{ matrix.province }} "; then
+            echo "skipped"; exit 0
+          fi
+          python tools/terrain/build_terrain.py ${{ matrix.province }} terrain-${{ matrix.province }}.pmtiles | tee build.log
+          tail -n 1 build.log > terrain-${{ matrix.province }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: terrain-${{ matrix.province }}
+          path: |
+            terrain-${{ matrix.province }}.pmtiles
+            terrain-${{ matrix.province }}.json
+          if-no-files-found: ignore
+          retention-days: 30
+  publish:
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Catalog and release
+        run: |
+          cd out
+          ls -la
+          python3 - <<'PY'
+          import json, glob, datetime
+          packs = []
+          for f in sorted(glob.glob("terrain-*.json")):
+              line = open(f).read().strip()
+              try:
+                  info = json.loads(line)
+              except ValueError:
+                  continue
+              info["file"] = f"terrain-{info['id']}.pmtiles"
+              packs.append(info)
+          catalog = {"schemaVersion": 1, "kind": "terrain", "built": datetime.date.today().isoformat(),
+                     "source": "Natural Resources Canada elevation, Open Government Licence – Canada", "packs": packs}
+          json.dump(catalog, open("terrain-catalog.json", "w"), indent=2, ensure_ascii=False)
+          print(json.dumps(catalog, indent=2, ensure_ascii=False))
+          PY
+          TAG="terrain-$(date +%Y%m%d)-${{ github.run_number }}"
+          gh release create "$TAG" --title "Terrain packs $(date +%Y-%m-%d)" --notes "Terrain shading for Gravel & Pavement Scout. Elevation © Natural Resources Canada, Open Government Licence – Canada." --prerelease terrain-*.pmtiles terrain-catalog.json
