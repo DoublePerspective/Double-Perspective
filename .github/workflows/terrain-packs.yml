@@ -11,6 +11,9 @@ on:
       provinces:
         description: 'Space-separated ids (default: all)'
         required: false
+      max_zoom:
+        description: 'Most detailed zoom (default 11; the territories use 10 so they finish in time)'
+        required: false
 permissions:
   contents: write
 concurrency:
@@ -37,7 +40,9 @@ jobs:
           if [ -n "${{ github.event.inputs.provinces }}" ] && ! echo " ${{ github.event.inputs.provinces }} " | grep -q " ${{ matrix.province }} "; then
             echo "skipped"; exit 0
           fi
-          python tools/terrain/build_terrain.py ${{ matrix.province }} terrain-${{ matrix.province }}.pmtiles | tee build.log
+          ZOOM="${{ github.event.inputs.max_zoom }}"
+          if [ -z "$ZOOM" ]; then case "${{ matrix.province }}" in nt|nu) ZOOM=10 ;; *) ZOOM=11 ;; esac; fi
+          python tools/terrain/build_terrain.py ${{ matrix.province }} terrain-${{ matrix.province }}.pmtiles --max-zoom "$ZOOM" | tee build.log
           tail -n 1 build.log > terrain-${{ matrix.province }}.json
       - uses: actions/upload-artifact@v4
         with:
