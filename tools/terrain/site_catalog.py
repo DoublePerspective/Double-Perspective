@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Turns a terrain release's terrain-catalog.json into the app catalog served at /gps/terrain.json.
 
-Usage: python3 tools/terrain/site_catalog.py <terrain-tag> <terrain-catalog.json> [<trails-tag> <trails-catalog.json> [<surface-tag> <surface-catalog.json>]] > gps/terrain.json
-Use - - for a part that has no release yet.
+Usage: python3 tools/terrain/site_catalog.py <terrain-tag> <terrain-catalog.json> [<trails-tag> <trails-catalog.json> [<surface-tag> <surface-catalog.json> [<contours-tag> <contours-catalog.json>]]] > gps/terrain.json
+Use - - for a part that has no release yet. A terrain pack entry may carry its own "tag" (packs merged from several releases).
 The pack files stay on the GitHub release; the app downloads them from there (https, Range resume).
 """
 import json, sys
@@ -95,7 +95,7 @@ packs = []
 for info in release["packs"]:
     meta = NAMES[info["id"]]
     packs.append({"id": info["id"], **meta, "file": info["file"], "bytes": info["bytes"], "sha256": info["sha256"],
-                  "url": f"https://github.com/{REPO}/releases/download/{tag}/{info['file']}"})
+                  "url": f"https://github.com/{REPO}/releases/download/{info.get('tag', tag)}/{info['file']}"})
 packs.sort(key=lambda p: p["name"])
 if len(sys.argv) >= 7 and sys.argv[5] != "-":
     surface_tag, surface = sys.argv[5], json.load(open(sys.argv[6]))
@@ -104,6 +104,13 @@ if len(sys.argv) >= 7 and sys.argv[5] != "-":
         packs.append({"id": info["id"], "kind": "surface", **meta, "file": info["file"], "bytes": info["bytes"],
                       "sha256": info["sha256"],
                       "url": f"https://github.com/{REPO}/releases/download/{surface_tag}/{info['file']}"})
+if len(sys.argv) >= 9 and sys.argv[7] != "-":
+    contours_tag, contours = sys.argv[7], json.load(open(sys.argv[8]))
+    for info in contours["packs"]:
+        meta = NAMES[info["id"]]
+        packs.append({"id": info["id"], "kind": "contours", **meta, "file": info["file"], "bytes": info["bytes"],
+                      "sha256": info["sha256"],
+                      "url": f"https://github.com/{REPO}/releases/download/{info.get('tag', contours_tag)}/{info['file']}"})
 if len(sys.argv) >= 5 and sys.argv[3] != "-":
     trails_tag, trails = sys.argv[3], json.load(open(sys.argv[4]))
     packs.insert(0, {"id": "canada", "kind": "trails", "province": "CA", "pruid": "",
