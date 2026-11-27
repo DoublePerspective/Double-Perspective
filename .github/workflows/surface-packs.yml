@@ -1,0 +1,75 @@
+name: surface-packs
+# Paved / unpaved / unknown road lines for Gravel & Pavement Scout, one PMTiles per province/territory,
+# from the National Road Network (NRCan, Statistics Canada distribution), Open Government Licence – Canada.
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        prov: [ab, bc, mb, nb, nl, ns, nt, nu, on, pe, qc, sk, yt]
+    steps:
+      - name: Tools
+        run: sudo apt-get install -y -qq gdal-bin tippecanoe >/dev/null
+      - name: Download NRN
+        run: |
+          curl -sfL -o nrn.zip "https://geo.statcan.gc.ca/nrn_rrn/${{ matrix.prov }}/nrn_rrn_${{ matrix.prov }}_GPKG.zip"
+          ls -la nrn.zip; unzip -q nrn.zip; find . -name "*.gpkg"
+      - name: Build
+        run: |
+          G=$(find . -name "*.gpkg" | head -1)
+          L=$(ogrinfo -ro -q "$G" | sed -E 's/^[0-9]+: ([^ ]+).*/\1/' | grep -i 'ROADSEG$' | head -1)
+          echo "layer $L"
+          ogr2ogr -f GeoJSONSeq -t_srs EPSG:4326 -dim XY -lco RS=NO surface.geojsons "$G" -nln surface -sql "
+            SELECT CASE WHEN PAVSTATUS = 'Paved' THEN 'paved' WHEN PAVSTATUS = 'Unpaved' THEN 'unpaved' ELSE 'unknown' END AS s,
+                   ROADCLASS AS c,
+                   COALESCE(NULLIF(L_STNAME_C, ''), NULLIF(R_STNAME_C, '')) AS name
+            FROM \"$L\""
+          echo "$(wc -l < surface.geojsons) segments"
+          tippecanoe -o surface-${{ matrix.prov }}.pmtiles -l surface -Z 6 -z 13 --drop-densest-as-needed \
+            --simplification=6 --no-tile-size-limit --coalesce --reorder --force \
+            -j '{ "surface": [ "any", [ ">=", "$zoom", 9 ], [ "in", "c", "Freeway", "Expressway / Highway", "Arterial", "Collector", "Resource / Recreation" ] ] }' \
+            --attribution="Road surface: National Road Network © Natural Resources Canada, OGL-Canada" surface.geojsons
+          python3 - <<'PY'
+          import hashlib, json, os
+          f = "surface-${{ matrix.prov }}.pmtiles"
+          print(json.dumps({"id": "${{ matrix.prov }}", "bytes": os.path.getsize(f), "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest()}))
+          PY
+          python3 -c "print(open('surface-${{ matrix.prov }}.pmtiles','rb').read(0))"
+          python3 - > surface-${{ matrix.prov }}.json <<'PY'
+          import hashlib, json, os
+          f = "surface-${{ matrix.prov }}.pmtiles"
+          print(json.dumps({"id": "${{ matrix.prov }}", "file": f, "bytes": os.path.getsize(f), "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest()}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: surface-${{ matrix.prov }}
+          path: surface-${{ matrix.prov }}.*
+  publish:
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Release
+        run: |
+          cd out
+          python3 -c "
+          import json,glob
+          packs=[json.loads(open(f).read()) for f in sorted(glob.glob('surface-*.json'))]
+          json.dump({'schemaVersion':1,'kind':'surface','packs':packs},open('surface-catalog.json','w'),indent=2)
+          print(open('surface-catalog.json').read())"
+          TAG="surface-$(date +%Y%m%d)-${{ github.run_number }}"
+          gh release create "$TAG" --prerelease --title "Road surface $(date +%Y-%m-%d)" \
+            --notes "Paved / unpaved road lines per province. National Road Network © Natural Resources Canada, Open Government Licence – Canada." \
+            surface-*.pmtiles surface-catalog.json
