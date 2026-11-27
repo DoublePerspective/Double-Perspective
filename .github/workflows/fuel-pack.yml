@@ -1,0 +1,43 @@
+name: fuel-pack
+# Gas stations across Canada for Gravel & Pavement Scout (fuel stops, range warnings),
+# from OpenStreetMap (© OpenStreetMap contributors, ODbL 1.0).
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools
+        run: |
+          sudo apt-get install -y -qq osmium-tool >/dev/null
+          pip install -q osmium
+      - name: Download Canada extract
+        run: |
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o canada.osm.pbf https://download.geofabrik.de/north-america/canada-latest.osm.pbf
+          ls -la canada.osm.pbf
+      - name: Stations
+        run: |
+          osmium tags-filter -o fuel.osm.pbf canada.osm.pbf nw/amenity=fuel
+          rm canada.osm.pbf
+          python3 tools/fuel/extract.py fuel.osm.pbf fuel-canada.tsv.gz
+          zcat fuel-canada.tsv.gz | head -5
+          python3 - <<'PY'
+          import hashlib, json, os, datetime
+          f = "fuel-canada.tsv.gz"
+          json.dump({"id": "fuel-canada", "file": f, "bytes": os.path.getsize(f),
+                     "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest(),
+                     "built": datetime.date.today().isoformat()}, open("fuel-catalog.json", "w"), indent=2)
+          print(open("fuel-catalog.json").read())
+          PY
+      - name: Release
+        run: |
+          TAG="fuel-$(date +%Y%m%d)-${{ github.run_number }}"
+          gh release create "$TAG" --prerelease --title "Fuel stations $(date +%Y-%m-%d)" \
+            --notes "Gas stations (amenity=fuel) from OpenStreetMap (© OpenStreetMap contributors, ODbL 1.0)." \
+            fuel-canada.tsv.gz fuel-catalog.json
