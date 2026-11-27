@@ -14,7 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Tools
-        run: sudo apt-get install -y -qq osmium-tool tippecanoe >/dev/null
+        run: |
+          sudo apt-get install -y -qq osmium-tool tippecanoe >/dev/null
+          pip install -q osmium
       - name: Download Canada extract
         run: |
           curl -sfL -o canada.osm.pbf https://download.geofabrik.de/north-america/canada-latest.osm.pbf
@@ -24,8 +26,7 @@ jobs:
           osmium tags-filter -o trails.osm.pbf canada.osm.pbf \
             w/snowmobile w/piste:type=snowmobile w/atv w/ohv w/ice_road w/winter_road w/seasonal r/route=snowmobile,atv
           rm canada.osm.pbf
-          osmium export -f geojsonseq -a "" --geometry-types=linestring trails.osm.pbf -o trails.raw.geojsons
-          python3 tools/trails/classify.py < trails.raw.geojsons > trails.geojsons
+          python3 tools/trails/extract.py trails.osm.pbf trails.geojsons
           python3 -c "
           import json,collections
           c=collections.Counter(json.loads(l)['properties']['kind'] for l in open('trails.geojsons'))
