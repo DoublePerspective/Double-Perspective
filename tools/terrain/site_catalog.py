@@ -2,6 +2,7 @@
 """Turns a terrain release's terrain-catalog.json into the app catalog served at /gps/terrain.json.
 
 Usage: python3 tools/terrain/site_catalog.py <terrain-tag> <terrain-catalog.json> [<trails-tag> <trails-catalog.json> [<surface-tag> <surface-catalog.json> [<contours-tag> <contours-catalog.json> [<routing-tag> <routing-catalog.json>]]]] > gps/terrain.json
+Optional 11th/12th arguments: <fuel-tag> <fuel-catalog.json> (national gas-station file).
 Use - - for a part that has no release yet. A terrain pack entry may carry its own "tag" (packs merged from several releases).
 The pack files stay on the GitHub release; the app downloads them from there (https, Range resume).
 """
@@ -128,6 +129,12 @@ if len(sys.argv) >= 5 and sys.argv[3] != "-":
                      "name": "Trails: snowmobile, quad, winter roads", "nameFr": "Sentiers : motoneige, quad, chemins d’hiver",
                      "file": trails["file"], "bytes": trails["bytes"], "sha256": trails["sha256"],
                      "url": f"https://github.com/{REPO}/releases/download/{trails_tag}/{trails['file']}"})
+if len(sys.argv) >= 13 and sys.argv[11] != "-":
+    fuel_tag, fuel = sys.argv[11], json.load(open(sys.argv[12]))
+    packs.insert(0, {"id": "canada", "kind": "fuel", "province": "CA", "pruid": "",
+                     "name": "Gas stations", "nameFr": "Stations-service",
+                     "file": fuel["file"], "bytes": fuel["bytes"], "sha256": fuel["sha256"],
+                     "url": f"https://github.com/{REPO}/releases/download/{fuel_tag}/{fuel['file']}"})
 json.dump({"schemaVersion": 1, "kind": "terrain", "release": tag, "built": release.get("built"),
            "attribution": "Elevation \u00a9 Natural Resources Canada, Open Government Licence \u2013 Canada",
            "packs": packs}, sys.stdout, indent=2, ensure_ascii=False)
