@@ -15,7 +15,7 @@ jobs:
         run: sudo apt-get install -y -qq gdal-bin tippecanoe >/dev/null
       - name: Download
         run: |
-          curl -sfL -o w.zip "https://ftp.maps.canada.ca/pub/nrcan_rncan/Geographical-maps_Carte-geographique/Wireless_Data_Network-Reseau_de_donnees_sans_fil/AtlasofCanada_Communications_AtlasduCanada.gdb.zip"
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o w.zip "https://ftp.maps.canada.ca/pub/nrcan_rncan/Geographical-maps_Carte-geographique/Wireless_Data_Network-Reseau_de_donnees_sans_fil/AtlasofCanada_Communications_AtlasduCanada.gdb.zip"
           unzip -q w.zip
       - name: Build
         run: |

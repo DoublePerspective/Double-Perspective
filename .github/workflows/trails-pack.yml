@@ -19,7 +19,7 @@ jobs:
           pip install -q osmium
       - name: Download Canada extract
         run: |
-          curl -sfL -o canada.osm.pbf https://download.geofabrik.de/north-america/canada-latest.osm.pbf
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o canada.osm.pbf https://download.geofabrik.de/north-america/canada-latest.osm.pbf
           ls -la canada.osm.pbf
       - name: Filter and classify
         run: |
@@ -30,7 +30,7 @@ jobs:
       - name: Route blanche (Données Québec, CC BY 4.0)
         run: |
           sudo apt-get install -y -qq gdal-bin >/dev/null
-          curl -s "https://www.donneesquebec.ca/recherche/api/3/action/package_show?id=https-www-donneesquebec-ca-recherche-fr-dataset-la-route-blanche" > rb.json
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 "https://www.donneesquebec.ca/recherche/api/3/action/package_show?id=https-www-donneesquebec-ca-recherche-fr-dataset-la-route-blanche" > rb.json
           python3 -c "
           import json; p=json.load(open('rb.json'))['result']; print('licence:', p.get('license_title'))
           for r in p['resources']: print(r.get('format'), r.get('url'))"
@@ -39,7 +39,7 @@ jobs:
           rs=sorted(p['resources'], key=lambda r: {'GEOJSON':0,'GPKG':1,'SHP':2}.get((r.get('format') or '').upper(), 9))
           print(rs[0]['url'])")
           echo "using $URL"
-          mkdir -p rb && cd rb && curl -sfL -o rb.download "$URL" && (unzip -q rb.download 2>/dev/null || mv rb.download rb.geojson); cd ..
+          mkdir -p rb && cd rb && curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o rb.download "$URL" && (unzip -q rb.download 2>/dev/null || mv rb.download rb.geojson); cd ..
           SRC=$(find rb -iname "*.geojson" -o -iname "*.gpkg" -o -iname "*.shp" | head -1); echo "source $SRC"
           ogr2ogr -f GeoJSONSeq -t_srs EPSG:4326 -dim XY -lco RS=NO rb.geojsons "$SRC" -explodecollections
           python3 - <<'PY'

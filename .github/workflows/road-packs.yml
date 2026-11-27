@@ -41,13 +41,13 @@ jobs:
           sudo apt-get install -y -qq osmium-tool tippecanoe >/dev/null
           pip install -q pyogrio shapely numpy pandas geopandas
           P=${{ matrix.prov }}
-          curl -sfL -o nrn.zip "https://geo.statcan.gc.ca/nrn_rrn/$P/nrn_rrn_${P}_GPKG.zip" && unzip -q nrn.zip
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o nrn.zip "https://geo.statcan.gc.ca/nrn_rrn/$P/nrn_rrn_${P}_GPKG.zip" && unzip -q nrn.zip
           G=$(find . -name "*_en.gpkg" | head -1); [ -n "$G" ] || G=$(find . -name "*.gpkg" | head -1)
           BASE=https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_cgn_toponyme/prov_csv_eng
-          FILE=$(curl -sfL "$BASE/" | grep -oiE "cgn_${P}_csv_eng\.(zip|csv)" | head -1)
-          curl -sfL -o "names.${FILE##*.}" "$BASE/$FILE"
+          FILE=$(curl -sfL --retry 6 --retry-all-errors --retry-delay 20 "$BASE/" | grep -oiE "cgn_${P}_csv_eng\.(zip|csv)" | head -1)
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o "names.${FILE##*.}" "$BASE/$FILE"
           [ -f names.zip ] && unzip -q -o names.zip && mv "$(find . -iname 'cgn_*.csv' | head -1)" names.csv
-          curl -sfL -o osm.pbf "https://download.geofabrik.de/north-america/canada/${{ matrix.osm }}-latest.osm.pbf"
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o osm.pbf "https://download.geofabrik.de/north-america/canada/${{ matrix.osm }}-latest.osm.pbf"
           osmium tags-filter -o roads.pbf osm.pbf w/highway && rm osm.pbf
           osmium tags-filter -o surfaced.pbf roads.pbf w/surface
           osmium export -f geojsonseq --geometry-types=linestring -o osm-surface.geojsons surfaced.pbf

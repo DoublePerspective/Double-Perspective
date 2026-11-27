@@ -15,7 +15,7 @@ jobs:
         run: sudo apt-get install -y -qq gdal-bin tippecanoe >/dev/null
       - name: Download NRN
         run: |
-          curl -sfL -o nrn.zip "https://geo.statcan.gc.ca/nrn_rrn/${{ matrix.prov }}/nrn_rrn_${{ matrix.prov }}_GPKG.zip"
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o nrn.zip "https://geo.statcan.gc.ca/nrn_rrn/${{ matrix.prov }}/nrn_rrn_${{ matrix.prov }}_GPKG.zip"
           ls -la nrn.zip; unzip -q nrn.zip; find . -name "*.gpkg"
       - name: Build
         run: |

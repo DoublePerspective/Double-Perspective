@@ -25,13 +25,13 @@ jobs:
             echo "skipped"; exit 0
           fi
           pip install -q pyogrio shapely numpy pandas geopandas
-          curl -sfL -o nrn.zip "https://geo.statcan.gc.ca/nrn_rrn/${{ matrix.prov }}/nrn_rrn_${{ matrix.prov }}_GPKG.zip"
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o nrn.zip "https://geo.statcan.gc.ca/nrn_rrn/${{ matrix.prov }}/nrn_rrn_${{ matrix.prov }}_GPKG.zip"
           unzip -q nrn.zip
           G=$(find . -name "*_en.gpkg" | head -1); [ -n "$G" ] || G=$(find . -name "*.gpkg" | head -1)
           BASE=https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_cgn_toponyme/prov_csv_eng
-          FILE=$(curl -sfL "$BASE/" | grep -oiE "cgn_${{ matrix.prov }}_csv_eng\.(zip|csv)" | head -1)
+          FILE=$(curl -sfL --retry 6 --retry-all-errors --retry-delay 20 "$BASE/" | grep -oiE "cgn_${{ matrix.prov }}_csv_eng\.(zip|csv)" | head -1)
           echo "names file: $FILE"
-          curl -sfL -o "names.$([ "${FILE##*.}" = zip ] && echo zip || echo csv)" "$BASE/$FILE"
+          curl -sfL --retry 6 --retry-all-errors --retry-delay 20 -o "names.$([ "${FILE##*.}" = zip ] && echo zip || echo csv)" "$BASE/$FILE"
           [ -f names.zip ] && unzip -q -o names.zip && mv "$(find . -iname 'cgn_*.csv' | head -1)" names.csv
           python tools/routing/build_routing.py "$G" route-${{ matrix.prov }}.gpsr
           python tools/routing/build_search.py "$G" names.csv search-${{ matrix.prov }}.tsv.gz
