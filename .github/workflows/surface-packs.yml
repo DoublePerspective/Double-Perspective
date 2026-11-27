@@ -25,7 +25,7 @@ jobs:
           ogr2ogr -f GeoJSONSeq -t_srs EPSG:4326 -dim XY -lco RS=NO surface.geojsons "$G" -nln surface -sql "
             SELECT CASE WHEN PAVSTATUS = 'Paved' THEN 'paved' WHEN PAVSTATUS = 'Unpaved' THEN 'unpaved' ELSE 'unknown' END AS s,
                    ROADCLASS AS c,
-                   COALESCE(NULLIF(L_STNAME_C, ''), NULLIF(R_STNAME_C, '')) AS name
+                   COALESCE(NULLIF(L_STNAME_C, ''), NULLIF(R_STNAME_C, '')) AS name, geom
             FROM \"$L\""
           echo "$(wc -l < surface.geojsons) segments"
           tippecanoe -o surface-${{ matrix.prov }}.pmtiles -l surface -Z 6 -z 13 --drop-densest-as-needed \
@@ -37,7 +37,6 @@ jobs:
           f = "surface-${{ matrix.prov }}.pmtiles"
           print(json.dumps({"id": "${{ matrix.prov }}", "bytes": os.path.getsize(f), "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest()}))
           PY
-          python3 -c "print(open('surface-${{ matrix.prov }}.pmtiles','rb').read(0))"
           python3 - > surface-${{ matrix.prov }}.json <<'PY'
           import hashlib, json, os
           f = "surface-${{ matrix.prov }}.pmtiles"
