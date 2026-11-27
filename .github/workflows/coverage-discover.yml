@@ -4,32 +4,15 @@ jobs:
   look:
     runs-on: ubuntu-latest
     steps:
-      - name: CRTC mobile page links
+      - name: Inspect Atlas wireless geodatabase
         run: |
-          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36"
-          for u in https://crtc.gc.ca/eng/publications/reports/policymonitoring/mob.htm https://crtc.gc.ca/eng/publications/reports/PolicyMonitoring/cmrd.htm; do
-            echo "== $u"; curl -sL -A "$UA" "$u" -o page.html -w "%{http_code}\n"
-            grep -oiE 'href="[^"]+\.(kml|kmz|zip|mif|tab|gpkg|shp|csv|xlsx)"' page.html | sort -u
-            grep -oiE 'href="[^"]*open\.canada\.ca[^"]*"' page.html | sort -u
-          done
-      - name: Open Government packages
-        run: |
-          for id in 09a45d61-4cd5-4fce-bc06-affb722b7f10 bd41f23a-6dbc-45ee-9419-422153aff567 f4233c69-f639-4cab-a234-80dbdd04eaa0; do
-            curl -s "https://open.canada.ca/data/api/action/package_show?id=$id" | python3 -c "
-          import json,sys
-          p=json.load(sys.stdin)['result']
-          print('#', p['title'], '|', p.get('license_title'))
-          for r in p.get('resources',[]):
-              n=r.get('name'); n=n.get('en') if isinstance(n,dict) else n
-              print('   ', r.get('format'), n, r.get('url'))
-          "
-          done
-          for q in "atlas wireless" "LTE 5G network coverage map" "Atlas of Canada mobile network"; do
-            echo "== $q"
-            curl -s "https://open.canada.ca/data/api/action/package_search?rows=6&fq=organization:nrcan-rncan&q=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$q")" | python3 -c "
-          import json,sys
-          for p in json.load(sys.stdin)['result']['results']:
-              print('#', p['title'], '|', p.get('license_title'), '|', p['id'])
-              for r in p.get('resources',[]): print('   ', r.get('format'), r.get('url'))
-          "
+          sudo apt-get install -y -qq gdal-bin tippecanoe >/dev/null 2>&1 || sudo apt-get install -y -qq gdal-bin
+          which tippecanoe || echo "no tippecanoe"
+          curl -sL -o w.zip "https://ftp.maps.canada.ca/pub/nrcan_rncan/Geographical-maps_Carte-geographique/Wireless_Data_Network-Reseau_de_donnees_sans_fil/AtlasofCanada_Communications_AtlasduCanada.gdb.zip"
+          ls -la w.zip; unzip -q w.zip; ls
+          G=$(ls -d *.gdb | head -1)
+          ogrinfo -ro -so "$G" | head -60
+          for L in $(ogrinfo -ro -q "$G" | sed -E 's/^[0-9]+: ([^ ]+).*/\1/'); do
+            echo "=== $L"; ogrinfo -ro -so "$G" "$L" | sed -n '/Feature Count/,$p' | head -30
+            ogrinfo -ro -q "$G" -sql "SELECT * FROM \"$L\" LIMIT 3" -geom=NO | head -40
           done
