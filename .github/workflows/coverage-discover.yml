@@ -12,16 +12,24 @@ jobs:
             grep -oiE 'href="[^"]+\.(kml|kmz|zip|mif|tab|gpkg|shp|csv|xlsx)"' page.html | sort -u
             grep -oiE 'href="[^"]*open\.canada\.ca[^"]*"' page.html | sort -u
           done
-      - name: Open Government search
+      - name: Open Government packages
         run: |
-          for q in "Wireless Data Network" "LTE coverage" "mobile coverage CRTC" "5G coverage"; do
+          for id in 09a45d61-4cd5-4fce-bc06-affb722b7f10 bd41f23a-6dbc-45ee-9419-422153aff567 f4233c69-f639-4cab-a234-80dbdd04eaa0; do
+            curl -s "https://open.canada.ca/data/api/action/package_show?id=$id" | python3 -c "
+          import json,sys
+          p=json.load(sys.stdin)['result']
+          print('#', p['title'], '|', p.get('license_title'))
+          for r in p.get('resources',[]):
+              n=r.get('name'); n=n.get('en') if isinstance(n,dict) else n
+              print('   ', r.get('format'), n, r.get('url'))
+          "
+          done
+          for q in "atlas wireless" "LTE 5G network coverage map" "Atlas of Canada mobile network"; do
             echo "== $q"
-            curl -s "https://open.canada.ca/data/api/action/package_search?rows=8&q=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$q")" \
-            | python3 -c "
+            curl -s "https://open.canada.ca/data/api/action/package_search?rows=6&fq=organization:nrcan-rncan&q=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$q")" | python3 -c "
           import json,sys
           for p in json.load(sys.stdin)['result']['results']:
-              print('#', p['title'].get('en') if isinstance(p['title'],dict) else p['title'], '|', p.get('license_title'), '|', p.get('organization',{}).get('name'), '|', p['id'], '|', p.get('metadata_modified'))
-              for r in p.get('resources',[]):
-                  print('   ', r.get('format'), r.get('url'))
+              print('#', p['title'], '|', p.get('license_title'), '|', p['id'])
+              for r in p.get('resources',[]): print('   ', r.get('format'), r.get('url'))
           "
           done
