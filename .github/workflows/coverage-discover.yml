@@ -10,7 +10,7 @@ jobs:
           curl -sfL -o r.zip "https://diffusion.mern.gouv.qc.ca/diffusion/RGQ/Vectoriel/Theme/Local/RQTT/OGC(GPKG)/RQTT_GPKG.zip"
           ls -la r.zip; file r.zip; head -c 1500 r.zip; echo
           if ! unzip -tq r.zip >/dev/null 2>&1; then curl -sfL -A "Mozilla/5.0" -o r.zip "https://diffusion.mern.gouv.qc.ca/diffusion/RGQ/Vectoriel/Theme/Local/RQTT/ESRI(FGDB)/RQTT_FGDB.zip"; ls -la r.zip; head -c 300 r.zip | strings | head -5; fi
-          unzip -q r.zip; G=$(find . -name "*.gpkg" -o -name "*.gdb" -type d | head -1); echo $G
+          unzip -q r.zip; G=$(find . \( -name "*.gpkg" -o -name "*.gdb" \) | head -1); echo $G
           ogrinfo -ro -q "$G" | head -40
           for L in $(ogrinfo -ro -q "$G" | sed -E 's/^[0-9]+: ([^ ]+).*/\1/'); do
             echo "=== $L $(ogrinfo -ro -so "$G" "$L" | grep 'Feature Count')"
