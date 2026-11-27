@@ -1,0 +1,79 @@
+name: routing-packs
+# Offline routing graph + search index per province for Gravel & Pavement Scout.
+# National Road Network and Canadian Geographical Names (NRCan), Open Government Licence – Canada.
+on:
+  workflow_dispatch:
+    inputs:
+      provinces:
+        description: 'Space-separated ids (default: all)'
+        required: false
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        prov: [ab, bc, mb, nb, nl, ns, nt, nu, on, pe, qc, sk, yt]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ${{ matrix.prov }}
+        run: |
+          if [ -n "${{ github.event.inputs.provinces }}" ] && ! echo " ${{ github.event.inputs.provinces }} " | grep -q " ${{ matrix.prov }} "; then
+            echo "skipped"; exit 0
+          fi
+          pip install -q pyogrio shapely numpy pandas geopandas
+          curl -sfL -o nrn.zip "https://geo.statcan.gc.ca/nrn_rrn/${{ matrix.prov }}/nrn_rrn_${{ matrix.prov }}_GPKG.zip"
+          unzip -q nrn.zip
+          G=$(find . -name "*_en.gpkg" | head -1); [ -n "$G" ] || G=$(find . -name "*.gpkg" | head -1)
+          BASE=https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_cgn_toponyme/prov_csv_eng
+          FILE=$(curl -sfL "$BASE/" | grep -oiE "cgn_${{ matrix.prov }}_csv_eng\.(zip|csv)" | head -1)
+          echo "names file: $FILE"
+          curl -sfL -o "names.$([ "${FILE##*.}" = zip ] && echo zip || echo csv)" "$BASE/$FILE"
+          [ -f names.zip ] && unzip -q -o names.zip && mv "$(find . -iname 'cgn_*.csv' | head -1)" names.csv
+          python tools/routing/build_routing.py "$G" route-${{ matrix.prov }}.gpsr
+          python tools/routing/build_search.py "$G" names.csv search-${{ matrix.prov }}.tsv.gz
+          python3 - <<'PY'
+          import hashlib, json, os
+          p = "${{ matrix.prov }}"
+          entry = {"id": p}
+          for kind, f in (("route", f"route-{p}.gpsr"), ("search", f"search-{p}.tsv.gz")):
+              entry[kind] = {"file": f, "bytes": os.path.getsize(f), "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest()}
+          json.dump(entry, open(f"routing-{p}.json", "w"))
+          print(json.dumps(entry))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: routing-${{ matrix.prov }}
+          path: |
+            route-${{ matrix.prov }}.gpsr
+            search-${{ matrix.prov }}.tsv.gz
+            routing-${{ matrix.prov }}.json
+          if-no-files-found: ignore
+  publish:
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Release
+        run: |
+          cd out
+          ls routing-*.json >/dev/null 2>&1 || { echo "nothing built"; exit 0; }
+          python3 -c "
+          import json,glob
+          packs=[json.load(open(f)) for f in sorted(glob.glob('routing-*.json'))]
+          json.dump({'schemaVersion':1,'kind':'routing','packs':packs},open('routing-catalog.json','w'),indent=2)
+          print(open('routing-catalog.json').read())"
+          TAG="routing-$(date +%Y%m%d)-${{ github.run_number }}"
+          gh release create "$TAG" --prerelease --title "Routing and search $(date +%Y-%m-%d)" \
+            --notes "Offline routing graphs and search indexes. National Road Network and Canadian Geographical Names © Natural Resources Canada, Open Government Licence – Canada." \
+            route-*.gpsr search-*.tsv.gz routing-catalog.json
