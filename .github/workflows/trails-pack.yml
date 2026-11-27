@@ -27,6 +27,34 @@ jobs:
             w/snowmobile w/piste:type=snowmobile w/atv w/ohv w/ice_road w/winter_road w/seasonal r/route=snowmobile,atv
           rm canada.osm.pbf
           python3 tools/trails/extract.py trails.osm.pbf trails.geojsons
+      - name: Route blanche (Données Québec, CC BY 4.0)
+        run: |
+          sudo apt-get install -y -qq gdal-bin >/dev/null
+          curl -s "https://www.donneesquebec.ca/recherche/api/3/action/package_show?id=https-www-donneesquebec-ca-recherche-fr-dataset-la-route-blanche" > rb.json
+          python3 -c "
+          import json; p=json.load(open('rb.json'))['result']; print('licence:', p.get('license_title'))
+          for r in p['resources']: print(r.get('format'), r.get('url'))"
+          URL=$(python3 -c "
+          import json; p=json.load(open('rb.json'))['result']
+          rs=sorted(p['resources'], key=lambda r: {'GEOJSON':0,'GPKG':1,'SHP':2}.get((r.get('format') or '').upper(), 9))
+          print(rs[0]['url'])")
+          echo "using $URL"
+          mkdir -p rb && cd rb && curl -sfL -o rb.download "$URL" && (unzip -q rb.download 2>/dev/null || mv rb.download rb.geojson); cd ..
+          SRC=$(find rb -iname "*.geojson" -o -iname "*.gpkg" -o -iname "*.shp" | head -1); echo "source $SRC"
+          ogr2ogr -f GeoJSONSeq -t_srs EPSG:4326 -dim XY -lco RS=NO rb.geojsons "$SRC" -explodecollections
+          python3 - <<'PY'
+          import json
+          n = 0
+          with open("trails.geojsons", "a") as out:
+              for line in open("rb.geojsons"):
+                  f = json.loads(line)
+                  if not f.get("geometry") or "LineString" not in f["geometry"]["type"]:
+                      continue
+                  out.write(json.dumps({"type": "Feature", "geometry": f["geometry"],
+                                        "properties": {"kind": "snowmobile", "name": "Route blanche"}}) + "\n")
+                  n += 1
+          print("Route blanche segments:", n)
+          PY
           python3 -c "
           import json,collections
           c=collections.Counter(json.loads(l)['properties']['kind'] for l in open('trails.geojsons'))
@@ -35,7 +63,7 @@ jobs:
         run: |
           tippecanoe -o trails-canada.pmtiles -l trails -Z 6 -z 13 --drop-densest-as-needed --extend-zooms-if-still-dropping \
             --simplification=6 --force -y kind -y name -y ref -y surface -y seasonal \
-            --attribution="© OpenStreetMap contributors (ODbL)" trails.geojsons
+            --attribution="© OpenStreetMap contributors (ODbL) · Route blanche: Gouvernement du Québec, CC BY 4.0" trails.geojsons
           python3 - <<'PY'
           import hashlib, json, os, datetime
           f = "trails-canada.pmtiles"
@@ -48,5 +76,5 @@ jobs:
         run: |
           TAG="trails-$(date +%Y%m%d)-${{ github.run_number }}"
           gh release create "$TAG" --prerelease --title "Trails $(date +%Y-%m-%d)" \
-            --notes "Snowmobile, ATV/quad, winter and seasonal roads from OpenStreetMap. © OpenStreetMap contributors, ODbL 1.0." \
+            --notes "Snowmobile, ATV/quad, winter and seasonal roads from OpenStreetMap (© OpenStreetMap contributors, ODbL 1.0), plus the Route blanche (Gouvernement du Québec, Données Québec, CC BY 4.0). Club maps (FCMQ/FQCQ) are not used." \
             trails-canada.pmtiles trails-catalog.json
