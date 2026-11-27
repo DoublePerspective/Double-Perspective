@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Turns a terrain release's terrain-catalog.json into the app catalog served at /gps/terrain.json.
 
-Usage: python3 tools/terrain/site_catalog.py <terrain-tag> <terrain-catalog.json> [<trails-tag> <trails-catalog.json>] > gps/terrain.json
+Usage: python3 tools/terrain/site_catalog.py <terrain-tag> <terrain-catalog.json> [<trails-tag> <trails-catalog.json> [<surface-tag> <surface-catalog.json>]] > gps/terrain.json
+Use - - for a part that has no release yet.
 The pack files stay on the GitHub release; the app downloads them from there (https, Range resume).
 """
 import json, sys
@@ -96,7 +97,14 @@ for info in release["packs"]:
     packs.append({"id": info["id"], **meta, "file": info["file"], "bytes": info["bytes"], "sha256": info["sha256"],
                   "url": f"https://github.com/{REPO}/releases/download/{tag}/{info['file']}"})
 packs.sort(key=lambda p: p["name"])
-if len(sys.argv) >= 5:
+if len(sys.argv) >= 7 and sys.argv[5] != "-":
+    surface_tag, surface = sys.argv[5], json.load(open(sys.argv[6]))
+    for info in surface["packs"]:
+        meta = NAMES[info["id"]]
+        packs.append({"id": info["id"], "kind": "surface", **meta, "file": info["file"], "bytes": info["bytes"],
+                      "sha256": info["sha256"],
+                      "url": f"https://github.com/{REPO}/releases/download/{surface_tag}/{info['file']}"})
+if len(sys.argv) >= 5 and sys.argv[3] != "-":
     trails_tag, trails = sys.argv[3], json.load(open(sys.argv[4]))
     packs.insert(0, {"id": "canada", "kind": "trails", "province": "CA", "pruid": "",
                      "name": "Trails: snowmobile, quad, winter roads", "nameFr": "Sentiers : motoneige, quad, chemins d’hiver",
