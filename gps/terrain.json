@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "kind": "terrain",
-  "release": "-",
-  "built": null,
+  "release": "terrain-20261127-1",
+  "built": "2026-11-27",
   "attribution": "Elevation © Natural Resources Canada, Open Government Licence – Canada",
   "packs": [
     {
@@ -16,6 +16,127 @@
       "bytes": 4666554,
       "sha256": "b06df9ead5546ff27568786c40c8e8f4fe17812394065053710b75f1d2e871a6",
       "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/trails-20261127-2/trails-canada.pmtiles"
+    },
+    {
+      "id": "ab",
+      "province": "AB",
+      "pruid": "48",
+      "name": "Alberta",
+      "nameFr": "Alberta",
+      "file": "terrain-ab.pmtiles",
+      "bytes": 272074389,
+      "sha256": "a59a2e419558b62f38dc2d2cf3a2e60fa1f35a1aa5a5bb6f50ef97a95a3bfb49",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-ab.pmtiles"
+    },
+    {
+      "id": "bc",
+      "province": "BC",
+      "pruid": "59",
+      "name": "British Columbia",
+      "nameFr": "Colombie-Britannique",
+      "file": "terrain-bc.pmtiles",
+      "bytes": 469086641,
+      "sha256": "934a89b204ffa3c1ac4f34c4278b44fddb14f1d76c48075888620bd9be7d6301",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-bc.pmtiles"
+    },
+    {
+      "id": "mb",
+      "province": "MB",
+      "pruid": "46",
+      "name": "Manitoba",
+      "nameFr": "Manitoba",
+      "file": "terrain-mb.pmtiles",
+      "bytes": 306223339,
+      "sha256": "dc7e327c4f778e09391b77d264f91fadf12ab20cf84a2428c60440e81491a5da",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-mb.pmtiles"
+    },
+    {
+      "id": "nb",
+      "province": "NB",
+      "pruid": "13",
+      "name": "New Brunswick",
+      "nameFr": "Nouveau-Brunswick",
+      "file": "terrain-nb.pmtiles",
+      "bytes": 39727570,
+      "sha256": "202aa99654f9f3a75876c7a429c75c52c00483bf4489a1b3c074423763803607",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-nb.pmtiles"
+    },
+    {
+      "id": "nl",
+      "province": "NL",
+      "pruid": "10",
+      "name": "Newfoundland and Labrador",
+      "nameFr": "Terre-Neuve-et-Labrador",
+      "file": "terrain-nl.pmtiles",
+      "bytes": 282621487,
+      "sha256": "b1e530d068e9a02dc727d3300f8438fd81e92c2467070556ce461204112d2f2c",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-nl.pmtiles"
+    },
+    {
+      "id": "ns",
+      "province": "NS",
+      "pruid": "12",
+      "name": "Nova Scotia",
+      "nameFr": "Nouvelle-Écosse",
+      "file": "terrain-ns.pmtiles",
+      "bytes": 32243583,
+      "sha256": "1f5d2951029d4c25ca34e9d8fc84540c3f2e91d5d3aece06b7933366c29199ca",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-ns.pmtiles"
+    },
+    {
+      "id": "on",
+      "province": "ON",
+      "pruid": "35",
+      "name": "Ontario",
+      "nameFr": "Ontario",
+      "file": "terrain-on.pmtiles",
+      "bytes": 532299540,
+      "sha256": "30ea98e4c3076505a2c3ab4e633dbd836608e9a736701803445eb949cdfb0f77",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-on.pmtiles"
+    },
+    {
+      "id": "pe",
+      "province": "PE",
+      "pruid": "11",
+      "name": "Prince Edward Island",
+      "nameFr": "Île-du-Prince-Édouard",
+      "file": "terrain-pe.pmtiles",
+      "bytes": 6203535,
+      "sha256": "c1683c991ce7cfef4791faacd159bd18e60240d04cb6713710da634d05c0b1b4",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-pe.pmtiles"
+    },
+    {
+      "id": "qc",
+      "province": "QC",
+      "pruid": "24",
+      "name": "Quebec",
+      "nameFr": "Québec",
+      "file": "terrain-qc.pmtiles",
+      "bytes": 718810596,
+      "sha256": "9ef14b97c5978d8b6358d69ef7743004fff29c92c740cb2966af97d98c8689d2",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-qc.pmtiles"
+    },
+    {
+      "id": "sk",
+      "province": "SK",
+      "pruid": "47",
+      "name": "Saskatchewan",
+      "nameFr": "Saskatchewan",
+      "file": "terrain-sk.pmtiles",
+      "bytes": 254180345,
+      "sha256": "8722cba83e3f349684e133195521485d584995815aa713c909c221081d90610a",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-sk.pmtiles"
+    },
+    {
+      "id": "yt",
+      "province": "YT",
+      "pruid": "60",
+      "name": "Yukon",
+      "nameFr": "Yukon",
+      "file": "terrain-yt.pmtiles",
+      "bytes": 487958523,
+      "sha256": "fb84598ce4749a5e1cb2b5476a51079f274dc724de05f31052801b82526d3785",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/terrain-20261127-1/terrain-yt.pmtiles"
     },
     {
       "id": "ab",
