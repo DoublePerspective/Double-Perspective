@@ -28,9 +28,17 @@ SKIP = {"Rapid Transit", "Winter"}  # ice/winter roads are shown on the trails l
 def main(gpkg, output):
     layer = next(name for name, _ in pyogrio.list_layers(gpkg) if name.upper().endswith("ROADSEG"))
     columns = ["PAVSTATUS", "ROADCLASS", "TRAFFICDIR", "SPEED", "L_STNAME_C", "R_STNAME_C", "RTNUMBER1"]
-    frame = pyogrio.read_dataframe(gpkg, layer=layer, columns=columns)
-    frame = frame.to_crs(4326)
-    frame = frame[~frame["ROADCLASS"].isin(SKIP)]
+    frame = pyogrio.read_dataframe(gpkg, layer=layer, columns=columns).to_crs(4326)
+    build(frame, None, output)
+
+
+def build(frame, surfaces, output):
+    """frame: NRN ROADSEG (EPSG:4326). surfaces: corrected "paved"/"unpaved"/"unknown" per row, or None for NRN's own."""
+    if surfaces is None:
+        surfaces = ["paved" if v == "Paved" else "unpaved" if v == "Unpaved" else "unknown" for v in frame["PAVSTATUS"]]
+    keep = ~frame["ROADCLASS"].isin(SKIP).to_numpy()
+    frame = frame[keep]
+    surfaces = [s for s, k in zip(surfaces, keep) if k]
     print("segments:", len(frame), flush=True)
 
     node_ids, node_lat, node_lon = {}, [], []
@@ -61,7 +69,7 @@ def main(gpkg, output):
     shapes = []  # flat list of (lat, lon) int pairs
     directed = []  # (from, to, length_dm, name, shape_start, shape_len, flags, speed)
     for geometry, pav, cls, direction, speed, lname, rname, route in zip(
-            frame.geometry, frame["PAVSTATUS"], frame["ROADCLASS"], frame["TRAFFICDIR"], frame["SPEED"],
+            frame.geometry, surfaces, frame["ROADCLASS"], frame["TRAFFICDIR"], frame["SPEED"],
             frame["L_STNAME_C"], frame["R_STNAME_C"], frame["RTNUMBER1"]):
         if geometry is None or geometry.is_empty:
             continue
@@ -78,7 +86,7 @@ def main(gpkg, output):
         b = node(lats[-1], lons[-1])
         if a == b and length < 5:
             continue
-        surface = 0 if pav == "Paved" else 1 if pav == "Unpaved" else 2
+        surface = 0 if pav == "paved" else 1 if pav == "unpaved" else 2
         road_class = CLASSES.get(cls, 4)
         label = (lname or rname or "").strip()
         if not label and route and str(route) not in ("None", "-1"):

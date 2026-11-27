@@ -1,0 +1,103 @@
+name: road-packs
+# Per province: road surface (map), routing graph, search index and house numbers, all from one corrected surface:
+# National Road Network + Canadian Geographical Names (NRCan, OGL-Canada), corrected with OpenStreetMap surface
+# tags (© OpenStreetMap contributors, ODbL): paved if either source says paved. Published under the ODbL.
+on:
+  workflow_dispatch:
+    inputs:
+      provinces:
+        description: 'Space-separated ids (default: all)'
+        required: false
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {prov: ab, osm: alberta}
+          - {prov: bc, osm: british-columbia}
+          - {prov: mb, osm: manitoba}
+          - {prov: nb, osm: new-brunswick}
+          - {prov: nl, osm: newfoundland-and-labrador}
+          - {prov: ns, osm: nova-scotia}
+          - {prov: nt, osm: northwest-territories}
+          - {prov: nu, osm: nunavut}
+          - {prov: on, osm: ontario}
+          - {prov: pe, osm: prince-edward-island}
+          - {prov: qc, osm: quebec}
+          - {prov: sk, osm: saskatchewan}
+          - {prov: yt, osm: yukon}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ${{ matrix.prov }}
+        run: |
+          if [ -n "${{ github.event.inputs.provinces }}" ] && ! echo " ${{ github.event.inputs.provinces }} " | grep -q " ${{ matrix.prov }} "; then
+            echo "skipped"; exit 0
+          fi
+          sudo apt-get install -y -qq osmium-tool tippecanoe >/dev/null
+          pip install -q pyogrio shapely numpy pandas geopandas
+          P=${{ matrix.prov }}
+          curl -sfL -o nrn.zip "https://geo.statcan.gc.ca/nrn_rrn/$P/nrn_rrn_${P}_GPKG.zip" && unzip -q nrn.zip
+          G=$(find . -name "*_en.gpkg" | head -1); [ -n "$G" ] || G=$(find . -name "*.gpkg" | head -1)
+          BASE=https://ftp.maps.canada.ca/pub/nrcan_rncan/vector/geobase_cgn_toponyme/prov_csv_eng
+          FILE=$(curl -sfL "$BASE/" | grep -oiE "cgn_${P}_csv_eng\.(zip|csv)" | head -1)
+          curl -sfL -o "names.${FILE##*.}" "$BASE/$FILE"
+          [ -f names.zip ] && unzip -q -o names.zip && mv "$(find . -iname 'cgn_*.csv' | head -1)" names.csv
+          curl -sfL -o osm.pbf "https://download.geofabrik.de/north-america/canada/${{ matrix.osm }}-latest.osm.pbf"
+          osmium tags-filter -o roads.pbf osm.pbf w/highway && rm osm.pbf
+          osmium tags-filter -o surfaced.pbf roads.pbf w/surface
+          osmium export -f geojsonseq --geometry-types=linestring -o osm-surface.geojsons surfaced.pbf
+          python tools/routing/build_road_packs.py $P "$G" osm-surface.geojsons names.csv
+          tippecanoe -o surface-$P.pmtiles -l surface -Z 6 -z 13 --drop-densest-as-needed \
+            --simplification=6 --no-tile-size-limit --coalesce --reorder --force \
+            -j '{ "surface": [ "any", [ ">=", "$zoom", 9 ], [ "in", "c", "Freeway", "Expressway / Highway", "Arterial", "Collector", "Resource / Recreation" ] ] }' \
+            --attribution="Road surface: National Road Network © NRCan (OGL-Canada), corrected with © OpenStreetMap contributors (ODbL)" surface-$P.geojsons
+          python3 - <<'PY'
+          import hashlib, json, os
+          p = "${{ matrix.prov }}"
+          entry = {"id": p}
+          for kind, f in (("surface", f"surface-{p}.pmtiles"), ("route", f"route-{p}.gpsr"),
+                          ("search", f"search-{p}.tsv.gz"), ("address", f"addr-{p}.tsv.gz")):
+              entry[kind] = {"file": f, "bytes": os.path.getsize(f), "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest()}
+          json.dump(entry, open(f"road-{p}.json", "w"))
+          print(json.dumps(entry))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: road-${{ matrix.prov }}
+          path: |
+            surface-${{ matrix.prov }}.pmtiles
+            route-${{ matrix.prov }}.gpsr
+            search-${{ matrix.prov }}.tsv.gz
+            addr-${{ matrix.prov }}.tsv.gz
+            road-${{ matrix.prov }}.json
+          if-no-files-found: ignore
+  publish:
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Release
+        run: |
+          cd out
+          ls road-*.json >/dev/null 2>&1 || { echo "nothing built"; exit 0; }
+          python3 -c "
+          import json,glob
+          packs=[json.load(open(f)) for f in sorted(glob.glob('road-*.json'))]
+          json.dump({'schemaVersion':1,'kind':'road','packs':packs},open('road-catalog.json','w'),indent=2)
+          print(open('road-catalog.json').read())"
+          TAG="road-$(date +%Y%m%d)-${{ github.run_number }}"
+          gh release create "$TAG" --prerelease --title "Road packs $(date +%Y-%m-%d)" \
+            --notes "Per province: road surface, routing, search, house numbers. National Road Network and Canadian Geographical Names © NRCan (Open Government Licence – Canada); surface corrected with OpenStreetMap (© OpenStreetMap contributors). This database is made available under the Open Database License (ODbL 1.0)." \
+            surface-*.pmtiles route-*.gpsr search-*.tsv.gz addr-*.tsv.gz road-catalog.json

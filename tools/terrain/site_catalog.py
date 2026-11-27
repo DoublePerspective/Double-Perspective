@@ -108,7 +108,7 @@ if len(sys.argv) >= 11 and sys.argv[9] != "-":
     routing_tag, routing = sys.argv[9], json.load(open(sys.argv[10]))
     for info in routing["packs"]:
         meta = NAMES[info["id"]]
-        for kind in ("route", "search", "address"):
+        for kind in ("surface", "route", "search", "address"):
             part = info.get(kind)
             if part is None:
                 continue
