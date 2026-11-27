@@ -1,0 +1,51 @@
+name: trails-pack
+# Snowmobile, ATV/quad, winter-road and seasonal-road lines for Gravel & Pavement Scout,
+# from OpenStreetMap (© OpenStreetMap contributors, ODbL). Club maps (FCMQ/FQCQ) are not used.
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools
+        run: sudo apt-get install -y -qq osmium-tool tippecanoe >/dev/null
+      - name: Download Canada extract
+        run: |
+          curl -sfL -o canada.osm.pbf https://download.geofabrik.de/north-america/canada-latest.osm.pbf
+          ls -la canada.osm.pbf
+      - name: Filter and classify
+        run: |
+          osmium tags-filter -o trails.osm.pbf canada.osm.pbf \
+            w/snowmobile w/piste:type=snowmobile w/atv w/ohv w/ice_road w/winter_road w/seasonal r/route=snowmobile,atv
+          rm canada.osm.pbf
+          osmium export -f geojsonseq -a "" --geometry-types=linestring trails.osm.pbf -o trails.raw.geojsons
+          python3 tools/trails/classify.py < trails.raw.geojsons > trails.geojsons
+          python3 -c "
+          import json,collections
+          c=collections.Counter(json.loads(l)['properties']['kind'] for l in open('trails.geojsons'))
+          print(dict(c))"
+      - name: Tiles
+        run: |
+          tippecanoe -o trails-canada.pmtiles -l trails -Z 6 -z 13 --drop-densest-as-needed --extend-zooms-if-still-dropping \
+            --simplification=6 --force -y kind -y name -y ref -y surface -y seasonal \
+            --attribution="© OpenStreetMap contributors (ODbL)" trails.geojsons
+          python3 - <<'PY'
+          import hashlib, json, os, datetime
+          f = "trails-canada.pmtiles"
+          json.dump({"id": "trails-canada", "file": f, "bytes": os.path.getsize(f),
+                     "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest(),
+                     "built": datetime.date.today().isoformat()}, open("trails-catalog.json", "w"), indent=2)
+          print(open("trails-catalog.json").read())
+          PY
+      - name: Release
+        run: |
+          TAG="trails-$(date +%Y%m%d)-${{ github.run_number }}"
+          gh release create "$TAG" --prerelease --title "Trails $(date +%Y-%m-%d)" \
+            --notes "Snowmobile, ATV/quad, winter and seasonal roads from OpenStreetMap. © OpenStreetMap contributors, ODbL 1.0." \
+            trails-canada.pmtiles trails-catalog.json
