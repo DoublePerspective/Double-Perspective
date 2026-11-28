@@ -80,6 +80,7 @@ def build(frame, surfaces, output, tolls=None, ferries=None):
             label = str(label).strip() if label is not None and str(label) not in ("None", "Unknown", "nan") else "Ferry"
             rows.append((geometry, "unknown", "Local / Unknown", "Both directions", 15, label, None, None, False, True))
         print("ferry segments:", len(ferries), flush=True)
+    ferry_ends = set()
     for geometry, pav, cls, direction, speed, lname, rname, route, toll, ferry in rows:
         if geometry is None or geometry.is_empty:
             continue
@@ -108,10 +109,39 @@ def build(frame, surfaces, output, tolls=None, ferries=None):
         kph = int(speed) if speed is not None and not (isinstance(speed, float) and math.isnan(speed)) and 0 < int(speed) < 200 else 0
         flags = surface | (road_class << 2) | (0x40 if toll else 0) | (0x80 if ferry else 0)
         length_dm = int(round(length * 10))
+        if ferry:
+            ferry_ends.update((a, b))
         if direction != "Opposite direction":
             directed.append((a, b, length_dm, name, start, count, flags, kph))
         if direction != "Same direction":
             directed.append((b, a, length_dm, name, start, count, flags | 0x20, kph))
+
+    # Ferry landings: terminal lanes often end a few metres from the ferry's end point (and are one-way), so the
+    # crossing could be left but never boarded. Join each landing to every road end within ~60 m, both ways.
+    if ferry_ends:
+        cells = {}
+        for i, (la, lo) in enumerate(zip(node_lat, node_lon)):
+            cells.setdefault((la // 1000, lo // 1000), []).append(i)  # ~110 m × 80 m cells
+        joined = 0
+        for f in ferry_ends:
+            fla, flo = node_lat[f], node_lon[f]
+            cy, cx = fla // 1000, flo // 1000
+            for dy in (-1, 0, 1):
+                for dx in (-1, 0, 1):
+                    for other in cells.get((cy + dy, cx + dx), ()):
+                        if other == f:
+                            continue
+                        metres = haversine(fla / 1e6, flo / 1e6, node_lat[other] / 1e6, node_lon[other] / 1e6)
+                        if metres > 60:
+                            continue
+                        start = len(shapes)
+                        shapes.extend([(fla, flo), (node_lat[other], node_lon[other])])
+                        length_dm = max(1, int(round(metres * 10)))
+                        flags = 2 | (6 << 2)  # unknown surface, service lane
+                        directed.append((f, other, length_dm, -1, start, 2, flags, 10))
+                        directed.append((other, f, length_dm, -1, start, 2, flags | 0x20, 10))
+                        joined += 1
+        print(f"ferry landings: {len(ferry_ends)}, joined to {joined} nearby road ends", flush=True)
 
     n = len(node_lat)
     directed.sort(key=lambda e: e[0])
