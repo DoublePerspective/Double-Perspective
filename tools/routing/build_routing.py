@@ -126,8 +126,8 @@ def build(frame, surfaces, output, tolls=None, ferries=None):
         for f in ferry_ends:
             fla, flo = node_lat[f], node_lon[f]
             cy, cx = fla // 1000, flo // 1000
-            for dy in (-1, 0, 1):
-                for dx in (-1, 0, 1):
+            for dy in (-2, -1, 0, 1, 2):  # 150 m reaches two cells (≈110 m × 80 m each)
+                for dx in (-2, -1, 0, 1, 2):
                     for other in cells.get((cy + dy, cx + dx), ()):
                         if other == f:
                             continue
