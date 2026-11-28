@@ -78,7 +78,7 @@ def build(frame, surfaces, output, tolls=None, ferries=None):
         name_column = next((c for c in ("FERRYNAME", "FERRYSEGNAME", "NAME") if c in ferries.columns), None)
         for geometry, label in zip(ferries.geometry, ferries[name_column] if name_column else [None] * len(ferries)):
             label = str(label).strip() if label is not None and str(label) not in ("None", "Unknown", "nan") else "Ferry"
-            rows.append((geometry, "unknown", "Local / Unknown", "Both directions", 15, label, None, None, False, True))
+            rows.append((geometry, "unknown", "Local / Unknown", "Both directions", 25, label, None, None, False, True))
         print("ferry segments:", len(ferries), flush=True)
     ferry_ends = set()
     for geometry, pav, cls, direction, speed, lname, rname, route, toll, ferry in rows:
@@ -117,7 +117,7 @@ def build(frame, surfaces, output, tolls=None, ferries=None):
             directed.append((b, a, length_dm, name, start, count, flags | 0x20, kph))
 
     # Ferry landings: terminal lanes often end a few metres from the ferry's end point (and are one-way), so the
-    # crossing could be left but never boarded. Join each landing to every road end within ~60 m, both ways.
+    # crossing could be left but never boarded. Join each landing to every road end within ~150 m, both ways.
     if ferry_ends:
         cells = {}
         for i, (la, lo) in enumerate(zip(node_lat, node_lon)):
@@ -132,7 +132,7 @@ def build(frame, surfaces, output, tolls=None, ferries=None):
                         if other == f:
                             continue
                         metres = haversine(fla / 1e6, flo / 1e6, node_lat[other] / 1e6, node_lon[other] / 1e6)
-                        if metres > 60:
+                        if metres > 150:
                             continue
                         start = len(shapes)
                         shapes.extend([(fla, flo), (node_lat[other], node_lon[other])])
