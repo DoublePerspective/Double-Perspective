@@ -182,7 +182,7 @@
       "file": "surface-ab.pmtiles",
       "bytes": 33250113,
       "sha256": "30f80be174d3b3da307b2b0bfcf2c57d6c9f7514d98cf51ad0c9a582d0f3e452",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-ab.pmtiles"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-ab.pmtiles"
     },
     {
       "id": "ab",
@@ -192,9 +192,9 @@
       "name": "Alberta",
       "nameFr": "Alberta",
       "file": "route-ab.gpsr",
-      "bytes": 34600211,
-      "sha256": "3d4a8fe75feddba5362b541ba64d1a41ad658104e9afb2212e62b9f96d73cc4c",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-ab.gpsr"
+      "bytes": 34600883,
+      "sha256": "ecfa102dce1a66b68a5229ae0891ff6f091527dd5e0e688ca0c509bfb5b6777d",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-ab.gpsr"
     },
     {
       "id": "ab",
@@ -205,8 +205,8 @@
       "nameFr": "Alberta",
       "file": "search-ab.tsv.gz",
       "bytes": 838361,
-      "sha256": "c1153b218672c6249b235fba9a9cd778ee66cd5c4884f8b48807ca9fd84c8d45",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-ab.tsv.gz"
+      "sha256": "0ebcf5b383ee0aafbee23132d3f0c1a815bb8e7ff6689d104186b6a9c4ff84b9",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-ab.tsv.gz"
     },
     {
       "id": "ab",
@@ -217,8 +217,8 @@
       "nameFr": "Alberta",
       "file": "addr-ab.tsv.gz",
       "bytes": 5438114,
-      "sha256": "b400102aa5070f43ce22114b75ae53900f66359f874906ddfd8268c5ddf9173f",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-ab.tsv.gz"
+      "sha256": "299c649b2190e65fbb82b9e52f5e883822a44a99e0e36c4d9fc0e27dcca1592a",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-ab.tsv.gz"
     },
     {
       "id": "bc",
@@ -230,7 +230,7 @@
       "file": "surface-bc.pmtiles",
       "bytes": 22287339,
       "sha256": "c043a388ff85858c2a13ede9082dd6269bfd8febffdb34676cf571b8a129c059",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-bc.pmtiles"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-bc.pmtiles"
     },
     {
       "id": "bc",
@@ -240,9 +240,9 @@
       "name": "British Columbia",
       "nameFr": "Colombie-Britannique",
       "file": "route-bc.gpsr",
-      "bytes": 25146246,
-      "sha256": "0366384ff575e093af0e307f0938377880189dc5d585633c2d478e4cd582b5d8",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-bc.gpsr"
+      "bytes": 25158342,
+      "sha256": "0e66e508d221b7ccc3b3180a3707b3c95352679d21741e0d63780ef05d7f6dba",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-bc.gpsr"
     },
     {
       "id": "bc",
@@ -253,8 +253,8 @@
       "nameFr": "Colombie-Britannique",
       "file": "search-bc.tsv.gz",
       "bytes": 1574695,
-      "sha256": "8b8464350f74c8ea933adf1837c94e710dcbe0a1f062ac2ddcb045dd682cc391",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-bc.tsv.gz"
+      "sha256": "27dc5a8f5951eb4f4dc12285bb4e2d03629f4f75ac5cc9f11aa76d8ecdab369f",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-bc.tsv.gz"
     },
     {
       "id": "bc",
@@ -265,8 +265,8 @@
       "nameFr": "Colombie-Britannique",
       "file": "addr-bc.tsv.gz",
       "bytes": 37,
-      "sha256": "b68c95aadb16221f836570b1d8bc115de9cea5fabbe7aaa867104a952be72b7d",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-bc.tsv.gz"
+      "sha256": "a6d2ae30a9ede0245cb3798987cbc43d41b38c68a745708a14d7b802f77d58eb",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-bc.tsv.gz"
     },
     {
       "id": "mb",
@@ -278,7 +278,7 @@
       "file": "surface-mb.pmtiles",
       "bytes": 8411086,
       "sha256": "38ba465238d19149d39b34bb5f6fb03388895bea23e8be5a035e4c2df22a46e2",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-mb.pmtiles"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-mb.pmtiles"
     },
     {
       "id": "mb",
@@ -288,9 +288,9 @@
       "name": "Manitoba",
       "nameFr": "Manitoba",
       "file": "route-mb.gpsr",
-      "bytes": 8744945,
-      "sha256": "2fce9b1960b85afbcdd7e78168f3fabdc7a3c027bc42a5be74ff619e8fd9299b",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-mb.gpsr"
+      "bytes": 8745505,
+      "sha256": "44c6f6d422c05b2d095985e6da166371f914eaf2f5d05c2f69ac563a95d24abb",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-mb.gpsr"
     },
     {
       "id": "mb",
@@ -301,8 +301,8 @@
       "nameFr": "Manitoba",
       "file": "search-mb.tsv.gz",
       "bytes": 575224,
-      "sha256": "2d2eef4b9b36fa4060760c12980b6c856366345ff7f09d18c3da50b51946f1b7",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-mb.tsv.gz"
+      "sha256": "645474bf2f3a215bae1d8f1f43bb9a6361a43c4fa7d564520cfae5af071de6df",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-mb.tsv.gz"
     },
     {
       "id": "mb",
@@ -313,8 +313,8 @@
       "nameFr": "Manitoba",
       "file": "addr-mb.tsv.gz",
       "bytes": 877900,
-      "sha256": "d153258f8b2578119f0df9d8fdd299be2634a38278be7f0373a1c833832214a1",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-mb.tsv.gz"
+      "sha256": "605aae89d859dae432ca0aedc5e555f5c770b195ca35cee904cf78738252c7a5",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-mb.tsv.gz"
     },
     {
       "id": "nb",
@@ -326,7 +326,7 @@
       "file": "surface-nb.pmtiles",
       "bytes": 6746997,
       "sha256": "9477a18c1ff5e9ebd105ed2a8c46e3fe7bc1006ad4c5472d4ef0febb39bab49c",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-nb.pmtiles"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-nb.pmtiles"
     },
     {
       "id": "nb",
@@ -336,9 +336,9 @@
       "name": "New Brunswick",
       "nameFr": "Nouveau-Brunswick",
       "file": "route-nb.gpsr",
-      "bytes": 6975280,
-      "sha256": "36bcf450be30f5aa73bb745eaafec17232227526d401d05ac34050ea24221818",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-nb.gpsr"
+      "bytes": 6977072,
+      "sha256": "9bc5432960489ad6f28b2c3127e0cce73cc2d8221deb83e57313028fd7fb6497",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-nb.gpsr"
     },
     {
       "id": "nb",
@@ -349,8 +349,8 @@
       "nameFr": "Nouveau-Brunswick",
       "file": "search-nb.tsv.gz",
       "bytes": 545822,
-      "sha256": "a55bae4eb25442355433d4590a8000aa076552d8c5ff247d33159695eae8d024",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-nb.tsv.gz"
+      "sha256": "3315158d985bad5298443d4313c1183151c166f548c16d29d919e4cdca91705f",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-nb.tsv.gz"
     },
     {
       "id": "nb",
@@ -361,8 +361,8 @@
       "nameFr": "Nouveau-Brunswick",
       "file": "addr-nb.tsv.gz",
       "bytes": 2508734,
-      "sha256": "12654131bd40d40696a4b3e712a070c2ac6e3ba3d9cdafacb5f8d9438b71fdeb",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-nb.tsv.gz"
+      "sha256": "de3fe93de35389ddfe52b1e224e396bdbba5a1c98e4a5024f74e08f0f0594af8",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-nb.tsv.gz"
     },
     {
       "id": "nl",
@@ -374,7 +374,7 @@
       "file": "surface-nl.pmtiles",
       "bytes": 4523235,
       "sha256": "aa8bafe1e9d31508d31e04e4becd8aaab6c0b0ac79ff8489fcfc81b2d92a6520",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-nl.pmtiles"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-nl.pmtiles"
     },
     {
       "id": "nl",
@@ -384,9 +384,9 @@
       "name": "Newfoundland and Labrador",
       "nameFr": "Terre-Neuve-et-Labrador",
       "file": "route-nl.gpsr",
-      "bytes": 4635996,
-      "sha256": "52e170428ad7057193ff18a8596486f38f19301258ca35a360f771c31c6cf711",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-nl.gpsr"
+      "bytes": 4640084,
+      "sha256": "160426cf04059753b869f89e8b2bd6dbe9b2943fe35f31dae4bc72e39f774f33",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-nl.gpsr"
     },
     {
       "id": "nl",
@@ -397,8 +397,8 @@
       "nameFr": "Terre-Neuve-et-Labrador",
       "file": "search-nl.tsv.gz",
       "bytes": 567548,
-      "sha256": "63d123c85a56da437fc26cf6cc0bd341ca479206ccb0261d7b722c6849a2de31",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-nl.tsv.gz"
+      "sha256": "e943c0a1b353d5aea8c389c1269fcc53b3c3e99bbb0f66e9809587451522e8e6",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-nl.tsv.gz"
     },
     {
       "id": "nl",
@@ -409,248 +409,8 @@
       "nameFr": "Terre-Neuve-et-Labrador",
       "file": "addr-nl.tsv.gz",
       "bytes": 497461,
-      "sha256": "150bad632d13854bac42de8b0ac6bc8843227d32659c097bb8afac40cfd11efc",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-nl.tsv.gz"
-    },
-    {
-      "id": "nt",
-      "kind": "surface",
-      "province": "NT",
-      "pruid": "61",
-      "name": "Northwest Territories",
-      "nameFr": "Territoires du Nord-Ouest",
-      "file": "surface-nt.pmtiles",
-      "bytes": 1606323,
-      "sha256": "4018256ad06a0c70cbbb8636ddb2b43dcf8aef572df8c5a44736b0d2918363d4",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-nt.pmtiles"
-    },
-    {
-      "id": "nt",
-      "kind": "route",
-      "province": "NT",
-      "pruid": "61",
-      "name": "Northwest Territories",
-      "nameFr": "Territoires du Nord-Ouest",
-      "file": "route-nt.gpsr",
-      "bytes": 800759,
-      "sha256": "ab3534190c70f1780b3ca711d6d36168cdade42f35854e5040dfa9c788ddb73f",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-nt.gpsr"
-    },
-    {
-      "id": "nt",
-      "kind": "search",
-      "province": "NT",
-      "pruid": "61",
-      "name": "Northwest Territories",
-      "nameFr": "Territoires du Nord-Ouest",
-      "file": "search-nt.tsv.gz",
-      "bytes": 85376,
-      "sha256": "5354e3c5bf25d70a1950c630faac65ba23f84a1450a506c41f7b119d1d46a811",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-nt.tsv.gz"
-    },
-    {
-      "id": "nt",
-      "kind": "address",
-      "province": "NT",
-      "pruid": "61",
-      "name": "Northwest Territories",
-      "nameFr": "Territoires du Nord-Ouest",
-      "file": "addr-nt.tsv.gz",
-      "bytes": 37,
-      "sha256": "c8058bda5a0ed118cfa28b547b15377e48537f91f4e9eb016890a620b89911dc",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-nt.tsv.gz"
-    },
-    {
-      "id": "on",
-      "kind": "surface",
-      "province": "ON",
-      "pruid": "35",
-      "name": "Ontario",
-      "nameFr": "Ontario",
-      "file": "surface-on.pmtiles",
-      "bytes": 49819237,
-      "sha256": "e893fabbdfd29697e941260f8583d14f7a1da7d3ec079f6d400fe05a0e311802",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-on.pmtiles"
-    },
-    {
-      "id": "on",
-      "kind": "route",
-      "province": "ON",
-      "pruid": "35",
-      "name": "Ontario",
-      "nameFr": "Ontario",
-      "file": "route-on.gpsr",
-      "bytes": 59446366,
-      "sha256": "9bbcc5986d7323fca772f06533d6223d52c1ef166b82a1e991bb50ea957376e2",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-on.gpsr"
-    },
-    {
-      "id": "on",
-      "kind": "search",
-      "province": "ON",
-      "pruid": "35",
-      "name": "Ontario",
-      "nameFr": "Ontario",
-      "file": "search-on.tsv.gz",
-      "bytes": 3403296,
-      "sha256": "faae61bf7a470725d07419d3255f965746c808951846d2a46a7bd786fb2631fc",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-on.tsv.gz"
-    },
-    {
-      "id": "on",
-      "kind": "address",
-      "province": "ON",
-      "pruid": "35",
-      "name": "Ontario",
-      "nameFr": "Ontario",
-      "file": "addr-on.tsv.gz",
-      "bytes": 15324321,
-      "sha256": "5044a08956e1840214459ae6305a96986ab1395e4c369beb0cbef287e9bfdf05",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-on.tsv.gz"
-    },
-    {
-      "id": "pe",
-      "kind": "surface",
-      "province": "PE",
-      "pruid": "11",
-      "name": "Prince Edward Island",
-      "nameFr": "Île-du-Prince-Édouard",
-      "file": "surface-pe.pmtiles",
-      "bytes": 1474003,
-      "sha256": "047403d71ad0defea2e304e55f844182cda6133f8a7bccddd8ceb193b897bdd0",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-pe.pmtiles"
-    },
-    {
-      "id": "pe",
-      "kind": "route",
-      "province": "PE",
-      "pruid": "11",
-      "name": "Prince Edward Island",
-      "nameFr": "Île-du-Prince-Édouard",
-      "file": "route-pe.gpsr",
-      "bytes": 1613655,
-      "sha256": "bb66225a20d70e702d4dfdfa0388a670b16b0c1ff8309819cd4985592ea4f535",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-pe.gpsr"
-    },
-    {
-      "id": "pe",
-      "kind": "search",
-      "province": "PE",
-      "pruid": "11",
-      "name": "Prince Edward Island",
-      "nameFr": "Île-du-Prince-Édouard",
-      "file": "search-pe.tsv.gz",
-      "bytes": 125174,
-      "sha256": "ba1d3102a054b7e2aa1c9217cfd99a0d53be4fa040a9cc8483d3641e366e478a",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-pe.tsv.gz"
-    },
-    {
-      "id": "pe",
-      "kind": "address",
-      "province": "PE",
-      "pruid": "11",
-      "name": "Prince Edward Island",
-      "nameFr": "Île-du-Prince-Édouard",
-      "file": "addr-pe.tsv.gz",
-      "bytes": 475284,
-      "sha256": "aa4ebde4f0eb3c239ff418b60eb903542683213fc3a188dd44fa7b7923afd554",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-pe.tsv.gz"
-    },
-    {
-      "id": "qc",
-      "kind": "surface",
-      "province": "QC",
-      "pruid": "24",
-      "name": "Quebec",
-      "nameFr": "Québec",
-      "file": "surface-qc.pmtiles",
-      "bytes": 34101561,
-      "sha256": "4eb27adf20be1b203db9bd3ca089184c809db6d268e7d541edafb81ed69232b5",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-qc.pmtiles"
-    },
-    {
-      "id": "qc",
-      "kind": "route",
-      "province": "QC",
-      "pruid": "24",
-      "name": "Quebec",
-      "nameFr": "Québec",
-      "file": "route-qc.gpsr",
-      "bytes": 40512153,
-      "sha256": "e14e87b8cb8755636c911052303146eb4005f3aa6e3a4c6d3ccbcf89327df3c8",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-qc.gpsr"
-    },
-    {
-      "id": "qc",
-      "kind": "search",
-      "province": "QC",
-      "pruid": "24",
-      "name": "Quebec",
-      "nameFr": "Québec",
-      "file": "search-qc.tsv.gz",
-      "bytes": 3984818,
-      "sha256": "57461ae13c926027411d30a036934661008bd310b475162d3210f3f9142e9808",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-qc.tsv.gz"
-    },
-    {
-      "id": "qc",
-      "kind": "address",
-      "province": "QC",
-      "pruid": "24",
-      "name": "Quebec",
-      "nameFr": "Québec",
-      "file": "addr-qc.tsv.gz",
-      "bytes": 11760152,
-      "sha256": "56ae0d1bcfe363671469ecd67cb19f2a5628049819fe0c4b2378c0eac571e01b",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-qc.tsv.gz"
-    },
-    {
-      "id": "yt",
-      "kind": "surface",
-      "province": "YT",
-      "pruid": "60",
-      "name": "Yukon",
-      "nameFr": "Yukon",
-      "file": "surface-yt.pmtiles",
-      "bytes": 1562615,
-      "sha256": "4cd4d293d663d5c8fca4c5d775eec56299432fabdda058498b2ffb9eabbd5915",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/surface-yt.pmtiles"
-    },
-    {
-      "id": "yt",
-      "kind": "route",
-      "province": "YT",
-      "pruid": "60",
-      "name": "Yukon",
-      "nameFr": "Yukon",
-      "file": "route-yt.gpsr",
-      "bytes": 1048935,
-      "sha256": "6978593899da696a8252ce9cc505b982701c80721f9ffbb7515a9d63f6ecb35a",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/route-yt.gpsr"
-    },
-    {
-      "id": "yt",
-      "kind": "search",
-      "province": "YT",
-      "pruid": "60",
-      "name": "Yukon",
-      "nameFr": "Yukon",
-      "file": "search-yt.tsv.gz",
-      "bytes": 76953,
-      "sha256": "dfdab1928101c84dc0806f53c3be209fffd7286fe7f67508222bb7c2e01202ef",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/search-yt.tsv.gz"
-    },
-    {
-      "id": "yt",
-      "kind": "address",
-      "province": "YT",
-      "pruid": "60",
-      "name": "Yukon",
-      "nameFr": "Yukon",
-      "file": "addr-yt.tsv.gz",
-      "bytes": 197761,
-      "sha256": "f2071f50a4fc2e8b38b5f5580bf2000a228af0b4d87b85ed131f722270406ded",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-5/addr-yt.tsv.gz"
+      "sha256": "4fcf49e9c49b0a2c51ab0566ad544893fae213b97f9a1149cefde532b00588b9",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-nl.tsv.gz"
     },
     {
       "id": "ns",
@@ -662,7 +422,7 @@
       "file": "surface-ns.pmtiles",
       "bytes": 9695753,
       "sha256": "25ac075a3369f264c898d38ccac81c7a6e90510e39c0eceb855b7c53d550c5e7",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/surface-ns.pmtiles"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-ns.pmtiles"
     },
     {
       "id": "ns",
@@ -672,9 +432,9 @@
       "name": "Nova Scotia",
       "nameFr": "Nouvelle-Écosse",
       "file": "route-ns.gpsr",
-      "bytes": 13154383,
-      "sha256": "913addaf05c7b006382ca088a4018ee41fad61427d92017be1bee8fe88aa0b73",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/route-ns.gpsr"
+      "bytes": 13156063,
+      "sha256": "08da162b75a2c0a3d5236ef546960999a994d4c010f8feb7a6177af3e141e617",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-ns.gpsr"
     },
     {
       "id": "ns",
@@ -685,8 +445,8 @@
       "nameFr": "Nouvelle-Écosse",
       "file": "search-ns.tsv.gz",
       "bytes": 771378,
-      "sha256": "946fb75177147335ca2a44b5f200af8e077f94421bedc0190576864c51efdb82",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/search-ns.tsv.gz"
+      "sha256": "b5a37783e63ed34e263137834f7bc2aea9a858a397b65049ea025ed2e9d7864f",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-ns.tsv.gz"
     },
     {
       "id": "ns",
@@ -697,8 +457,56 @@
       "nameFr": "Nouvelle-Écosse",
       "file": "addr-ns.tsv.gz",
       "bytes": 3514300,
-      "sha256": "2988a49f5405b7ba1f2fefb0385c2d727a4d77f4b7054df2a6f270eb4ef8ea6f",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/addr-ns.tsv.gz"
+      "sha256": "bb7a33458c16aaf04e57a2440640048e3ecf8c9aa2b951c72f5e2a2b92bbc1f3",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-ns.tsv.gz"
+    },
+    {
+      "id": "nt",
+      "kind": "surface",
+      "province": "NT",
+      "pruid": "61",
+      "name": "Northwest Territories",
+      "nameFr": "Territoires du Nord-Ouest",
+      "file": "surface-nt.pmtiles",
+      "bytes": 1606323,
+      "sha256": "4018256ad06a0c70cbbb8636ddb2b43dcf8aef572df8c5a44736b0d2918363d4",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-nt.pmtiles"
+    },
+    {
+      "id": "nt",
+      "kind": "route",
+      "province": "NT",
+      "pruid": "61",
+      "name": "Northwest Territories",
+      "nameFr": "Territoires du Nord-Ouest",
+      "file": "route-nt.gpsr",
+      "bytes": 800815,
+      "sha256": "5c2874a2d34c7ca03c77c2c61ca4a74b481bd311856aeff0f0a9da63bf4d792d",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-nt.gpsr"
+    },
+    {
+      "id": "nt",
+      "kind": "search",
+      "province": "NT",
+      "pruid": "61",
+      "name": "Northwest Territories",
+      "nameFr": "Territoires du Nord-Ouest",
+      "file": "search-nt.tsv.gz",
+      "bytes": 85376,
+      "sha256": "2b942d17b0004ca3d0ad1b19a7bc315de59f9c9f64aa2a4666a56a5c69fa13b6",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-nt.tsv.gz"
+    },
+    {
+      "id": "nt",
+      "kind": "address",
+      "province": "NT",
+      "pruid": "61",
+      "name": "Northwest Territories",
+      "nameFr": "Territoires du Nord-Ouest",
+      "file": "addr-nt.tsv.gz",
+      "bytes": 37,
+      "sha256": "1687eee2123ea210c5266adbd689c49342ad2a750c7b06643dc8fdbb5ffed098",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-nt.tsv.gz"
     },
     {
       "id": "nu",
@@ -710,7 +518,7 @@
       "file": "surface-nu.pmtiles",
       "bytes": 322067,
       "sha256": "f4ddf5a39554c291399a1e90036f9bf1fc6af3703d5d767280bb12b5c0105505",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/surface-nu.pmtiles"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-nu.pmtiles"
     },
     {
       "id": "nu",
@@ -722,7 +530,7 @@
       "file": "route-nu.gpsr",
       "bytes": 489801,
       "sha256": "b75e9931d90bb77fee0e17c980bed615af1537d84b176532934c43853b5c8f40",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/route-nu.gpsr"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-nu.gpsr"
     },
     {
       "id": "nu",
@@ -733,8 +541,8 @@
       "nameFr": "Nunavut",
       "file": "search-nu.tsv.gz",
       "bytes": 116555,
-      "sha256": "aec29a42fdbfa5fc9689b7876302774379175ec5bc49e5e88e6ec195e526c5f9",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/search-nu.tsv.gz"
+      "sha256": "9092d0bd35ba95eea997d10abf0ac7da1193d02710b261af8e3262b64ab0c121",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-nu.tsv.gz"
     },
     {
       "id": "nu",
@@ -745,8 +553,104 @@
       "nameFr": "Nunavut",
       "file": "addr-nu.tsv.gz",
       "bytes": 20235,
-      "sha256": "d4f9e6a6530f74ce01b26acf19ce92293039eba3d09f1ae03c500e946415d33c",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/addr-nu.tsv.gz"
+      "sha256": "945c344dc46bbaa9d1d69c41c785ab7216ecb1e56d53d77db04c51d67dfc6f18",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-nu.tsv.gz"
+    },
+    {
+      "id": "on",
+      "kind": "surface",
+      "province": "ON",
+      "pruid": "35",
+      "name": "Ontario",
+      "nameFr": "Ontario",
+      "file": "surface-on.pmtiles",
+      "bytes": 49819237,
+      "sha256": "e893fabbdfd29697e941260f8583d14f7a1da7d3ec079f6d400fe05a0e311802",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-on.pmtiles"
+    },
+    {
+      "id": "on",
+      "kind": "route",
+      "province": "ON",
+      "pruid": "35",
+      "name": "Ontario",
+      "nameFr": "Ontario",
+      "file": "route-on.gpsr",
+      "bytes": 59451574,
+      "sha256": "db9ad75341bb73c9fea99f954b5b40a9ec91863729210afb904031f19879eaf0",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-on.gpsr"
+    },
+    {
+      "id": "on",
+      "kind": "search",
+      "province": "ON",
+      "pruid": "35",
+      "name": "Ontario",
+      "nameFr": "Ontario",
+      "file": "search-on.tsv.gz",
+      "bytes": 3403296,
+      "sha256": "c9e09ca4ecb7b31327e565cc1c28b470dda2b6ab5c8c1d7792ce858c35357558",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-on.tsv.gz"
+    },
+    {
+      "id": "on",
+      "kind": "address",
+      "province": "ON",
+      "pruid": "35",
+      "name": "Ontario",
+      "nameFr": "Ontario",
+      "file": "addr-on.tsv.gz",
+      "bytes": 15324321,
+      "sha256": "3e05c55562535af29331badb4c41fa0229d94bb4a370fb0c69b479a9e2525cb8",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-on.tsv.gz"
+    },
+    {
+      "id": "qc",
+      "kind": "surface",
+      "province": "QC",
+      "pruid": "24",
+      "name": "Quebec",
+      "nameFr": "Québec",
+      "file": "surface-qc.pmtiles",
+      "bytes": 34101561,
+      "sha256": "4eb27adf20be1b203db9bd3ca089184c809db6d268e7d541edafb81ed69232b5",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-qc.pmtiles"
+    },
+    {
+      "id": "qc",
+      "kind": "route",
+      "province": "QC",
+      "pruid": "24",
+      "name": "Quebec",
+      "nameFr": "Québec",
+      "file": "route-qc.gpsr",
+      "bytes": 40518201,
+      "sha256": "bf9917f48f756e6af93942136e8bbad1e720913b3f8175e2634d9891f0999237",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-qc.gpsr"
+    },
+    {
+      "id": "qc",
+      "kind": "search",
+      "province": "QC",
+      "pruid": "24",
+      "name": "Quebec",
+      "nameFr": "Québec",
+      "file": "search-qc.tsv.gz",
+      "bytes": 3984818,
+      "sha256": "afb128f2588e6b629aebfcaab212311478ee07992c39b29167f8a1ce103fa00b",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-qc.tsv.gz"
+    },
+    {
+      "id": "qc",
+      "kind": "address",
+      "province": "QC",
+      "pruid": "24",
+      "name": "Quebec",
+      "nameFr": "Québec",
+      "file": "addr-qc.tsv.gz",
+      "bytes": 11760152,
+      "sha256": "62fa6629648b0ae7df2c17c5d25a1e2acae5cf3dad86f56732229a20d5de3da5",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-qc.tsv.gz"
     },
     {
       "id": "sk",
@@ -758,7 +662,7 @@
       "file": "surface-sk.pmtiles",
       "bytes": 24137689,
       "sha256": "250b8758ac2af57024a4b2d3a50b3d9af300df7ec3f5d1bc8506ce1b97a6d2ab",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/surface-sk.pmtiles"
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/surface-sk.pmtiles"
     },
     {
       "id": "sk",
@@ -768,9 +672,9 @@
       "name": "Saskatchewan",
       "nameFr": "Saskatchewan",
       "file": "route-sk.gpsr",
-      "bytes": 22953295,
-      "sha256": "7f10d45ef78fe2b29f71b1812ed51476bc31127e53b132c9f4fe450b4e03d3ce",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/route-sk.gpsr"
+      "bytes": 22954359,
+      "sha256": "5ae4b08ec919fa23f646d4a5ffcaac1a42b3f60d3ff9c3ded9dd831d9300a6fd",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/route-sk.gpsr"
     },
     {
       "id": "sk",
@@ -781,8 +685,8 @@
       "nameFr": "Saskatchewan",
       "file": "search-sk.tsv.gz",
       "bytes": 536470,
-      "sha256": "f04c183343ab9bd226c92e39b5c8b2b5f01955f555a53db940c87c7399d3571d",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/search-sk.tsv.gz"
+      "sha256": "c55e14c927563f52bdb53810d02377c76c11dd4ad404cbb3b64d6390bce7cbb4",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/search-sk.tsv.gz"
     },
     {
       "id": "sk",
@@ -793,8 +697,104 @@
       "nameFr": "Saskatchewan",
       "file": "addr-sk.tsv.gz",
       "bytes": 37,
-      "sha256": "0b33c4a7471137be18390d704bf7ad4181bd7a58ae11b620c7c5fa2e4481e8a4",
-      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-6/addr-sk.tsv.gz"
+      "sha256": "27b0a80faf9e5053ef58ba393e0dcd4a95e22e7fc1468ff41f48e58adb0dfd67",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-12/addr-sk.tsv.gz"
+    },
+    {
+      "id": "pe",
+      "kind": "surface",
+      "province": "PE",
+      "pruid": "11",
+      "name": "Prince Edward Island",
+      "nameFr": "Île-du-Prince-Édouard",
+      "file": "surface-pe.pmtiles",
+      "bytes": 1474003,
+      "sha256": "047403d71ad0defea2e304e55f844182cda6133f8a7bccddd8ceb193b897bdd0",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-11/surface-pe.pmtiles"
+    },
+    {
+      "id": "pe",
+      "kind": "route",
+      "province": "PE",
+      "pruid": "11",
+      "name": "Prince Edward Island",
+      "nameFr": "Île-du-Prince-Édouard",
+      "file": "route-pe.gpsr",
+      "bytes": 1614047,
+      "sha256": "cfd39997c78dbdec68ba24ff5d9a0f046647c7e0f9cc7f85a438a6c18dc64c98",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-11/route-pe.gpsr"
+    },
+    {
+      "id": "pe",
+      "kind": "search",
+      "province": "PE",
+      "pruid": "11",
+      "name": "Prince Edward Island",
+      "nameFr": "Île-du-Prince-Édouard",
+      "file": "search-pe.tsv.gz",
+      "bytes": 125174,
+      "sha256": "2103538f9b242bfba0d7e94ecd03a0540486fed1438ea2e5667d60e38df81c06",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-11/search-pe.tsv.gz"
+    },
+    {
+      "id": "pe",
+      "kind": "address",
+      "province": "PE",
+      "pruid": "11",
+      "name": "Prince Edward Island",
+      "nameFr": "Île-du-Prince-Édouard",
+      "file": "addr-pe.tsv.gz",
+      "bytes": 475284,
+      "sha256": "fd8aa448b8b0991beea2c6f9dd9af72f6a9c03ec3957024191ddaebaf2e3fce7",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-11/addr-pe.tsv.gz"
+    },
+    {
+      "id": "yt",
+      "kind": "surface",
+      "province": "YT",
+      "pruid": "60",
+      "name": "Yukon",
+      "nameFr": "Yukon",
+      "file": "surface-yt.pmtiles",
+      "bytes": 1562615,
+      "sha256": "4cd4d293d663d5c8fca4c5d775eec56299432fabdda058498b2ffb9eabbd5915",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-13/surface-yt.pmtiles"
+    },
+    {
+      "id": "yt",
+      "kind": "route",
+      "province": "YT",
+      "pruid": "60",
+      "name": "Yukon",
+      "nameFr": "Yukon",
+      "file": "route-yt.gpsr",
+      "bytes": 1049383,
+      "sha256": "dd3e8df4345225a770f8e066241b4edac9e48ee765874a90e89f5fee83e73fb2",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-13/route-yt.gpsr"
+    },
+    {
+      "id": "yt",
+      "kind": "search",
+      "province": "YT",
+      "pruid": "60",
+      "name": "Yukon",
+      "nameFr": "Yukon",
+      "file": "search-yt.tsv.gz",
+      "bytes": 76953,
+      "sha256": "763bb781e0ee800be06efcd555f85eb57086c42d720f644aba462c06083b0b91",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-13/search-yt.tsv.gz"
+    },
+    {
+      "id": "yt",
+      "kind": "address",
+      "province": "YT",
+      "pruid": "60",
+      "name": "Yukon",
+      "nameFr": "Yukon",
+      "file": "addr-yt.tsv.gz",
+      "bytes": 197761,
+      "sha256": "dc85f5acd3751d7cd8b510784db423b4093422d95213e309abf7a4e269336bf2",
+      "url": "https://github.com/DoublePerspective/Double-Perspective/releases/download/road-20261128-13/addr-yt.tsv.gz"
     },
     {
       "id": "ab",
