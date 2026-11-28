@@ -85,3 +85,47 @@ def corrected_surface(frame, osm_geojsons):
     print(f"surface: {len(out)} segments, {upgraded} unpaved->paved from OSM, {filled} unknown filled from OSM,"
           f" OSM ways with surface: {len(paved_lines)} paved / {len(unpaved_lines)} unpaved", flush=True)
     return out
+
+
+def osm_line_matches(frame, osm_geojsons):
+    """True for each NRN segment that runs along an OSM way in the file (2 of 3 sample points within ~10 m).
+    Used for toll roads (OSM toll=yes)."""
+    lines = []
+    try:
+        with open(osm_geojsons, encoding="utf-8") as source:
+            for line in source:
+                line = line.strip().lstrip("\x1e")
+                if not line:
+                    continue
+                geometry = json.loads(line).get("geometry")
+                if geometry and geometry.get("type") in ("LineString", "MultiLineString"):
+                    lines.append(shape(geometry))
+    except FileNotFoundError:
+        pass
+    geometries = list(frame.geometry)
+    if not lines or not geometries:
+        return np.zeros(len(geometries), dtype=bool)
+    fallback = next((g for g in geometries if g is not None and not g.is_empty), None)
+    samples, valid = [], []
+    for g in geometries:
+        ok = g is not None and not g.is_empty
+        valid.append(ok)
+        for f in (0.25, 0.5, 0.75):
+            samples.append(line_interpolate_point(g if ok else fallback, f, normalized=True))
+    result = _matches(STRtree(lines), lines, np.array(samples, dtype=object))
+    return result & np.array(valid)
+
+
+def near_points(frame, points, distance=0.0003):
+    """True for each segment within ~30 m of one of the points (NRN TOLLPOINT toll booths)."""
+    geometries = list(frame.geometry)
+    result = np.zeros(len(geometries), dtype=bool)
+    points = [p for p in points if p is not None and not p.is_empty]
+    if not points:
+        return result
+    tree = STRtree([g if g is not None and not g.is_empty else points[0].buffer(0) for g in geometries])
+    _, hit = tree.query(points, predicate="dwithin", distance=distance)
+    for i in set(hit.tolist()):
+        if geometries[i] is not None and not geometries[i].is_empty:
+            result[i] = True
+    return result

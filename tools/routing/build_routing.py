@@ -9,7 +9,8 @@ File layout (little-endian):
   nodes:  int32 lat[n], int32 lon[n]                (micro-degrees)
   offsets: int32[n+1]                               (CSR: outgoing edges of node i are offsets[i]..offsets[i+1])
   edges:  int32 to, int32 lengthDm, int32 nameOffset (-1 none), int32 shapeStart, uint16 shapeLen,
-          uint8 flags (bits 0-1 surface 0 paved/1 unpaved/2 unknown, bits 2-4 class, bit 5 shape reversed),
+          uint8 flags (bits 0-1 surface 0 paved/1 unpaved/2 unknown, bits 2-4 class, bit 5 shape reversed,
+                       bit 6 toll road, bit 7 ferry),
           uint8 speedKph (0 unknown)                 = 20 bytes each
   shapes: int32 lat, int32 lon per point (micro-degrees, both ends included)
   names:  UTF-8, each name terminated by \\0
@@ -32,13 +33,16 @@ def main(gpkg, output):
     build(frame, None, output)
 
 
-def build(frame, surfaces, output):
-    """frame: NRN ROADSEG (EPSG:4326). surfaces: corrected "paved"/"unpaved"/"unknown" per row, or None for NRN's own."""
+def build(frame, surfaces, output, tolls=None, ferries=None):
+    """frame: NRN ROADSEG (EPSG:4326). surfaces: corrected "paved"/"unpaved"/"unknown" per row, or None for NRN's own.
+    tolls: True per ROADSEG row that is a toll road (or None). ferries: NRN FERRYSEG frame (EPSG:4326) or None;
+    ferry crossings are joined to the roads at their landings and flagged so riders can avoid them."""
     if surfaces is None:
         surfaces = ["paved" if v == "Paved" else "unpaved" if v == "Unpaved" else "unknown" for v in frame["PAVSTATUS"]]
     keep = ~frame["ROADCLASS"].isin(SKIP).to_numpy()
     frame = frame[keep]
     surfaces = [s for s, k in zip(surfaces, keep) if k]
+    tolls = [bool(t) for t, k in zip(tolls, keep) if k] if tolls is not None else [False] * len(frame)
     print("segments:", len(frame), flush=True)
 
     node_ids, node_lat, node_lon = {}, [], []
@@ -68,9 +72,15 @@ def build(frame, surfaces, output):
 
     shapes = []  # flat list of (lat, lon) int pairs
     directed = []  # (from, to, length_dm, name, shape_start, shape_len, flags, speed)
-    for geometry, pav, cls, direction, speed, lname, rname, route in zip(
-            frame.geometry, surfaces, frame["ROADCLASS"], frame["TRAFFICDIR"], frame["SPEED"],
-            frame["L_STNAME_C"], frame["R_STNAME_C"], frame["RTNUMBER1"]):
+    rows = list(zip(frame.geometry, surfaces, frame["ROADCLASS"], frame["TRAFFICDIR"], frame["SPEED"],
+                    frame["L_STNAME_C"], frame["R_STNAME_C"], frame["RTNUMBER1"], tolls, [False] * len(frame)))
+    if ferries is not None and len(ferries):
+        name_column = next((c for c in ("FERRYNAME", "FERRYSEGNAME", "NAME") if c in ferries.columns), None)
+        for geometry, label in zip(ferries.geometry, ferries[name_column] if name_column else [None] * len(ferries)):
+            label = str(label).strip() if label is not None and str(label) not in ("None", "Unknown", "nan") else "Ferry"
+            rows.append((geometry, "unknown", "Local / Unknown", "Both directions", 15, label, None, None, False, True))
+        print("ferry segments:", len(ferries), flush=True)
+    for geometry, pav, cls, direction, speed, lname, rname, route, toll, ferry in rows:
         if geometry is None or geometry.is_empty:
             continue
         coords = get_coordinates(simplify(geometry, 0.00002))  # ~2 m, keeps curves
@@ -96,7 +106,7 @@ def build(frame, surfaces, output):
         shapes.extend(zip((np.round(lats * 1e6)).astype(np.int64).tolist(), (np.round(lons * 1e6)).astype(np.int64).tolist()))
         count = len(coords)
         kph = int(speed) if speed is not None and not (isinstance(speed, float) and math.isnan(speed)) and 0 < int(speed) < 200 else 0
-        flags = surface | (road_class << 2)
+        flags = surface | (road_class << 2) | (0x40 if toll else 0) | (0x80 if ferry else 0)
         length_dm = int(round(length * 10))
         if direction != "Opposite direction":
             directed.append((a, b, length_dm, name, start, count, flags, kph))

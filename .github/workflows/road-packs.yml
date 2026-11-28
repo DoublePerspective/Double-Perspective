@@ -51,7 +51,9 @@ jobs:
           osmium tags-filter -o roads.pbf osm.pbf w/highway && rm osm.pbf
           osmium tags-filter -o surfaced.pbf roads.pbf w/surface
           osmium export -f geojsonseq --geometry-types=linestring -o osm-surface.geojsons surfaced.pbf
-          python tools/routing/build_road_packs.py $P "$G" osm-surface.geojsons names.csv
+          osmium tags-filter -o tolled.pbf roads.pbf w/toll=yes
+          osmium export -f geojsonseq --geometry-types=linestring -o osm-toll.geojsons tolled.pbf
+          python tools/routing/build_road_packs.py $P "$G" osm-surface.geojsons names.csv osm-toll.geojsons
           tippecanoe -o surface-$P.pmtiles -l surface -Z 6 -z 13 --drop-densest-as-needed \
             --simplification=6 --no-tile-size-limit --coalesce --reorder --force \
             -j '{ "surface": [ "any", [ ">=", "$zoom", 9 ], [ "in", "c", "Freeway", "Expressway / Highway", "Arterial", "Collector", "Resource / Recreation" ] ] }' \
